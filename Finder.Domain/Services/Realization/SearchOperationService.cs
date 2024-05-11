@@ -37,121 +37,122 @@ internal class SearchOperationService(
         CancellationToken cancellationToken = default
     )
     {
-        var helpRequest = await searchOperationRepository
+        var searchOperation = await searchOperationRepository
             .Query()
             .Include(request => request.Images)
             .Include(request => request.Creator!.Details!.ContactInfo)
+            .Include(op => op.UserApplications) 
             .FirstOrDefaultAsync(
                 request => request.Id == id,
                 cancellationToken
             );
 
-        RuntimeValidator.Assert(helpRequest is not null, StatusCode.HelpRequestNotFound);
-        RuntimeValidator.Assert(helpRequest!.DeletedAt is null, StatusCode.HelpRequestRemoved);
+        RuntimeValidator.Assert(searchOperation is not null, StatusCode.SearchOperationNotFound);
+        RuntimeValidator.Assert(searchOperation!.DeletedAt is null, StatusCode.SearchOperationRemoved);
 
-        return mapper.Map<SearchOperationView>(helpRequest);
+        return mapper.Map<SearchOperationView>(searchOperation);
     }
 
     public async Task CreateSearchOperationAsync(
-        CreateSearchOperationRequestModel createHelpRequestModel,
+        CreateSearchOperationRequestModel createsearchOperationModel,
         CancellationToken cancellationToken = default
     )
     {
         var currentUser = await currentUserService.GetCurrentUserAsync(cancellationToken);
 
-        var addedHelpRequest = await searchOperationRepository.AddAsync(
+        var addedSearchOperation = await searchOperationRepository.AddAsync(
             new SearchOperation()
             {
-                Description = createHelpRequestModel.Description,
+                Description = createsearchOperationModel.Description,
                 CreatorUserId = currentUser.Id,
-                ShowContactInfo = createHelpRequestModel.ShowContactInfo,
-                Tags = createHelpRequestModel.Tags,
-                OperationType = createHelpRequestModel.OperationType,
-                Title = createHelpRequestModel.Title
+                ShowContactInfo = createsearchOperationModel.ShowContactInfo,
+                Tags = createsearchOperationModel.Tags,
+                OperationType = createsearchOperationModel.OperationType,
+                Title = createsearchOperationModel.Title
             },
             cancellationToken
         );
 
         await searchOperationRepository.SaveChangesAsync(cancellationToken);
 
-        await AddHelpRequestImagesAsync(
-            createHelpRequestModel.Images,
-            addedHelpRequest.Id,
+        await AddsearchOperationImagesAsync(
+            createsearchOperationModel.Images,
+            addedSearchOperation.Id,
             cancellationToken
         );
         
-        await searchOperationNotificationService.NotifyAboutCreatingSearchOperationAsync(addedHelpRequest, cancellationToken);
+        await searchOperationNotificationService.NotifyAboutCreatingSearchOperationAsync(addedSearchOperation, cancellationToken);
     }
 
     public async Task UpdateSearchOperationAsync(
-        UpdateSearchOperationRequestModel updateHelpRequestRequestModel,
+        UpdateSearchOperationRequestModel updatesearchOperationRequestModel,
         CancellationToken cancellationToken = default
     )
     {
         var currentUser = await currentUserService.GetCurrentUserAsync(cancellationToken);
 
-        var helpRequest = await searchOperationRepository
+        var searchOperation = await searchOperationRepository
             .Query()
-            .Include(helpRequest => helpRequest.Images)
+            .Include(searchOperation => searchOperation.Images)
             .FirstOrDefaultAsync(
-                helpRequest => helpRequest.Id == updateHelpRequestRequestModel.Id,
+                searchOperation => searchOperation.Id == updatesearchOperationRequestModel.Id,
                 cancellationToken
             );
 
-        RuntimeValidator.Assert(helpRequest is not null, StatusCode.HelpRequestNotFound);
-        RuntimeValidator.Assert(helpRequest!.CreatorUserId == currentUser.Id, StatusCode.Forbidden);
+        RuntimeValidator.Assert(searchOperation is not null, StatusCode.SearchOperationNotFound);
+        RuntimeValidator.Assert(searchOperation!.CreatorUserId == currentUser.Id, StatusCode.Forbidden);
 
-        if (helpRequest.ShowContactInfo != updateHelpRequestRequestModel.ShowContactInfo)
+        if (searchOperation.ShowContactInfo != updatesearchOperationRequestModel.ShowContactInfo)
         {
-            helpRequest.ShowContactInfo = updateHelpRequestRequestModel.ShowContactInfo;
-            helpRequest.UpdatedAt = DateTime.UtcNow;
+            searchOperation.ShowContactInfo = updatesearchOperationRequestModel.ShowContactInfo;
+            searchOperation.UpdatedAt = DateTime.UtcNow;
         }
 
-        if (helpRequest.Title != updateHelpRequestRequestModel.Title)
+        if (searchOperation.Title != updatesearchOperationRequestModel.Title)
         {
-            helpRequest.Title = updateHelpRequestRequestModel.Title;
-            helpRequest.UpdatedAt = DateTime.UtcNow;
+            searchOperation.Title = updatesearchOperationRequestModel.Title;
+            searchOperation.UpdatedAt = DateTime.UtcNow;
         }
 
-        if (helpRequest.OperationType != updateHelpRequestRequestModel.OperationType)
+        if (searchOperation.OperationType != updatesearchOperationRequestModel.OperationType)
         {
-            helpRequest.OperationType = updateHelpRequestRequestModel.OperationType;
-            helpRequest.UpdatedAt = DateTime.UtcNow;
+            searchOperation.OperationType = updatesearchOperationRequestModel.OperationType;
+            searchOperation.UpdatedAt = DateTime.UtcNow;
         }
         
-        if (helpRequest.OperationStatus != updateHelpRequestRequestModel.OperationStatus)
+        if (searchOperation.OperationStatus != updatesearchOperationRequestModel.OperationStatus)
         {
-            helpRequest.OperationStatus = updateHelpRequestRequestModel.OperationStatus;
-            helpRequest.UpdatedAt = DateTime.UtcNow;
+            searchOperation.OperationStatus = updatesearchOperationRequestModel.OperationStatus;
+            searchOperation.UpdatedAt = DateTime.UtcNow;
         }
 
-        if (!helpRequest.Tags?.SequenceEqual(updateHelpRequestRequestModel.Tags) is true)
+        if (!searchOperation.Tags?.SequenceEqual(updatesearchOperationRequestModel.Tags) is true)
         {
-            helpRequest.Tags = updateHelpRequestRequestModel.Tags.ToList();
-            helpRequest.UpdatedAt = DateTime.UtcNow;
+            searchOperation.Tags = updatesearchOperationRequestModel.Tags.ToList();
+            searchOperation.UpdatedAt = DateTime.UtcNow;
         }
 
         await searchOperationRepository.SaveChangesAsync(cancellationToken);
 
-        if (updateHelpRequestRequestModel.ImagesToDelete is not null)
+        if (updatesearchOperationRequestModel.ImagesToDelete is not null)
         {
             var imagesToDelete = await operationImageRepository
                 .Query()
                 .Where(
-                    helpRequestImage => helpRequestImage.OperationId == helpRequest.Id
-                        && updateHelpRequestRequestModel.ImagesToDelete.Contains(helpRequestImage.Id)
+                    searchOperationImage => searchOperationImage.OperationId == searchOperation.Id
+                        && updatesearchOperationRequestModel.ImagesToDelete.Contains(searchOperationImage.Id)
                 )
                 .ToListAsync(cancellationToken);
 
             await operationImageRepository.DeleteRangeAsync(imagesToDelete, cancellationToken);
         }
 
-        if (helpRequest.Images is not null && updateHelpRequestRequestModel.ImagesToDelete is not null)
+        if (searchOperation.Images is not null && updatesearchOperationRequestModel.ImagesToDelete is not null)
         {
-            var idsToFixPosition = helpRequest
+            var idsToFixPosition = searchOperation
                 .Images
                 .Select(image => image.Id)
-                .Except(updateHelpRequestRequestModel.ImagesToDelete);
+                .Except(updatesearchOperationRequestModel.ImagesToDelete);
 
             var images = await operationImageRepository
                 .Query()
@@ -167,16 +168,16 @@ internal class SearchOperationService(
 
         await operationImageRepository.SaveChangesAsync(cancellationToken);
 
-        if (updateHelpRequestRequestModel.Images is not null)
+        if (updatesearchOperationRequestModel.Images is not null)
         {
-            await AddHelpRequestImagesAsync(
-                updateHelpRequestRequestModel.Images,
-                helpRequest.Id,
+            await AddsearchOperationImagesAsync(
+                updatesearchOperationRequestModel.Images,
+                searchOperation.Id,
                 cancellationToken
             );
         }
         
-        await searchOperationNotificationService.NotifyAboutUpdatingSearchOperationAsync(helpRequest, cancellationToken);
+        await searchOperationNotificationService.NotifyAboutUpdatingSearchOperationAsync(searchOperation, cancellationToken);
     }
 
     public async Task<PagedCollectionView<SearchOperationView>> GetSearchOperationsAsync(
@@ -184,45 +185,46 @@ internal class SearchOperationService(
         CancellationToken cancellationToken = default
     )
     {
-        var helpRequests = searchOperationRepository
+        var searchOperations = searchOperationRepository
             .Query()
+            .Include(op => op.UserApplications) 
             .AsNoTracking();
 
         var currentUser = await currentUserService.GetCurrentUserAsync(cancellationToken);
 
-        helpRequests = helpRequests.Where(helpRequest => helpRequest.DeletedAt == null);
+        searchOperations = searchOperations.Where(searchOperation => searchOperation.DeletedAt == null);
 
-        if (currentUser.Role?.CanSeeHelpRequests is not true)
+        if (currentUser.Role?.CanCreateHelpRequest is not true)
         {
-            helpRequests = helpRequests.Where(helpRequest => helpRequest.CreatorUserId == currentUser.Id);
+            searchOperations = searchOperations.Where(searchOperation => searchOperation.CreatorUserId == currentUser.Id);
         }
 
         if (!string.IsNullOrWhiteSpace(queryParametersModel.SearchQuery))
         {
             var names = queryParametersModel.SearchQuery.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
-            helpRequests = helpRequests.Where(helpRequest =>
-                (helpRequest.Tags as object as string)!.Contains(queryParametersModel.SearchQuery)
-                || helpRequest.Title.Contains(queryParametersModel.SearchQuery)
-                || helpRequest.Description.Contains(queryParametersModel.SearchQuery)
+            searchOperations = searchOperations.Where(searchOperation =>
+                (searchOperation.Tags as object as string)!.Contains(queryParametersModel.SearchQuery)
+                || searchOperation.Title.Contains(queryParametersModel.SearchQuery)
+                || searchOperation.Description.Contains(queryParametersModel.SearchQuery)
                 || (names.Length == 2
-                    && helpRequest.Creator!.FirstName == names[0]
-                    && helpRequest.Creator.LastName == names[1])
+                    && searchOperation.Creator!.FirstName == names[0]
+                    && searchOperation.Creator.LastName == names[1])
             );
         }
 
-        helpRequests = helpRequests.ExpandAndSort(queryParametersModel, logger);
+        searchOperations = searchOperations.ExpandAndSort(queryParametersModel, logger);
 
         try
         {
             return new PagedCollectionView<SearchOperationView>(
                 mapper.Map<IEnumerable<SearchOperationView>>(
-                    await helpRequests
+                    await searchOperations
                         .Skip(queryParametersModel.PageSize * (queryParametersModel.PageNumber - 1))
                         .Take(queryParametersModel.PageSize)
                         .ToListAsync(cancellationToken)
                 ),
-                await helpRequests.CountAsync(cancellationToken)
+                await searchOperations.CountAsync(cancellationToken)
             );
         }
         catch (Exception e)
@@ -238,16 +240,16 @@ internal class SearchOperationService(
         CancellationToken cancellationToken = default
     )
     {
-        var helpRequest = await searchOperationRepository
+        var searchOperation = await searchOperationRepository
             .Query()
             .FirstOrDefaultAsync(
                 request => request.Id == id,
                 cancellationToken
             );
 
-        RuntimeValidator.Assert(helpRequest is not null, StatusCode.HelpRequestNotFound);
+        RuntimeValidator.Assert(searchOperation is not null, StatusCode.HelperRoleNotFound);
 
-        helpRequest!.DeletedAt = DateTime.UtcNow;
+        searchOperation!.DeletedAt = DateTime.UtcNow;
 
         await searchOperationRepository.SaveChangesAsync(cancellationToken);
     }
@@ -275,12 +277,12 @@ internal class SearchOperationService(
 
         RuntimeValidator.Assert(operation != null, StatusCode.OperationNotFound);
 
-        var alreadyApplied = operation.UserApplications.Any(a => a.UserId == currentUser.Id);
+        var alreadyApplied = operation!.UserApplications.Any(a => a.UserId == currentUser!.Id);
         RuntimeValidator.Assert(!alreadyApplied, StatusCode.AlreadyApplied);
 
         var application = new UserSearchOperation
         {
-            UserId = currentUser.Id,
+            UserId = currentUser!.Id,
             SearchOperationId = operationId
         };
 
@@ -299,15 +301,15 @@ internal class SearchOperationService(
         }
     }
     
-    private async Task AddHelpRequestImagesAsync(
+    private async Task AddsearchOperationImagesAsync(
         IEnumerable<IFormFile> images,
-        Guid helpRequestId,
+        Guid searchOperationId,
         CancellationToken cancellationToken = default
     )
     {
         var lastImage = await operationImageRepository
             .Query()
-            .Where(image => image.OperationId == helpRequestId)
+            .Where(image => image.OperationId == searchOperationId)
             .OrderByDescending(image => image.Position)
             .FirstOrDefaultAsync(cancellationToken);
 
@@ -349,7 +351,7 @@ internal class SearchOperationService(
                     ImageUrl = imageUrl,
                     ImageThumbnailUrl = imageThumbnailUrl,
                     Position = position,
-                    OperationId = helpRequestId
+                    OperationId = searchOperationId
                 },
                 cancellationToken
             );

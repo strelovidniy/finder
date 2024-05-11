@@ -12,7 +12,7 @@ public enum StatusCode
     UserRoleNotFound = 104,
     DirectoryNotFound = 105,
     FileNotFound = 106,
-    HelpRequestNotFound = 107,
+    SearchOperationNotFound = 107,
     ImageNotFound = 108,
 
     QueryResultError = 201,
@@ -107,7 +107,7 @@ public enum StatusCode
     FirstNameShouldNotContainWhiteSpace = 1401,
     LastNameShouldNotContainWhiteSpace = 1402,
 
-    HelpRequestRemoved = 1501,
+    SearchOperationRemoved = 1501,
     OperationNotFound = 1502,
     AlreadyApplied= 1503,
 }
