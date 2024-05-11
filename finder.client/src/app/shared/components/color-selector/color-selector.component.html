@@ -1,0 +1,15 @@
+<div class="color-selector-container">
+    @for(color of colors; track color){
+        <finder-color-circle [color]="color"
+                          [selected]="selectedColor === color"
+                          (click)="selectColor(color)">
+        </finder-color-circle>
+    }
+    @if (allowCustom) {
+        <finder-color-circle [selected]="!colors.includes(selectedColor)"
+                          (customColorChange)="selectColor($event)"
+                          [customColor]="allowCustom"
+                          [color]="selectedColor">
+        </finder-color-circle>
+    }
+</div>

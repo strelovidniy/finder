@@ -1,0 +1,24 @@
+.table-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding-top: 20px;
+
+    .search-bar-inputs {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    
+        .add-role-button {
+            width: 170px!important;
+            margin-bottom: 10px;
+        }
+    }
+
+    .table {
+        height: calc(100vh - 288px);
+		scrollbar-gutter: stable;
+        overflow-y: auto;  
+    }
+}

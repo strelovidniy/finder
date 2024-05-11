@@ -1,0 +1,21 @@
+<div class="color"
+    [ngStyle]="{'background-color': color}"
+    [ngClass]="{'selected': selected, 'rainbow': customColor}"
+    (click)="onClick()">
+    @if (color === 'transparent' && !customColor) {
+        <img src="assets/img/transparent-color.svg">
+    }
+    @if(customColor) {
+        <button mat-icon-button
+                [matMenuTriggerFor]="menu">
+
+        </button>
+        <mat-menu #menu="matMenu">
+            <div (click)="$event.stopPropagation()">
+                <compact-picker (colorChange)="setCustomColor($event)"
+                                [control]="pickerControl">
+            </compact-picker>
+        </div>
+        </mat-menu>
+    }
+</div>

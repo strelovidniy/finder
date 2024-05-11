@@ -1,0 +1,21 @@
+.cropper {
+    max-width: 40vw;
+    max-height: 60vh;
+    overflow: hidden;
+    padding: 0;
+    margin: auto;
+}
+
+.dialog-actions {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+
+    button {
+        height: 50px;
+        border-radius: 25px;
+        width: 100px;
+        font-weight: 600;
+        font-size: 15px;
+    }
+}

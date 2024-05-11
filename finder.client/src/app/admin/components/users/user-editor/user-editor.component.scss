@@ -1,0 +1,29 @@
+.editor-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding-top: 10px;
+
+  mat-form-field {
+    width: 100%;
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    /* Firefox */
+
+    input[type='number'] {
+      -moz-appearance: textfield;
+    }
+  }
+}
+
+button {
+  width: 160px;
+  height: 40px;
+  margin-bottom: 10px;
+  border-radius: 20px;
+}

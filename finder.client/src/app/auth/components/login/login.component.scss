@@ -1,0 +1,92 @@
+@import 'src/styles/variables.scss';
+
+.login-container {
+	display: flex;
+	justify-items: center;
+	align-items: center;
+	height: auto;
+	position: relative;
+	flex-direction: column;
+	width: 50vw;
+	height: 100vh;
+	transition: all 225ms ease-in-out;
+    overflow: auto;
+
+	h1 {
+		margin-top: auto;
+		font-weight: bold;
+		font-size: 50px;
+		line-height: 60px;
+		text-align: center;
+		margin-top: auto;
+	}
+
+	.editor-form {
+		transition: all 225ms ease-in-out;
+	}
+
+	.material-icons {
+		display: inline-flex;
+		vertical-align: middle;
+		margin-top: 10px;
+	}
+
+	label {
+		margin: 4px 0;
+		font-size: 75%;
+	}
+
+	div:not(.loading-container) {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding-bottom: 10px;
+
+		.forgot-password {
+			cursor: pointer;
+			color: $accent-color;
+			text-align: center;
+			font-weight: 600;
+			margin: 0;
+		}
+	}
+
+	.password-requirements {
+		margin-top: -15px;
+		margin-left: 10px;
+		display: flex;
+		flex-direction: column;
+
+		color: $primary-color;
+	}
+
+	mat-icon {
+		padding-top: 16px;
+		margin-right: 10px;
+		cursor: pointer;
+		color: $primary-color !important;
+	}
+
+	span {
+		text-align: center;
+		color: gray;
+		margin-bottom: 70px;
+	}
+
+	.singup-text {
+		margin-top: 30px;
+		margin-bottom: auto;
+
+		a {
+			cursor: pointer;
+			text-decoration: none;
+			color: $primary-color;
+			font-weight: 600;
+			transition: all 225ms ease-in-out;
+
+			&:hover {
+				color: $accent-color;
+			}
+		}
+	}
+}

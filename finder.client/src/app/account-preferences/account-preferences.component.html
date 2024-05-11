@@ -1,0 +1,237 @@
+<div class="preferences-container">
+    <div class="column">
+        <div class="image-container"
+             matRipple>
+            <img [defaultImage]="user?.details?.imageThumbnailUrl ?? defaultImageUrl"
+                 [lazyLoad]="user?.details?.imageUrl ?? defaultImageUrl"
+                 class="user-image"
+                 (click)="openImageInput()"
+                 alt="User Image"
+                 i18n-alt>
+            <div class="upload-new-image"
+                 (click)="openImageInput()">
+                <mat-icon>
+                    cloud_upload
+                </mat-icon>
+                <span i18n>
+                    &nbsp;Upload new image
+                </span>
+            </div>
+        </div>
+        <button mat-stroked-button 
+                color="accent"
+                [disabled]="isUpdateButtonDisabled()"
+                (click)="updateUserDetails()"
+                class="save-button"
+                i18n>
+            Save
+        </button>
+    </div>
+    <div class="column">
+        <h1 i18n>
+            Contact Information
+        </h1>
+        <form class="editor-form"
+              [formGroup]="contactDetailsForm">
+            <mat-form-field class="full-width">
+                <mat-label i18n>
+                    Phone Number
+                </mat-label>
+                <input matInput
+                       placeholder="Phone Number"
+                       formControlName="phoneNumber">
+                <mat-error *ngIf="addressForm.controls['phoneNumber']?.hasError('maxlength')"
+                           i18n>
+                    Phone Number cannot be longer than 100 characters
+                </mat-error>
+                <mat-error *ngIf="addressForm.controls['phoneNumber']?.hasError('pattern')"
+                           i18n>
+                    Invalid Phone Number
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="full-width">
+                <mat-label i18n>
+                    Telegram
+                </mat-label>
+                <input matInput
+                       placeholder="Telegram"
+                       formControlName="telegram">
+                <mat-error *ngIf="addressForm.controls['telegram']?.hasError('maxlength')"
+                           i18n>
+                    Telegram cannot be longer than 200 characters
+                </mat-error>
+                <mat-hint i18n>
+                    Username without the '&commat;' or linked phone number
+                </mat-hint>
+            </mat-form-field>
+            <mat-form-field class="full-width">
+                <mat-label i18n>
+                    LinkedIn
+                </mat-label>
+                <input matInput
+                       placeholder="LinkedIn"
+                       formControlName="linkedIn">
+                <mat-error *ngIf="addressForm.controls['linkedIn']?.hasError('maxlength')"
+                           i18n>
+                    LinkedIn cannot be longer than 200 characters
+                </mat-error>
+                <mat-hint i18n>
+                    LinkedIn page url
+                </mat-hint>
+            </mat-form-field>
+            <mat-form-field class="full-width">
+                <mat-label i18n>
+                    Instagram
+                </mat-label>
+                <input matInput
+                       placeholder="Instagram"
+                       formControlName="instagram">
+                <mat-error *ngIf="addressForm.controls['instagram']?.hasError('maxlength')"
+                           i18n>
+                    Instagram cannot be longer than 200 characters
+                </mat-error>
+                <mat-hint i18n>
+                    Username without the '&commat;' symbol
+                </mat-hint>
+            </mat-form-field>
+            <mat-form-field class="full-width">
+                <mat-label i18n>
+                    Skype
+                </mat-label>
+                <input matInput
+                       placeholder="Skype"
+                       formControlName="skype">
+                <mat-error *ngIf="addressForm.controls['skype']?.hasError('maxlength')"
+                           i18n>
+                    Skype cannot be longer than 200 characters
+                </mat-error>
+                <mat-hint i18n>
+                    Skype username
+                </mat-hint>
+            </mat-form-field>
+            <mat-form-field class="full-width">
+                <mat-label i18n>
+                    Other
+                </mat-label>
+                <textarea matInput
+                          placeholder="Other"
+                          formControlName="other"
+                          rows="10">
+                </textarea>
+                <mat-error *ngIf="addressForm.controls['other']?.hasError('maxlength')"
+                           i18n>
+                    Other cannot be longer than 2000 characters
+                </mat-error>
+            </mat-form-field>
+        </form>
+    </div>
+    
+    <div class="column">
+        <h1 i18n>
+            Address
+        </h1>
+        <form class="editor-form"
+              [formGroup]="addressForm">
+            <mat-form-field class="full-width">
+                <mat-label i18n>
+                    Address Line 1
+                </mat-label>
+                <input matInput
+                       placeholder="Address Line 1"
+                       formControlName="addressLine1">
+                <mat-error *ngIf="addressForm.controls['addressLine1']?.hasError('maxlength')"
+                           i18n>
+                    Address Line 1 cannot be longer than 200 characters
+                </mat-error>
+                <mat-error *ngIf="addressForm.controls['addressLine1']?.hasError('required')"
+                           i18n>
+                    Address Line 1 is required
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="full-width">
+                <mat-label i18n>
+                    Address Line 2
+                </mat-label>
+                <input matInput
+                       placeholder="Address Line 2"
+                       formControlName="addressLine2">
+                <mat-error *ngIf="addressForm.controls['addressLine2']?.hasError('maxlength')"
+                           i18n>
+                    Address Line 2 cannot be longer than 200 characters
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="full-width">
+                <mat-label i18n>
+                    City / District
+                </mat-label>
+                <input matInput
+                       placeholder="City / District"
+                       formControlName="city">
+                <mat-error *ngIf="addressForm.controls['city']?.hasError('maxlength')"
+                           i18n>
+                    City / District cannot be longer than 200 characters
+                </mat-error>
+                <mat-error *ngIf="addressForm.controls['city']?.hasError('required')"
+                           i18n>
+                    City / District is required
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="full-width">
+                <mat-label i18n>
+                    Province / State
+                </mat-label>
+                <input matInput
+                       placeholder="Province / State"
+                       formControlName="state">
+                <mat-error *ngIf="addressForm.controls['state']?.hasError('maxlength')"
+                           i18n>
+                    Province / State cannot be longer than 200 characters
+                </mat-error>
+                <mat-error *ngIf="addressForm.controls['state']?.hasError('required')"
+                           i18n>
+                    Province / State is required
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="full-width">
+                <mat-label i18n>
+                    Country
+                </mat-label>
+                <input matInput
+                       placeholder="Country"
+                       formControlName="country">
+                <mat-error *ngIf="addressForm.controls['country']?.hasError('maxlength')"
+                           i18n>
+                    Country cannot be longer than 200 characters
+                </mat-error>
+                <mat-error *ngIf="addressForm.controls['country']?.hasError('required')"
+                           i18n>
+                    Country is required
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="full-width">
+                <mat-label i18n>
+                    Postal Code
+                </mat-label>
+                <input matInput
+                       placeholder="Postal Code"
+                       formControlName="postalCode">
+                <mat-error *ngIf="addressForm.controls['postalCode']?.hasError('maxlength')"
+                           i18n>
+                    Postal Code cannot be longer than 200 characters
+                </mat-error>
+                <mat-error *ngIf="addressForm.controls['postalCode']?.hasError('required')"
+                           i18n>
+                    Postal Code is required
+                </mat-error>
+            </mat-form-field>
+        </form>
+        <button mat-stroked-button 
+                color="accent"
+                [disabled]="isUpdateButtonDisabled()"
+                (click)="updateUserDetails()"
+                class="save-button mobile"
+                i18n>
+            Save
+        </button>
+    </div>
+</div>

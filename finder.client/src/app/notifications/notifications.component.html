@@ -1,0 +1,83 @@
+<div class="notifications-container">
+    <div class="column">
+        <div class="row">
+            <finder-toggle label="Enable Notifications"
+                               i18n-label
+                               [(enabled)]="notificationsConfig.enableNotifications">
+            </finder-toggle>
+        </div>
+        @if (notificationsConfig.enableNotifications) {
+            <div class="row">
+                <finder-toggle label="Enable Tag Filtration"
+                                   i18n-label
+                                   [(enabled)]="notificationsConfig.enableTagFiltration">
+                </finder-toggle>
+                @if (notificationsConfig.enableTagFiltration) {
+                    <mat-form-field>
+                        <mat-label i18n>
+                            Filter Tags
+                        </mat-label>
+                        <input matInput
+                               [formControl]="filterTagsFormControl"
+                               (input)="setTags($event)">
+                        <mat-error i18n
+                                   *ngIf="filterTagsFormControl.hasError('required')">
+                            Tags are required
+                        </mat-error>
+                        <mat-hint i18n>
+                            Separate tags with commas
+                        </mat-hint>
+                    </mat-form-field>
+                }
+            </div>
+
+            <div class="row">
+                <finder-toggle label="Enable Title Filtration"
+                                   i18n-label
+                                   [(enabled)]="notificationsConfig.enableTitleFiltration">
+                </finder-toggle>
+
+                @if (notificationsConfig.enableTitleFiltration) {
+                    <mat-form-field>
+                        <mat-label i18n>
+                            Filter Titles
+                        </mat-label>
+                        <input matInput
+                               [formControl]="filterTitlesFormControl"
+                               (input)="setTitles($event)">
+                        <mat-error i18n
+                                   *ngIf="filterTitlesFormControl.hasError('required')">
+                            Titles are required
+                        </mat-error>
+                        <mat-hint i18n>
+                            Separate title substrings with commas
+                        </mat-hint>
+                    </mat-form-field>
+                }
+            </div>
+
+            @if (notificationsConfig.enableTagFiltration || notificationsConfig.enableTitleFiltration) {
+                <div class="row">
+                    <h3 i18n>
+                        DANGER ZONE: This will enable notifications for all the updates and can cause a lot of notifications
+                    </h3>
+                </div>
+                <div class="row">
+                    <finder-toggle label="Enable Update Notifications"
+                                       i18n-label
+                                       [(enabled)]="notificationsConfig.enableUpdateNotifications">
+                    </finder-toggle>
+                </div>
+            }
+        }
+        
+        <button mat-stroked-button 
+                color="accent"
+                [disabled]="isButtonDisabled()"
+                (click)="save()"
+                class="save-button"
+                i18n>
+            Save
+        </button>
+    </div>
+</div>

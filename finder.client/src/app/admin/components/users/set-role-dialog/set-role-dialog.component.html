@@ -1,0 +1,49 @@
+<h1 mat-dialog-title
+	i18n>
+	Change Role
+</h1>
+<div mat-dialog-content>
+	<form class="editor-form">
+		<mat-form-field>
+			<mat-label i18n>
+				Role
+			</mat-label>
+			<input type="text"
+				   placeholder="Select role"
+				   i18n-placeholder  
+				   matInput 
+				   [formControl]="roleNameFormControl"
+				   [matAutocomplete]="auto"
+				   required>
+			<mat-error *ngIf="roleNameFormControl.errors?.['invalidProperty']"
+					   i18n>
+				Role is required
+			</mat-error>
+			<mat-autocomplete autoActiveFirstOption
+							  #auto="matAutocomplete"
+							  [displayWith]="getName">
+				<mat-option *ngFor="let role of rolesOptions"
+							[value]="role">
+					{{role.name}}
+				</mat-option>
+			</mat-autocomplete>
+		</mat-form-field>
+	</form>
+</div>
+<div mat-dialog-actions
+	 align='end'>
+	<button mat-stroked-button
+			type="button"
+			(click)="discard()"
+			i18n>
+		Close
+	</button>
+	<button mat-stroked-button
+			type="submit"
+			(click)="setRole()"
+			color="primary"
+			i18n>
+		Save
+	</button>
+</div>
+<finder-loader type="dialog"></finder-loader>

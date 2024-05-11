@@ -1,0 +1,84 @@
+<h1 mat-dialog-title
+	i18n>
+	{{data.isEdit? 'Edit Role' : 'Create New Role'}}
+</h1>
+<div mat-dialog-content
+	 class="role-form">
+	<mat-form-field>
+		<mat-label i18n>
+			Name
+		</mat-label>
+		<input matInput
+			   [formControl]="roleNameFormControl">
+		<mat-error *ngIf="roleNameFormControl.errors?.['required']"
+				   i18n>
+			Role name is required
+		</mat-error>
+	</mat-form-field>
+	<mat-form-field *ngIf="!data.isEdit">
+		<mat-label i18n>
+			Role Type
+		</mat-label>
+		<mat-select [(ngModel)]="roleType"
+					(selectionChange)="changeRoleType()">
+			<mat-option *ngFor="let item of roleTypeOptions"
+						[value]="item.type">
+				{{item.name}}
+			</mat-option>
+		</mat-select>
+	</mat-form-field>
+	<mat-form-field *ngIf="!data.isEdit">
+		<mat-label>
+			Roles Presets
+		</mat-label>
+		<mat-select [(ngModel)]="rolePresetType"
+					(selectionChange)="setPresetRole($event.value)">
+			<mat-option *ngFor="let item of presets"
+						[value]="item.type">
+				{{item.name}}
+			</mat-option>
+		</mat-select>
+	</mat-form-field>
+	<div class="role-title">
+		<mat-accordion [multi]="true"
+					   displayMode="flat">
+			<mat-expansion-panel *ngFor="let item of rolesOptions"
+								 [expanded]="item.expanded">
+				<mat-expansion-panel-header class="role-header">
+					<mat-checkbox color="primary"
+								  [(ngModel)]="item.checked"
+								  [checked]="allOptionsInGroupAllowed(item.options)"
+								  (change)="updateAllRolesInGroup($event.checked, item.index);"
+								  (click)="$event.stopPropagation();"
+								  (keydown)="$event.stopPropagation()">
+						{{item?.name}}
+					</mat-checkbox>
+				</mat-expansion-panel-header>
+				<div *ngIf="item.options?.length"
+					 class="accordion-content">
+					<p *ngFor="let optionItem of item.options"
+					   class="role-checkbox">
+						<mat-checkbox [(ngModel)]="optionItem.checked"
+									  (change)="rolePresetType = 'custom'"
+									  [checked]="optionItem.checked" color="primary">
+							{{optionItem.name}}
+						</mat-checkbox>
+					</p>
+				</div>
+			</mat-expansion-panel>
+		</mat-accordion>
+	</div>
+</div>
+<div mat-dialog-actions
+	 align='center'>
+	<button mat-stroked-button
+			(click)="discard()">
+		Cancel
+	</button>
+	<button mat-stroked-button
+			(click)="data.isEdit ? update() : save()"
+			color="primary">
+		{{data.isEdit ? 'Update' : 'Create'}}
+	</button>
+</div>
+<finder-loader type="dialog"></finder-loader>

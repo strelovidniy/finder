@@ -1,0 +1,16 @@
+.auth-wrapper {
+	@media (max-width: 1100px) {
+		.auth-layout {
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			background-color: white;
+			height: min-content;
+			width: unset;
+		}
+
+		.auth-image {
+			width: 100vw;
+		}
+	}
+}

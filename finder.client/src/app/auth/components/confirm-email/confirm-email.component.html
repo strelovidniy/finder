@@ -1,0 +1,53 @@
+<div class="confirm-email-container">
+    @if(!loading) {
+        <div class="buttons">
+            <h1 i18n>
+                Choosse your way
+            </h1>
+            <span i18n>
+                This cannot be changed in future. <br/>
+                Choosse wisely. 
+            </span>
+            <div>
+                <button mat-stroked-button
+                        color="primary"
+                        (click)="confirmEmail(true)"
+                        i18n>
+                    Helper way
+                </button>
+                <button mat-stroked-button
+                        color="primary"
+                        (click)="confirmEmail(false)"
+                        i18n>
+                    Regular way
+                </button>
+            </div>
+        </div>
+    }
+    @if (!success && !error && loading) {
+        <div class="loading-container">
+            <mat-progress-spinner [mode]="'indeterminate'"></mat-progress-spinner>
+            <h1 class="loading-text"
+                i18n>
+                Confirming email...
+            </h1>
+        </div>
+    }
+    @if (success) {
+        <h1 i18n>
+            Success
+        </h1>
+        <span i18n>
+            Your email has been confirmed. <br />
+            You will be redirected to the login page in a few seconds.
+        </span>
+    }
+    @if (error) {
+        <h1 i18n>
+            Oops, something went wrong.
+        </h1>
+        <span i18n>
+            Please try again later or contact support.
+        </span>
+    }
+</div>

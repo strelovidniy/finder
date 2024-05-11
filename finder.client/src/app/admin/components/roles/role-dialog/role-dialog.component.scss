@@ -1,0 +1,46 @@
+.role-form {
+  display: flex;
+  flex-direction: column;
+  padding-top: 10px;
+
+  mat-form-field {
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    input[type='number'] {
+      -moz-appearance: textfield;
+    }
+  }
+
+  .role-slide-togle {
+    margin: 5px 0;
+  }
+
+  .role-title {
+    padding: 10px 0;
+
+    .role-header {
+      height: 45px;
+    }
+
+    .accordion-content {
+      border-top: 1px solid #f4f6f8 !important;
+      padding-left: 25px;
+      padding-top: 10px;
+
+      .role-checkbox {
+        margin-bottom: 5px;
+      }
+    }
+  }
+}
+
+button {
+  width: 160px;
+  height: 40px;
+  margin-bottom: 10px;
+  border-radius: 20px;
+}

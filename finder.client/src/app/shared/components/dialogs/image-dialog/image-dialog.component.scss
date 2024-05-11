@@ -1,0 +1,18 @@
+.img-size {
+    width: 100%;
+}
+
+.img-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 400px;
+
+    .close-icon {
+        position: absolute;
+        cursor: pointer;
+        top: 0px;
+        right: 0px;
+    }
+}

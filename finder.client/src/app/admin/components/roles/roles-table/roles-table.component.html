@@ -1,0 +1,145 @@
+<div class="table-container">
+    <div class="search-bar-inputs">
+        <mat-form-field id="searchField">
+            <mat-label i18n>
+                Search
+            </mat-label>
+            <input matInput
+                   placeholder="Search"
+                   [formControl]="searchNameControl">
+            <button matSuffix
+                    mat-icon-button
+                    (click)="search()">
+                <mat-icon>
+                    search
+                </mat-icon>
+            </button>
+        </mat-form-field>
+        <button mat-stroked-button
+                (click)="openRoleDialog()"
+                class="add-role-button"
+                color="primary"
+                *ngIf="canCreateRoles">
+            <mat-icon>
+                add
+            </mat-icon>
+            <span i18n>
+                Add New Role
+            </span>
+        </button>
+    </div>
+
+    <div class="table">
+        <mat-table matSort
+                   (matSortChange)="sortChange($event)" 
+                   [dataSource]="roles"
+                   class="table-height">
+
+            <ng-container [matColumnDef]="tableColumnsName.name">
+                <mat-header-cell matSortDirection="asc"
+                                 mat-sort-header
+                                 *matHeaderCellDef
+                                 class="th-w-30"
+                                 i18n>
+                    Name
+                </mat-header-cell>
+                <mat-cell *matCellDef="let role"
+                          class="th-w-30">
+                    {{role.name}}
+                </mat-cell>
+            </ng-container>
+
+            <ng-container [matColumnDef]="tableColumnsName.type">
+                <mat-header-cell matSortDirection="asc"
+                                 mat-sort-header
+                                 *matHeaderCellDef
+                                 class="th-w-20"
+                                 i18n>
+                    Role Type
+                </mat-header-cell>
+                <mat-cell *matCellDef="let role"
+                          class="th-w-20">
+                    {{getRoleType(role.type)}}
+                </mat-cell>
+            </ng-container>
+
+            <ng-container [matColumnDef]="tableColumnsName.createdAt">
+                <mat-header-cell mat-sort-header
+                                 *matHeaderCellDef
+                                 class="th-w-20"
+                                 i18n>
+                    Created At
+                </mat-header-cell>
+                <mat-cell *matCellDef="let role"
+                          class="th-w-20 th-left">
+                    {{role.createdAt | date}}
+                </mat-cell>
+            </ng-container>
+
+            <ng-container [matColumnDef]="tableColumnsName.updatedAt">
+                <mat-header-cell mat-sort-header
+                                 *matHeaderCellDef
+                                 class="th-w-20"
+                                 i18n>
+                    Updated At
+                </mat-header-cell>
+                <mat-cell *matCellDef="let role"
+                          class="th-w-20 th-left">
+                    {{role.updatedAt | date}}
+                </mat-cell>
+            </ng-container>
+
+            <ng-container [matColumnDef]="tableColumnsName.actions">
+                <mat-header-cell *matHeaderCellDef
+                                 class="th-w-10 th-center"
+                                 [hidden]="showAction"
+                                 i18n>
+                    Actions
+                </mat-header-cell>
+                <mat-cell *matCellDef="let role"
+                          class="th-w-10 th-center"
+                          [hidden]="showAction">
+                    <button *ngIf="canEditRoles"
+                            mat-icon-button
+                            (click)="openRoleDialog(true, role)">
+                        <mat-icon>
+                            edit
+                        </mat-icon>
+                    </button>
+                    <button *ngIf="canDeleteRoles"
+                            mat-icon-button
+                            (click)="removeRole(role.id, role.name, $event)">
+                        <mat-icon>
+                            delete
+                        </mat-icon>
+                    </button>
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="noData">
+                <mat-footer-cell *matFooterCellDef
+                                 [attr.colspan]="displayedColumns.length">
+                    <div class="no-data">
+                        <finder-no-data-message #noData
+                                             class="no-data-row">
+                        </finder-no-data-message>
+                    </div>
+                </mat-footer-cell>
+            </ng-container>
+            <mat-footer-row *matFooterRowDef="['noData']"
+                            class="no-records"
+                            [hidden]="roles.length > 0">
+            </mat-footer-row>
+
+
+            <mat-header-row *matHeaderRowDef="displayedColumns sticky: true"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+    </div>    
+    
+    <mat-paginator [pageSize]="pageSize"
+                   [length]="totalCount"
+                   (page)='handlePageEvent($event)'
+                   [pageSizeOptions]="pageSizeOptions">
+    </mat-paginator>
+</div>

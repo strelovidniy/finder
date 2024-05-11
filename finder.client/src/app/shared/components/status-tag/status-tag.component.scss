@@ -1,0 +1,59 @@
+
+
+.status-tag{
+    border-radius: 10px;
+    font-size: 13px;
+    min-width: 65px;
+    padding: 1px 0px;
+    font-weight: 400;
+    text-align: center;
+    background-color: #fff7e6;
+    color: #fb9734;
+    border: 1px solid #fb9734;
+}
+
+
+.active {
+    background-color: #f6ffed;
+    color: #52c41a;
+    border: 1px solid #52c41a;
+}
+
+.deleted {
+    background-color: #f73a3a1c;
+    color: #f73a3ae3;
+    border: 1px solid #f73a3ae3;;
+    
+}
+
+
+
+.success{
+    background-color: #f6ffed;
+    color: #52c41a;
+    border: 1px solid #52c41a;
+}
+
+.processing {
+    background-color: #e6f4ff;
+    color: #1677ff;
+    border: 1px solid #1677ff;
+}
+
+.error{
+    background-color: #fff2f0;
+    color: #ff5c5f;
+    border: 1px solid #ff5c5f;
+}
+
+.warning {
+    background-color: #fffbe6;
+    color: #fffbe6;
+    border: 1px solid #fffbe6;
+}
+
+.default {
+    background-color: #fffbe6;
+    color: #474747;
+    border: 1px solid #474747;
+}

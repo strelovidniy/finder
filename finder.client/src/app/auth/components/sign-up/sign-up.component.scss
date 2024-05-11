@@ -1,0 +1,89 @@
+@import 'src/styles/variables.scss';
+
+.signup-container {
+	display: flex;
+	justify-items: center;
+	align-items: center;
+	height: auto;
+	position: relative;
+	flex-direction: column;
+	width: 50vw;
+	height: 100vh;
+	transition: all 225ms ease-in-out;
+    overflow: auto;
+
+	h1 {
+		margin-top: auto;
+		font-weight: bold;
+		font-size: 50px;
+		line-height: 60px;
+		text-align: center;
+	}
+
+	.editor-form {
+		transition: all 225ms ease-in-out;
+	}
+
+	.material-icons {
+		display: inline-flex;
+		vertical-align: middle;
+		margin-top: -5px;
+	}
+
+	label {
+		margin: 4px 0;
+		font-size: 75%;
+	}
+
+	.password-requirements {
+		margin-top: -15px;
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+
+		color: var(--mat-form-field-error-text-color);
+	}
+
+	mat-icon {
+		padding-top: 16px;
+		margin-right: 10px;
+		cursor: pointer;
+		color: $primary-color !important;
+	}
+
+	div {
+		display: block;
+		width: 50%;
+
+		div {
+			width: 275px;
+
+			button {
+				margin-top: 10px;
+			}
+		}
+	}
+
+	span {
+		text-align: center;
+		color: gray;
+		margin-bottom: 70px;
+	}
+
+	.login-text {
+		margin-top: 30px;
+		margin-bottom: auto;
+
+		a {
+			cursor: pointer;
+			text-decoration: none;
+			color: $primary-color;
+			font-weight: 600;
+			transition: all 225ms ease-in-out;
+
+			&:hover {
+				color: $accent-color;
+			}
+		}
+	}
+}

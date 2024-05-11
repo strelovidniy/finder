@@ -1,0 +1,89 @@
+.preferences-container {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+    padding-top: 20px;
+
+    .column {
+        display: flex;
+        flex-direction: column;
+        width: 25%;
+        padding: 0 15px;
+        transition: all 225ms ease-in-out;
+
+        .description {
+            mat-form-field {
+                height: 468px;
+            }
+        }
+
+        &:first-of-type {
+            .editor-form {
+                margin-top: 38px;
+
+                mat-form-field {
+                    height: unset;
+                }
+            }
+        }
+
+        .image-container {
+            display: flex;
+            position: relative;
+            flex-direction: column;
+            width: 100%;
+            margin-bottom: 20px;
+            overflow: hidden;
+            aspect-ratio: 1 / 1;
+            border-radius: 28px;
+
+            img {
+                width: 100%;
+                height: 100%;
+                cursor: pointer;
+            }
+
+            .upload-new-image {
+                display: flex;
+                position: absolute;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+                bottom: -120px;
+                height: 120px;
+                color: white;
+                border-top-right-radius: 28px;
+                border-top-left-radius: 28px;
+                transition: all 225ms ease-in-out;
+                cursor: pointer;
+            }
+
+            &:hover {
+                .upload-new-image {
+                    background-color: rgba(0, 0, 0, 0.5);
+                    bottom: 0px;
+                }
+            }
+        }
+
+        .editor-form {
+            width: 100%;
+            mat-form-field {
+                width: 100%;
+
+                textarea {
+                    resize: none;
+                }
+            }
+        }
+
+        .same-as-billing-address-toggle {
+            width: 200px;
+        }
+
+        .mobile {
+            display: none;
+        }
+    }
+}

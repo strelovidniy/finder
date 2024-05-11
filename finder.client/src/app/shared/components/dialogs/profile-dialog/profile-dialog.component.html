@@ -1,0 +1,61 @@
+<h1 mat-dialog-title 
+    align='center'
+    i18n>
+    Profile Settings
+</h1>
+<div mat-dialog-content>
+    <form [formGroup]="profileFormGroup"
+          class="editor-form">
+        <mat-form-field class="form-field">
+            <mat-label i18n>
+                Email
+            </mat-label>
+            <input matInput
+                   [formControl]="emailFormControl">
+        </mat-form-field>
+        <mat-form-field class="form-field">
+            <mat-label i18n>
+                First Name
+            </mat-label>
+            <input matInput
+                   [formControl]="firstNameFormControl" >
+            <mat-error *ngIf="firstNameFormControl.errors?.['required']"
+                       i18n>
+                Field is required
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field class="form-field">
+            <mat-label i18n>
+                Last Name
+            </mat-label>
+            <input matInput
+                   [formControl]="lastNameFormControl" >
+            <mat-error *ngIf="lastNameFormControl.errors?.['required']"
+                       i18n>
+                Field is required
+            </mat-error>
+        </mat-form-field>
+    </form>
+</div>
+<div mat-dialog-actions
+     align='center'>
+    <div>
+        <button mat-stroked-button
+                type="button"
+                (click)="discard()"
+                i18n>
+            Close
+        </button>
+    </div>
+    <div [matTooltip]="errorMessage">
+        <button mat-stroked-button
+                color="primary"
+                type="submit"
+                [disabled]="profileFormGroup.invalid"
+                (click)="save()"
+                i18n>
+            Save
+        </button>
+    </div>
+</div>
+<finder-loader type="dialog"></finder-loader>

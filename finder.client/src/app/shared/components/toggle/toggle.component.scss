@@ -1,0 +1,45 @@
+@import 'src/styles/variables.scss';
+
+.toggle-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+
+    .slider {
+        width: 29px;
+        height: 18px;
+        border-radius: 50px;
+        border-width: 2px;
+        border-style: solid;
+        border-color: $primary-color;
+        display: flex;
+        align-items: center;
+        margin-right: 10px;
+        transition: all 225ms ease-in-out;
+
+        &.enabled {
+            border-color: $accent-color;
+        }
+
+        span {
+            font-weight: $default-font-weight;
+            font-size: $default-font-size;
+            line-height: $default-line-height;
+        }
+
+        .slider-dot {
+            position: relative;
+            height: 14px;
+            width: 14px;
+            border-radius: 7px;
+            background-color: $primary-color;
+            margin: 0 2px;
+            transition: all 225ms ease-in-out;
+
+            &.enabled {
+                background-color: $accent-color;
+            }
+        }
+    }
+}

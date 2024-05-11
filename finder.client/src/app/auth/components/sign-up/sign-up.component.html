@@ -1,0 +1,156 @@
+<div class="signup-container">
+    <h1 i18n>
+        Sign Up
+    </h1>
+    <span i18n>
+        Enter your details to countinue
+    </span>
+    <form [formGroup]="signUpFormGroup" 
+          class="editor-form">        
+          <mat-form-field class="form-field">
+            <mat-label i18n>
+                First Name
+            </mat-label>
+            <input matInput
+                   [formControl]="firstNameFormControl">
+            <mat-error *ngIf="firstNameFormControl.errors?.['required']"
+                       i18n>
+                First Name is required
+            </mat-error>
+            <mat-error *ngIf="firstNameFormControl.errors?.['cannotContainSpace']"
+                       i18n>
+                First Name cannot contains space
+            </mat-error>
+        </mat-form-field>
+    
+        <mat-form-field class="form-field">
+            <mat-label i18n>
+                Last Name
+            </mat-label>
+            <input matInput 
+                   [formControl]="lastNameFormControl">
+            <mat-error *ngIf="lastNameFormControl.errors?.['required']"
+                       i18n>
+                Last Name is required
+            </mat-error>
+            <mat-error *ngIf="lastNameFormControl.errors?.['cannotContainSpace']"
+                       i18n>
+                Last Name cannot contains space
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="form-field">
+            <mat-label i18n>
+                Email
+            </mat-label>
+            <input matInput 
+                   [formControl]="emailFormControl">
+            <mat-error *ngIf="emailFormControl.errors?.['required']"
+                       i18n>
+                Email is required
+            </mat-error>
+            <mat-error *ngIf="emailFormControl.errors?.['email']"
+                       i18n>
+                Incorrect email format
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field class="form-field">
+            <mat-label i18n>
+                Password
+            </mat-label>
+            <input matInput 
+                   [formControl]="passwordFormControl" 
+                   [type]="passwordVisibility ? 'text' : 'password'"
+                   i18n>
+            <!-- <mat-icon matSuffix 
+                      (click)="passwordVisibility = !passwordVisibility">
+                {{passwordVisibility ? 'visibility' : 'visibility_off'}}
+            </mat-icon> -->
+        </mat-form-field>
+        <div *ngIf="signUpFormGroup.get('password')!.touched && signUpFormGroup.get('password')!.invalid"
+             class="password-requirements">
+            <label class="col"
+                   [ngClass]="signUpFormGroup.controls['password'].hasError('required') || signUpFormGroup.controls['password'].hasError('minlength')  ? 'text-danger' : 'text-success'">
+                <i class="material-icons">
+                    {{ signUpFormGroup.controls['password'].hasError('required') || signUpFormGroup.controls['password'].hasError('minlength') ? 'cancel' : 'check_circle' }}
+                </i>
+                <span i18n>
+                    Must be at least 8 characters!
+                </span>
+            </label>
+            <label class="col"
+                [ngClass]="signUpFormGroup.controls['password'].hasError('required') || signUpFormGroup.controls['password'].hasError('hasNumber')  ? 'text-danger' : 'text-success'">
+                <i class="material-icons">
+                    {{ signUpFormGroup.controls['password'].hasError('required') || signUpFormGroup.controls['password'].hasError('hasNumber') ? 'cancel' : 'check_circle' }}
+                </i>
+                <span i18n>
+                    Must contain at least 1 number!
+                </span>
+            </label>
+            <label class="col"
+                   [ngClass]="signUpFormGroup.controls['password'].hasError('required') || signUpFormGroup.controls['password'].hasError('hasCapitalCase')  ? 'text-danger' : 'text-success'">
+                <i class="material-icons">
+                    {{ signUpFormGroup.controls['password'].hasError('required') || signUpFormGroup.controls['password'].hasError('hasCapitalCase') ? 'cancel' : 'check_circle' }}
+                </i>
+                <span i18n>
+                    Must contain at least 1 in Capital Case!
+                </span>
+            </label>
+            <label class="col"
+                   [ngClass]="signUpFormGroup.controls['password'].hasError('required') || signUpFormGroup.controls['password'].hasError('hasSmallCase')  ? 'text-danger' : 'text-success'">
+                <i class="material-icons">
+                    {{ signUpFormGroup.controls['password'].hasError('required') || signUpFormGroup.controls['password'].hasError('hasSmallCase') ? 'cancel' : 'check_circle' }}
+                </i>
+                <span i18n>
+                    Must contain at least 1 Letter in Small Case!
+                </span>
+            </label>
+        </div>
+        <mat-form-field class="form-field">
+            <mat-label i18n>
+                Confirm Password
+            </mat-label>
+            <input type="password" 
+                   matInput 
+                   [formControl]="confirmPasswordFormControl"
+                   [type]="confirmPasswordVisibility ? 'text' : 'password'">
+            <!-- <mat-icon matSuffix 
+                      (click)="confirmPasswordVisibility = !confirmPasswordVisibility">
+                {{confirmPasswordVisibility ? 'visibility' : 'visibility_off'}}
+            </mat-icon> -->
+            <mat-error *ngIf="this.confirmPasswordFormControl.errors?.['mismatch']"
+                       i18n>
+                Passwords do not match
+            </mat-error>
+            <mat-error *ngIf="confirmPasswordFormControl.errors?.['required']"
+                       i18n>
+                Confirm Password is required
+            </mat-error>
+        </mat-form-field>
+    </form>
+    <div>
+        <div>
+            <finder-toggle [(enabled)]="termsAndConditions"
+                        label="I agree to the Terms and Conditions"
+                        i18n-label>
+                    </finder-toggle>
+            <button mat-stroked-button 
+                    type="submit" 
+                    (click)="signUp()" 
+                    color="primary" 
+                    class="btn" 
+                    [disabled]="btnIsDisabled || !termsAndConditions"
+                    i18n>
+                Sign Up
+            </button>
+        </div>
+    </div>
+
+    <span class="login-text"
+          i18n>
+        You already have an account? 
+        <a (click)="logIn()">
+            Log in
+        </a>
+    </span>
+</div>

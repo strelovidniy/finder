@@ -1,0 +1,143 @@
+<div class="table-container">
+    <div class="search-bar-inputs">
+        <mat-form-field id="searchField">
+            <mat-label i18n>
+                Search
+            </mat-label>
+            <input matInput
+                   placeholder="Search"
+                   [formControl]="searchNameControl">
+            <button matSuffix
+                    mat-icon-button
+                    (click)="search()">
+                <mat-icon>
+                    search
+                </mat-icon>
+            </button>
+        </mat-form-field>
+    </div>
+
+    <div class="table">
+        <mat-table matSort
+                   (matSortChange)="sortChange($event)"
+                   [dataSource]="users"
+                   class="table-height">
+
+            <ng-container matColumnDef="firstName">
+                <mat-header-cell mat-sort-header
+                                 *matHeaderCellDef
+                                 i18n>
+                    First Name
+                </mat-header-cell>
+                <mat-cell *matCellDef="let user">
+                    {{user.firstName}}
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="lastName">
+                <mat-header-cell mat-sort-header
+                                 *matHeaderCellDef
+                                 i18n>
+                    Last Name
+                </mat-header-cell>
+                <mat-cell *matCellDef="let user" >
+                    {{user.lastName}}
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="role.name">
+                <mat-header-cell mat-sort-header
+                                 *matHeaderCellDef
+                                 class="mat-cell-center"
+                                 i18n>
+                    Role
+                </mat-header-cell>
+                <mat-cell *matCellDef="let user"
+                          class="mat-cell-center">
+                    {{user.role?.name}}
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="email">
+                <mat-header-cell mat-sort-header
+                                 *matHeaderCellDef
+                                 class="th-w-20"
+                                 i18n>
+                    Email
+                </mat-header-cell>
+                <mat-cell *matCellDef="let user"
+                          class="th-w-20" >
+                    <div style="width: 100%;">
+                        {{user.email}}
+                    </div>
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="status">
+                <mat-header-cell mat-sort-header
+                                 *matHeaderCellDef
+                                 class="th-w-10 th-center"
+                                 i18n>
+                    Status
+                </mat-header-cell>
+                <mat-cell *matCellDef="let user"
+                          class="th-w-10  th-center">
+                    <finder-status-tag [status]="user.status"></finder-status-tag>
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="actions" >
+                <mat-header-cell *matHeaderCellDef
+                                 class="th-w-15 th-center" 
+                                 [hidden]="!showAction"
+                                 i18n>
+                    Actions
+                </mat-header-cell>
+                <mat-cell *matCellDef="let user"
+                          class="th-w-15 actions-cell"
+                          [hidden]="!showAction">
+                    <button *ngIf="canEditUser"
+                            mat-icon-button
+                            (click)="editUser(user)">
+                        <mat-icon>
+                            edit
+                        </mat-icon>
+                    </button>
+                    <button *ngIf="canDeleteUser"
+                            mat-icon-button
+                            (click)="deleteUser(user.id, $event)"
+                            [hidden]="currentUserId === user?.id">
+                        <mat-icon>
+                            delete
+                        </mat-icon>
+                    </button>
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="noData">
+                <mat-footer-cell *matFooterCellDef
+                                 [attr.colspan]="displayedColumns.length">
+                    <div class="no-data">
+                        <finder-no-data-message #noData
+                                             class="no-data-row">
+                        </finder-no-data-message>
+                    </div>
+                </mat-footer-cell>
+            </ng-container>
+            <mat-footer-row *matFooterRowDef="['noData']" 
+                            class="no-records"
+                            [hidden]="users.length > 0">
+            </mat-footer-row>
+
+
+            <mat-header-row *matHeaderRowDef="displayedColumns sticky: true"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+    </div>
+    
+    <mat-paginator [pageSize]="pageSize" 
+                   [length]="totalCount"
+                   (page)='handlePageEvent($event)'
+                   [pageSizeOptions]="pageSizeOptions">
+    </mat-paginator>
+</div>

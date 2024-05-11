@@ -1,0 +1,32 @@
+.welcome-container {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 50vw;
+	height: 100vh;
+
+	h1 {
+		margin-top: auto;
+		font-weight: bold;
+		font-size: 50px;
+		line-height: 60px;
+		text-align: center;
+	}
+
+	button:last-of-type {
+		margin-left: 10px !important;
+	}
+
+	span {
+		text-align: center;
+		color: gray;
+		margin-bottom: 70px;
+	}
+
+	.terms {
+		margin-top: 70px;
+		margin-bottom: auto;
+	}
+}

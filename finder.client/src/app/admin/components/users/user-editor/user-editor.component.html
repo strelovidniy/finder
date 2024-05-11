@@ -1,0 +1,57 @@
+<h1 mat-dialog-title>
+	Edit user
+</h1>
+<div mat-dialog-content>
+	<form [formGroup]="userFormGroup"
+		  class="editor-form">
+		<mat-form-field>
+			<mat-label i18n>
+				Email
+			</mat-label>
+			<input matInput
+				   [formControl]="userEmailFormControl">
+		</mat-form-field>
+
+		<mat-form-field>
+			<mat-label i18n>
+				First Name
+			</mat-label>
+			<input matInput
+				   [formControl]="userFirstNameFormControl">
+			<mat-error *ngIf="userFirstNameFormControl.hasError('required')"
+					   i18n>
+				First Name is required
+			</mat-error>
+		</mat-form-field>
+
+		<mat-form-field>
+			<mat-label i18n>
+				Last Name
+			</mat-label>
+			<input matInput
+				   [formControl]="userLastNameFormControl">
+			<mat-error *ngIf="userLastNameFormControl.hasError('required')"
+					   i18n>
+				Last Name is required
+			</mat-error>
+		</mat-form-field>
+	</form>
+</div>
+<div mat-dialog-actions
+	 align='center'>
+	<button mat-stroked-button
+			type="button"
+			(click)="discard()"
+			i18n>
+		Cancel
+	</button>
+	<button mat-stroked-button
+			color="primary"
+			type="submit"
+			(click)="update()"
+			[disabled]="buttonIsDisabled"
+			i18n>
+		Edit
+	</button>
+</div>
+<finder-loader type="dialog"></finder-loader>

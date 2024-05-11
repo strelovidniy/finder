@@ -1,0 +1,63 @@
+@import 'src/styles/variables.scss';
+
+.confirm-email-container {
+	display: flex;
+	justify-items: center;
+	align-items: center;
+	height: auto;
+	position: relative;
+	flex-direction: column;
+	width: 50vw;
+	height: 100vh;
+    overflow: auto;
+
+	.buttons {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		height: 100%;
+		width: 100%;
+
+		h1 {
+			margin-top: unset;
+		}
+
+		span {
+			margin-bottom: 70px;
+		}
+
+		button:not(:first-of-type) {
+			margin-left: 10px !important;
+		}
+	}
+
+	.loading-container {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 100%;
+		flex-direction: column;
+
+		h1 {
+			color: $accent-color;
+		}
+	}
+
+	h1:not(.loading-text) {
+		margin-top: auto;
+		font-weight: bold;
+		font-size: 50px;
+		line-height: 60px;
+		text-align: center;
+		margin-top: auto;
+	}
+
+	span {
+		text-align: center;
+		color: gray;
+		margin-bottom: 70px;
+		margin-top: 30px;
+		margin-bottom: auto;
+	}
+}

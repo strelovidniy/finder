@@ -1,0 +1,19 @@
+.login-container {
+	@media (max-width: 1100px) {
+		height: unset;
+		width: unset;
+		min-width: 400px;
+
+		h1 {
+			margin-top: 20px;
+		}
+
+		.singup-text {
+			margin-bottom: 20px;
+		}
+
+		.editor-form {
+			width: calc(100% - 40px);
+		}
+	}
+}

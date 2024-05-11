@@ -1,0 +1,41 @@
+<h1 mat-dialog-title
+	i18n>
+	Copy	
+</h1>
+<button mat-icon-button
+		aria-label="close dialog"
+		i18n-aria-label
+		mat-dialog-close
+		class="top-right-dialog-close">
+	<mat-icon>
+		close
+	</mat-icon>
+</button>
+
+<div mat-dialog-content
+	 class="content">
+	@for(textToCopy of textsToCopy; track textToCopy) {
+		<div class="copy-pair">
+			<mat-form-field>
+				<mat-label i18n>
+					{{textToCopy.label}}
+				</mat-label>
+				<textarea matInput
+	    			      [id]="'copyInput' + $index"
+	    			      [ngModel]="textToCopy.text"
+	    				  rows="7"
+	    				  (click)="copyToClipboard($index)">
+	    		</textarea>
+			</mat-form-field>
+
+			@if (textsToCopy.length > 1) {
+				<button mat-icon-button
+						(click)="copyToClipboard($index)">
+					<mat-icon>
+						content_copy
+					</mat-icon>
+				</button>
+			}
+		</div>
+	}
+</div>

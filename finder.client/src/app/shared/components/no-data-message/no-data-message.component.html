@@ -1,0 +1,11 @@
+<div class="no-data-container">
+    <div class="no-data-message"
+         *ngIf="!loading">
+        <mat-icon class="no-data-icon">
+            {{iconName ? iconName : 'all_inbox'}}
+        </mat-icon>
+        <span>
+            {{getMessage()}}
+        </span>
+    </div>
+</div>

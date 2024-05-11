@@ -1,0 +1,31 @@
+h1 {
+    margin-bottom: 0;
+}
+
+.content {
+    padding-top: 0;
+    padding-bottom: 0;
+
+    .copy-pair {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: row;
+        align-items: center;
+
+        &:not(:last-of-type) {
+            margin-bottom: 10px;
+        }
+
+        mat-form-field {
+            width: 100%;
+
+            textarea {
+                resize: none;
+            }
+        }
+
+        button {
+            margin-left: 10px;
+        }
+    }
+}

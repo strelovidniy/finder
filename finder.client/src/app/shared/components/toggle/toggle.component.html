@@ -1,0 +1,15 @@
+<div class="toggle-container"
+     (click)="toggle()">
+    <div class="slider"
+         [ngClass]="{'enabled': enabled}">
+        <div class="slider-dot"
+             [ngStyle]="{'left': enabled ? '10px' : '1px'}"
+             [ngClass]="{'enabled': enabled}">
+        </div>
+    </div>
+    <div class="toggle-text">
+        <span class="toggle-text">
+            {{label}}
+        </span>
+    </div>
+</div>
