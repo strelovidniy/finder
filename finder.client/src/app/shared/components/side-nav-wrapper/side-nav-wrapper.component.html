@@ -1,79 +1,46 @@
 <div class="app-container">
     <div class="header">
-        <button mat-icon-button
-                (click)="toggleBar()"
-                class="toggle-bar-button">
-            <mat-icon>
-                menu
-            </mat-icon>
-        </button>
         <div class="logo">
-            <img src="assets/img/logo.png"
+            <img src="assets/img/logo.svg"
                  alt="App Logo"
                  i18n-alt>
+                 <h1 i18n>
+                    FindGuard
+                 </h1>
         </div>
         <div class="toolbar-right-side">
+            <mat-icon [matMenuTriggerFor]="languageMenu" 
+                      matTooltip="Language"
+                      i18n-matTooltip
+                      matRipple>
+                language
+            </mat-icon>
             <div *ngIf="userName" 
-                 class="user-info">
-                <div class="user-avatar">
-                    <img [defaultImage]="avatarThumbnailUrl"
-                         [lazyLoad]="avatarUrl"
-                         alt="User Avatar"
-                         i18n-alt>
-                </div>
-                <span class="user-name">
-                    {{userName}}
-                </span>
-                <button mat-icon-button 
-                        [matMenuTriggerFor]="menu" 
-                        matTooltip="Settings"
-                        i18n-matTooltip>
-                    <mat-icon>
-                        settings
-                    </mat-icon>
-                </button>
-            </div>
-            <button mat-icon-button
-                    matTooltip="Logout"
-                    i18n-matTooltip
-                    (click)="logout($event)">
+                 class="user-info"
+                 matRipple
+                 [matMenuTriggerFor]="menu" >
                 <mat-icon>
-                    logout
+                    menu
                 </mat-icon>
-            </button>
+                <img [src]="avatarUrl"
+                     alt="User Avatar"
+                     i18n-alt>
+            </div>
             <mat-menu #menu="matMenu">
-                <button mat-menu-item
-                        [mat-menu-trigger-for]="languageMenu">
-                    <mat-icon>
-                        translate
-                    </mat-icon>
-                    <span i18n>
-                        Language
-                    </span>
-                </button>
                 <button mat-menu-item 
                         (click)="profileDialog()">
-                    <mat-icon>
-                        person
-                    </mat-icon>
                     <span i18n>
                         Profile
                     </span>
                 </button>
                 <button mat-menu-item
                         (click)="changePasswordDialog()">
-                    <mat-icon>
-                        lock_reset
-                    </mat-icon>
                     <span i18n>
                         Change password
                     </span>
                 </button>
                 <button mat-menu-item
                         (click)="logout($event)">
-                    <mat-icon>
-                        logout
-                    </mat-icon>
                     <span i18n>
                         Logout
                     </span>
@@ -138,168 +105,8 @@
                 </button>
             </mat-menu>
         </div>
-        <button mat-icon-button 
-                [matMenuTriggerFor]="mobileMenu" 
-                matTooltip="Settings"
-                i18n-matTooltip
-                class="mobile-right-menu">
-            <mat-icon>
-                settings
-            </mat-icon>
-        </button>
-        <mat-menu #mobileMenu="matMenu">
-            <div *ngIf="userName" 
-                 class="user-info">
-                <div class="user-avatar">
-                    <img [src]="avatarUrl"
-                         alt="User Avatar"
-                         i18n-alt>
-                </div>
-                <span class="user-name">
-                    {{userName}}
-                </span>
-            </div>
-            <button mat-menu-item 
-                    (click)="profileDialog()">
-                <mat-icon>
-                    person
-                </mat-icon>
-                <span i18n>
-                    Profile
-                </span>
-            </button>
-            <button mat-menu-item
-                    (click)="changePasswordDialog()">
-                <mat-icon>
-                    lock_reset
-                </mat-icon>
-                <span i18n>
-                    Change password
-                </span>
-            </button>
-            <button mat-menu-item
-                    (click)="logout($event)">
-                <mat-icon>
-                    logout
-                </mat-icon>
-                <span i18n>
-                    Logout
-                </span>
-            </button>
-        </mat-menu>
     </div>
-    <div class="nav-bar"
-         [class.hidden]="!showBar">
-        <mat-nav-list>
-            <mat-list-item matTooltip="Search Operations"
-                           i18n-matTooltip
-                           matTooltipPosition="below"
-                           routerLink="/search-operations"
-                           tabindex="7"
-                           routerLinkActive="active-link"
-                           *ngIf="showNotifications"
-                           (click)="closeBarIfMobile()">
-                <mat-icon mat-list-icon>
-                    search
-                </mat-icon>
-                <span i18n>
-                    Search Operations
-                </span>
-            </mat-list-item>
-            
-            <mat-list-item matTooltip="Notifications"
-                           i18n-matTooltip
-                           matTooltipPosition="below"
-                           routerLink="/notifications"
-                           tabindex="7"
-                           routerLinkActive="active-link"
-                           *ngIf="showNotifications"
-                           (click)="closeBarIfMobile()">
-                <mat-icon mat-list-icon>
-                    notifications
-                </mat-icon>
-                <span i18n>
-                    Notifications
-                </span>
-            </mat-list-item>
-            
-            <mat-list-item matTooltip="Account Preferences"
-                           i18n-matTooltip
-                           matTooltipPosition="below"
-                           routerLink="/account-preferences"
-                           tabindex="7"
-                           routerLinkActive="active-link"
-                           *ngIf="showAccountPreferences"
-                           (click)="closeBarIfMobile()">
-                <mat-icon mat-list-icon>
-                    manage_accounts
-                </mat-icon>
-                <span i18n>
-                    Account Preferences
-                </span>
-            </mat-list-item>
-
-            <mat-list-item [hidden]="!showRoles && !showUsers" 
-                           matTooltip="Admin panel"
-                           matTooltipPosition="below"
-                           (click)="toggleAdmin()"
-                           class="parent"
-                           routerLinkActive="active-link"
-                           [routerLinkActiveOptions]="{ exact: true}"
-                           *ngIf="showUsers || showRoles">
-                <mat-icon mat-list-icon>
-                    computer
-                </mat-icon>
-                <span i18n>
-                    Admin panel
-                </span>
-                <mat-icon class="menu-button"
-                          [ngClass]="{'rotated' : showAdminMenu}">
-                    expand_more
-                </mat-icon>
-            </mat-list-item>
-            <div class="submenu"
-                 [ngClass]="{'expanded' : showAdminMenu}">
-                <mat-list-item routerLink="/admin/users"
-                               class="submenu-item"
-                               routerLinkActive="active-link"
-                               *ngIf="showUsers"
-                               matTooltip="Users Management"
-                               i18n-matTooltip
-                               (click)="closeBarIfMobile()">
-                    <mat-icon mat-list-icon>
-                        manage_accounts
-                    </mat-icon>
-                    <span i18n>
-                        Users Management
-                    </span>
-                </mat-list-item>
-
-                <mat-list-item routerLink="/admin/roles"
-                               class="submenu-item"
-                               routerLinkActive="active-link"
-                               *ngIf="showRoles"
-                               matTooltip="Roles & Permissions"
-                               i18n-matTooltip
-                               (click)="closeBarIfMobile()">
-                    <mat-icon mat-list-icon>
-                        lock_open
-                    </mat-icon>
-                    <span i18n>
-                        Roles & Permissions
-                    </span>
-                </mat-list-item>
-            </div> 
-        </mat-nav-list>
-    </div>
-    <div class="overlay">
-        <div id="navBarTouchableOpacityOverlay"
-             [class.visible]="showBar"
-             (click)="toggleBar(false)">
-        </div>
-    </div>
-    <div class="app-content-wrapper"
-         [class.full-width]="!showBar">
+    <div class="app-content-wrapper">
         <div class="app-content"
              [class.transparent]="isContentTransparent">
             <div class="router-content">
