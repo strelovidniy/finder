@@ -32,28 +32,6 @@ internal class CreateSearchOperationModelValidator : AbstractValidator<CreateSea
             .MaximumLength(50)
             .WithStatusCode(StatusCode.TagTooLong);
 
-        RuleFor(createHelpRequestModel => createHelpRequestModel.Images)
-            .Cascade(CascadeMode.Stop)
-            .NotEmpty()
-            .WithStatusCode(StatusCode.ImagesRequired);
 
-        RuleForEach(createHelpRequestModel => createHelpRequestModel.Images)
-            .Cascade(CascadeMode.Stop)
-            .SetValidator(
-                new FileValidator(
-                    FileSize.FromMegabytes(100),
-                    [
-                        ContentType.ImageJpeg,
-                        ContentType.ImageJpg,
-                        ContentType.ImagePng,
-                        ContentType.ImageWebp,
-                        ContentType.ImageBmp,
-                        ContentType.ImageTiff,
-                        ContentType.ImageTif,
-                        ContentType.ImageGif,
-                        ContentType.ImagePbm
-                    ]
-                )
-            );
     }
 }

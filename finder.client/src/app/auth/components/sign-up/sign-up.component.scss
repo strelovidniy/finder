@@ -10,24 +10,55 @@
 	width: 50vw;
 	height: 100vh;
 	transition: all 225ms ease-in-out;
-    overflow: auto;
+	overflow: auto;
+
+	span {
+		font-size: 16px;
+		font-weight: 400;
+		line-height: 20px;
+		text-align: center;
+		font-family: Fixel Display;
+		font-weight: 500;
+		font-size: 18px;
+		line-height: 24px;
+	}
 
 	h1 {
 		margin-top: auto;
-		font-weight: bold;
 		font-size: 50px;
 		line-height: 60px;
 		text-align: center;
+		margin-top: auto;
+		font-family: Fixel Display;
+		font-weight: 700;
+	}
+
+	.toggle-container {
+		width: 50%;
+
+		.finder-toggle {
+			margin-right: auto;
+		}
 	}
 
 	.editor-form {
 		transition: all 225ms ease-in-out;
+
+		mat-form-field {
+			mat-error {
+				display: none;
+
+				&:first-of-type {
+					display: block;
+				}
+			}
+		}
 	}
 
 	.material-icons {
 		display: inline-flex;
 		vertical-align: middle;
-		margin-top: -5px;
+		margin-top: 10px;
 	}
 
 	label {
@@ -35,55 +66,71 @@
 		font-size: 75%;
 	}
 
+	div:not(.loading-container) {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding-bottom: 10px;
+
+		.forgot-password {
+			cursor: pointer;
+			color: #769dc6;
+			text-align: center;
+			font-weight: 600;
+			margin: 0;
+		}
+	}
+
 	.password-requirements {
 		margin-top: -15px;
+		margin-left: 10px;
 		display: flex;
 		flex-direction: column;
-		width: 100%;
-
-		color: var(--mat-form-field-error-text-color);
+		color: $primary-color;
 	}
 
 	mat-icon {
 		padding-top: 16px;
 		margin-right: 10px;
 		cursor: pointer;
-		color: $primary-color !important;
-	}
-
-	div {
-		display: block;
-		width: 50%;
-
-		div {
-			width: 275px;
-
-			button {
-				margin-top: 10px;
-			}
-		}
+		color: #769dc6 !important;
 	}
 
 	span {
 		text-align: center;
 		color: gray;
-		margin-bottom: 70px;
+		margin-bottom: 28px;
 	}
 
 	.login-text {
 		margin-top: 30px;
+		font-family: Fixel Text;
+		font-weight: 400;
 		margin-bottom: auto;
 
 		a {
 			cursor: pointer;
 			text-decoration: none;
-			color: $primary-color;
-			font-weight: 600;
+			color: #769dc6;
+			font-family: Fixel Text;
+			font-weight: 500;
 			transition: all 225ms ease-in-out;
 
 			&:hover {
 				color: $accent-color;
 			}
 		}
+	}
+
+	.divider {
+		height: 1px;
+		background-color: #e1d3d3;
+		padding: 0 !important;
+		width: 50%;
+	}
+
+	button {
+		margin-top: 16px;
+		width: 50%;
 	}
 }

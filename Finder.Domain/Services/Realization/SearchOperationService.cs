@@ -62,7 +62,6 @@ internal class SearchOperationService(
         var addedHelpRequest = await searchOperationRepository.AddAsync(
             new SearchOperation()
             {
-                //
                 Description = createHelpRequestModel.Description,
                 UserId = currentUser.Id,
                 ShowContactInfo = createHelpRequestModel.ShowContactInfo,

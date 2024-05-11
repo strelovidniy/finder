@@ -35,7 +35,7 @@ export default class ConfirmEmailComponent implements OnInit, OnDestroy {
             this.verificationCode = params.vc || '';
             this.location.replaceState('/auth/confirm-email');
             if (!this.verificationCode) {
-                this.router.navigate(['/auth/welcome']);
+                this.router.navigate(['/auth/login']);
             } else {
                 this.confirmEmail();
             }
@@ -62,7 +62,7 @@ export default class ConfirmEmailComponent implements OnInit, OnDestroy {
             (): void => {
                 this.error = true;
                 setTimeout((): void => {
-                    this.router.navigate(['/auth/welcome']);
+                    this.router.navigate(['/auth/login']);
                 }, 3000);
             });
     }

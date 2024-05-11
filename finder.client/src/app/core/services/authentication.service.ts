@@ -293,7 +293,7 @@ export default class AuthenticationService {
 
         localStorage.clear();
         this.currentUserSubject.next(null as any);
-        this.router.navigate(['/auth/welcome']);
+        this.router.navigate(['/auth/login']);
     }
 
     private setToken(token: IToken | null): void {

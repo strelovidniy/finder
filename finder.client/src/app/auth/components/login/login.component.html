@@ -1,9 +1,9 @@
 <div class="login-container">
     <h1 i18n>
-        Log in
+        Welcome!
     </h1>
     <span i18n>
-        Enter your details to countinue
+        Sign in or register to access to information about the search for missing persons
     </span>
     <form [formGroup]="form" 
           (ngSubmit)="onSubmit()" 
@@ -14,7 +14,8 @@
             </mat-label>
             <input type="email" 
                    matInput 
-                   placeholder="Email" 
+                   placeholder="Email"
+                   i18n-placeholder
                    formControlName="email">
             <mat-error i18n>
                 Please provide a valid email address
@@ -27,6 +28,7 @@
             <input type="password" 
                    matInput 
                    placeholder="Password" 
+                   i18n-placeholder
                    formControlName="password"
                    [type]="passwordVisibility ? 'text' : 'password'">
             <!-- <mat-icon matSuffix 
@@ -45,7 +47,7 @@
             <p class="forgot-password" 
                (click)="forgotPassword()"
                i18n>
-                Forgot password ?
+                Forgot password?
             </p>
         </div>
         <button type="submit" 
@@ -53,7 +55,7 @@
                 color="primary" 
                 class="btn"
                 i18n>
-            Log In
+            Sign In
         </button>
     </form>
     <span class="singup-text"
@@ -63,4 +65,13 @@
             Sign up
         </a>
     </span>
+    <div class="divider"></div>
+    <div class="countinue-with-diia">
+        <span i18n>
+            Continue with
+        </span>
+        <img src="https://id.gov.ua/design/images/diia_logo.svg" 
+             alt="diia-logo"
+             (click)="loginWithDiia()">
+    </div>
 </div>

@@ -23,7 +23,7 @@ public static class DataDependencyInjectionExtension
         .AddDbContext<FinderContext>(options =>
         {
             options
-                .UseNpgsql(configuration.GetConnectionString("Volunterio"));
+                .UseNpgsql(configuration.GetConnectionString("Finder"));
 
             #if DEBUG
             options

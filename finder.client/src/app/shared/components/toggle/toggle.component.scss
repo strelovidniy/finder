@@ -6,20 +6,19 @@
     justify-content: space-between;
     cursor: pointer;
 
-    .slider {
-        width: 29px;
-        height: 18px;
-        border-radius: 50px;
-        border-width: 2px;
+    .checkbox {
+        width: 16px;
+        height: 16px;
+        border-radius: 4px;
+        border-width: 1px;
         border-style: solid;
-        border-color: $primary-color;
-        display: flex;
-        align-items: center;
-        margin-right: 10px;
+        border-color: #A9D3FF;
+        margin-right: 5px;
         transition: all 225ms ease-in-out;
+        text-align: center;
 
         &.enabled {
-            border-color: $accent-color;
+            background-color: #a9d3ff;
         }
 
         span {
@@ -40,6 +39,15 @@
             &.enabled {
                 background-color: $accent-color;
             }
+        }
+    }
+
+    .toggle-text {
+        .toggle-text {
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 18px;
+            color: #918888;
         }
     }
 }

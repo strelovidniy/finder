@@ -11,33 +11,33 @@ internal class SearchOperationConfiguration : IEntityTypeConfiguration<SearchOpe
     public void Configure(EntityTypeBuilder<SearchOperation> builder)
     {
         builder
-            .ToTable(TableName.HelpRequests, TableSchema.Dbo);
+            .ToTable(TableName.SearchOperation, TableSchema.Dbo);
 
         builder
-            .HasKey(helpRequest => helpRequest.Id);
+            .HasKey(searchOperation => searchOperation.Id);
 
         builder
-            .Property(helpRequest => helpRequest.Id)
+            .Property(searchOperation => searchOperation.Id)
             .HasDefaultValueSql(DefaultSqlValue.NewGuid);
 
         builder
-            .Property(helpRequest => helpRequest.CreatedAt)
+            .Property(searchOperation => searchOperation.CreatedAt)
             .HasDefaultValueSql(DefaultSqlValue.NowUtc);
 
         builder
-            .Property(helpRequest => helpRequest.UpdatedAt)
+            .Property(searchOperation => searchOperation.UpdatedAt)
             .IsRequired(false);
 
         builder
-            .Property(helpRequest => helpRequest.DeletedAt)
+            .Property(searchOperation => searchOperation.DeletedAt)
             .IsRequired(false);
 
         builder
-            .Property(helpRequest => helpRequest.UserId)
+            .Property(searchOperation => searchOperation.UserId)
             .IsRequired();
 
         builder
-            .Property(helpRequest => helpRequest.Tags)
+            .Property(searchOperation => searchOperation.Tags)
             .HasConversion(
                 tags => JsonConvert.SerializeObject(tags),
                 json => JsonConvert.DeserializeObject<List<string>>(json) ?? Enumerable.Empty<string>()
@@ -45,24 +45,28 @@ internal class SearchOperationConfiguration : IEntityTypeConfiguration<SearchOpe
             .IsRequired();
 
         builder
-            .Property(helpRequest => helpRequest.Title)
+            .Property(searchOperation => searchOperation.Title)
             .HasMaxLength(200)
             .IsRequired();
 
         builder
-            .Property(helpRequest => helpRequest.Description)
+            .Property(searchOperation => searchOperation.Description)
             .HasMaxLength(2000)
             .IsRequired();
 
         builder
-            .Property(helpRequest => helpRequest.ShowContactInfo)
+            .Property(searchOperation => searchOperation.ShowContactInfo)
+            .IsRequired();
+        
+        builder
+            .Property(searchOperation => searchOperation.OperationType)
             .IsRequired();
 
         builder
-            .HasMany(helpRequest => helpRequest.Images)
+            .HasMany(searchOperation => searchOperation.Images)
             .WithOne()
             .HasForeignKey(image => image.OperationId)
-            .HasPrincipalKey(helpRequest => helpRequest.Id)
+            .HasPrincipalKey(searchOperation => searchOperation.Id)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }
