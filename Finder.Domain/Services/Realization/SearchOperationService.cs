@@ -63,6 +63,7 @@ internal class SearchOperationService(
                 UserId = currentUser.Id,
                 ShowContactInfo = createHelpRequestModel.ShowContactInfo,
                 Tags = createHelpRequestModel.Tags,
+                OperationType = createHelpRequestModel.OperationType,
                 Title = createHelpRequestModel.Title
             },
             cancellationToken
