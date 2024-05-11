@@ -83,6 +83,8 @@ public static class DomainDependencyInjectionExtension
             new NotificationSettingsMapperProfile(),
             new RoleMapperProfile(),
             new UserDetailsMapperProfile(),
+            new OperationImageMapperProfile(),
+            new OperationMapperProfile(),
             new UserMapperProfile()
         ]));
 
