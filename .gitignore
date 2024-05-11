@@ -361,3 +361,25 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# System Defined
+/Finder.Data/Finder.Data.csproj.DotSettings
+/Finder.Domain/Finder.Domain.csproj.DotSettings
+/Finder.Server/Finder.Web.csproj.DotSettings
+/Finder.Server/.editorconfig
+/Finder.Server/.config
+/finder.client/package-lock.json
+/Finder.Server/.config
+*.editorconfig
+/Finder.client/.vscode
+/Finder.client/.angular
+/Finder.client/dist
+/Finder.Server/Finder.Server.csproj.DotSettings
+/Finder.Server/Finder.Server.csproj.DotSettings.user
+/Finder.Server/appsettings.json
+/Finder.Server/appsettings.Development.json
+/Finder.Server/appsettings.Staging.json
+/Finder.Server/appsettings.Production.json
+/Finder.Server/Files
+/Finder.client/.nx/cache
+/Finder.Server/Properties/launchSettings.json
