@@ -2,6 +2,7 @@
 using Finder.Domain.Models.Create;
 using Finder.Domain.Models.Update;
 using Finder.Domain.Models.Views;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Finder.Domain.Services.Abstraction;
 
@@ -38,4 +39,9 @@ public interface ISearchOperationService
     );
 
     Task ApplyForSearchOperationAsync(Guid operationId, CancellationToken cancellationToken = default);
+
+    public Task<FileStreamResult> GetSearchOperationPdfAsync(
+        Guid id,
+        CancellationToken cancellationToken = default
+    );
 }

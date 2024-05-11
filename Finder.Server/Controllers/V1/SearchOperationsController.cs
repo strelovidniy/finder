@@ -104,6 +104,12 @@ public class SearchOperationsController(
             "qr.png"
     );
 
+    [HttpPost("generate-pdf")]
+    public async Task<IActionResult> GeneratePdf(
+        [FromQuery] Guid id,
+        CancellationToken cancellationToken = default
+    ) => await searchOperationService.GetSearchOperationPdfAsync(id, cancellationToken);
+
 
     private static CreateSearchOperationRequestModel ParseFormDataToCreateHelpRequestModel(IFormCollection form)
     {
