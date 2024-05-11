@@ -1,4 +1,6 @@
-﻿using Finder.Data.Entities;
+﻿using EntityFrameworkCore.RepositoryInfrastructure.DependencyInjection;
+using Finder.Data.Context;
+using Finder.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,7 +20,7 @@ public static class DataDependencyInjectionExtension
         this IServiceCollection services,
         IConfiguration configuration
     ) => services
-        .AddDbContext<VolunterioContext>(options =>
+        .AddDbContext<FinderContext>(options =>
         {
             options
                 .UseNpgsql(configuration.GetConnectionString("Volunterio"));
@@ -33,11 +35,9 @@ public static class DataDependencyInjectionExtension
     private static IServiceCollection AddRepositories(
         this IServiceCollection services
     ) => services
-        .CreateRepositoryBuilderWithContext<VolunterioContext>()
+        .CreateRepositoryBuilderWithContext<FinderContext>()
         .AddRepository<Address>()
         .AddRepository<ContactInfo>()
-        .AddRepository<HelpRequest>()
-        .AddRepository<HelpRequestImage>()
         .AddRepository<NotificationSettings>()
         .AddRepository<PushSubscription>()
         .AddRepository<Role>()

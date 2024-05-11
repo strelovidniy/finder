@@ -38,15 +38,6 @@ internal static class Roles
                 Type = RoleType.User,
                 IsHidden = true,
                 CanCreateHelpRequest = true
-            },
-            new Role
-            {
-                Id = Guid.Parse("fc1b77aa-0814-4589-80c2-a8090da02163"),
-                Name = "Helper",
-                CreatedAt = new DateTime(2022, 11, 11, 1, 6, 0, DateTimeKind.Utc),
-                Type = RoleType.Helper,
-                IsHidden = true,
-                CanSeeHelpRequests = true
             }
         );
     }

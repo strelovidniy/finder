@@ -3,6 +3,5 @@
 public enum RoleType
 {
     Admin = 1,
-    User = 2,
-    Helper = 3
+    User = 2
 }

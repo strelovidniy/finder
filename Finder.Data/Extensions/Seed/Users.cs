@@ -27,7 +27,7 @@ internal static class Users
                 LastName = "Chetvertukha",
                 Email = "nazariy.chetvertukha@gmail.com",
                 Status = UserStatus.Active,
-                RoleId = Guid.Parse("fc1b77aa-0814-4589-80c2-a8090da02163"),
+                RoleId = Guid.Parse("a0a80c03-abbc-eb11-cabb-0022480a1c0a"),
                 PasswordHash
                     = "2576c639ea2309626fee6232e624ba921afada44537b9fa6592f03d5a1da7dd375fbd17b2af56655323327e8fd75a46d4932d54c4df61595844bc95fd5979c56"
             },
@@ -38,7 +38,7 @@ internal static class Users
                 LastName = "Stepaniuk",
                 Email = "annstepaniuk12@gmail.com",
                 Status = UserStatus.Active,
-                RoleId = Guid.Parse("fc1b77aa-0814-4589-80c2-a8090da02163"),
+                RoleId = Guid.Parse("a0a80c03-abbc-eb11-cabb-0022480a1c0a"),
                 PasswordHash
                     = "2576c639ea2309626fee6232e624ba921afada44537b9fa6592f03d5a1da7dd375fbd17b2af56655323327e8fd75a46d4932d54c4df61595844bc95fd5979c56"
             },

@@ -18,9 +18,6 @@ public class FinderContext : DbContext
     {
         modelBuilder.ApplyConfiguration(new AddressConfiguration());
         modelBuilder.ApplyConfiguration(new ContactInfoConfiguration());
-        modelBuilder.ApplyConfiguration(new HelpRequestConfiguration());
-        modelBuilder.ApplyConfiguration(new HelpRequestImageConfiguration());
-        modelBuilder.ApplyConfiguration(new NotificationSettingsConfiguration());
         modelBuilder.ApplyConfiguration(new PushSubscriptionConfiguration());
         modelBuilder.ApplyConfiguration(new RoleConfiguration());
         modelBuilder.ApplyConfiguration(new UserConfiguration());
