@@ -1,30 +1,29 @@
-var builder = WebApplication.CreateBuilder(args);
+using Finder.Data.Enums.RichEnums;
+using Finder.Server.DependencyInjection;
+using Serilog;
 
-// Add services to the container.
-
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-var app = builder.Build();
-
-app.UseDefaultFiles();
-app.UseStaticFiles();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+try
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    var builder = WebApplication.CreateBuilder(args);
+
+    Log.Logger = new LoggerConfiguration()
+        .ReadFrom
+        .Configuration(builder.Configuration)
+        .CreateLogger();
+
+    builder.Services.RegisterApplication(builder.Configuration);
+
+    var app = builder.Build();
+
+    app.UseApplication();
+
+    await app.RunAsync();
 }
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.MapFallbackToFile("/index.html");
-
-app.Run();
+catch (Exception exception)
+{
+    Log.Logger.Error(exception, ErrorMessage.ProgramStopped);
+}
+finally
+{
+    await Log.CloseAndFlushAsync();
+}
