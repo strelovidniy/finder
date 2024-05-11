@@ -163,28 +163,33 @@ namespace Finder.Data.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("NotificationSettings");
+                    b.ToTable("NotificationSettings", (string)null);
                 });
 
             modelBuilder.Entity("Finder.Data.Entities.OperationImage", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasDefaultValueSql("uuid_generate_v4()");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("now() at time zone('utc')");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("ImageThumbnailUrl")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.Property<string>("ImageUrl")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.Property<Guid>("OperationId")
                         .HasColumnType("uuid");
@@ -192,17 +197,14 @@ namespace Finder.Data.Migrations
                     b.Property<int>("Position")
                         .HasColumnType("integer");
 
-                    b.Property<Guid?>("SearchOperationId")
-                        .HasColumnType("uuid");
-
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SearchOperationId");
+                    b.HasIndex("OperationId");
 
-                    b.ToTable("OperationImage");
+                    b.ToTable("OperationImage", "dbo");
                 });
 
             modelBuilder.Entity("Finder.Data.Entities.PushSubscription", b =>
@@ -405,17 +407,21 @@ namespace Finder.Data.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasDefaultValueSql("uuid_generate_v4()");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("now() at time zone('utc')");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
 
                     b.Property<byte>("OperationType")
                         .HasColumnType("smallint");
@@ -423,12 +429,14 @@ namespace Finder.Data.Migrations
                     b.Property<bool>("ShowContactInfo")
                         .HasColumnType("boolean");
 
-                    b.Property<string[]>("Tags")
-                        .HasColumnType("text[]");
+                    b.Property<string>("Tags")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -440,7 +448,7 @@ namespace Finder.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("SearchOperation");
+                    b.ToTable("SearchOperation", "dbo");
                 });
 
             modelBuilder.Entity("Finder.Data.Entities.User", b =>
@@ -630,7 +638,9 @@ namespace Finder.Data.Migrations
                 {
                     b.HasOne("Finder.Data.Entities.SearchOperation", null)
                         .WithMany("Images")
-                        .HasForeignKey("SearchOperationId");
+                        .HasForeignKey("OperationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Finder.Data.Entities.PushSubscription", b =>
