@@ -10,39 +10,39 @@ internal class OperationImageConfiguration : IEntityTypeConfiguration<OperationI
     public void Configure(EntityTypeBuilder<OperationImage> builder)
     {
         builder
-            .ToTable(TableName.HelpRequestImages, TableSchema.Dbo);
+            .ToTable(TableName.OperationImage, TableSchema.Dbo);
 
         builder
-            .HasKey(helpRequestImage => helpRequestImage.Id);
+            .HasKey(operationImage => operationImage.Id);
 
         builder
-            .Property(helpRequestImage => helpRequestImage.Id)
+            .Property(operationImage => operationImage.Id)
             .HasDefaultValueSql(DefaultSqlValue.NewGuid);
 
         builder
-            .Property(helpRequestImage => helpRequestImage.CreatedAt)
+            .Property(operationImage => operationImage.CreatedAt)
             .HasDefaultValueSql(DefaultSqlValue.NowUtc);
 
         builder
-            .Property(helpRequestImage => helpRequestImage.UpdatedAt)
+            .Property(operationImage => operationImage.UpdatedAt)
             .IsRequired(false);
 
         builder
-            .Property(helpRequestImage => helpRequestImage.DeletedAt)
+            .Property(operationImage => operationImage.DeletedAt)
             .IsRequired(false);
 
         builder
-            .Property(helpRequestImage => helpRequestImage.ImageThumbnailUrl)
+            .Property(operationImage => operationImage.ImageThumbnailUrl)
             .HasMaxLength(200)
             .IsRequired();
 
         builder
-            .Property(helpRequestImage => helpRequestImage.ImageUrl)
+            .Property(operationImage => operationImage.ImageUrl)
             .HasMaxLength(200)
             .IsRequired();
 
         builder
-            .Property(helpRequestImage => helpRequestImage.Position)
+            .Property(operationImage => operationImage.Position)
             .IsRequired();
     }
 }
