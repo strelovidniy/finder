@@ -39,10 +39,13 @@ public static class DomainDependencyInjectionExtension
         .AddScoped<IUserAccessService, UserAccessService>()
         .AddScoped<IUserDetailsService, UserDetailsService>()
         .AddScoped<IStorageService, StorageService>()
+        .AddScoped<ISearchOperationService, SearchOperationService>()
         .AddScoped<IImageService, ImageService>()
         .AddScoped<INotificationService, NotificationService>()
         .AddScoped<INotificationSettingsService, NotificationSettingsService>()
+        .AddScoped<ISearchOperationService, SearchOperationService>()
         .AddScoped<IPushSubscriptionService, PushSubscriptionService>()
+        .AddScoped<ISearchOperationNotificationService, SearchOperationNotificationService>()
         .AddScoped<IQrGenerationService, QrGenerationService>();
 
     private static IServiceCollection AddValidators(
@@ -65,7 +68,9 @@ public static class DomainDependencyInjectionExtension
         .AddValidator<UpdateContactInfoModel, UpdateContactInfoModelValidator>()
         .AddValidator<CreatePushSubscriptionModel, CreatePushSubscriptionModelValidator>()
         .AddValidator<CreatePushSubscriptionKeysModel, CreatePushSubscriptionKeysModelValidator>()
-        .AddValidator<UpdateNotificationSettingModel, UpdateNotificationSettingModelValidator>();
+        .AddValidator<UpdateNotificationSettingModel, UpdateNotificationSettingModelValidator>()
+        .AddValidator<CreateSearchOperationRequestModel, CreateSearchOperationModelValidator>()
+        .AddValidator<UpdateSearchOperationRequestModel, UpdateSearchOperationModelValidator>();
 
     private static IServiceCollection AddValidator<TModel, TValidator>(
         this IServiceCollection services
@@ -84,6 +89,8 @@ public static class DomainDependencyInjectionExtension
             new NotificationSettingsMapperProfile(),
             new RoleMapperProfile(),
             new UserDetailsMapperProfile(),
+            new OperationImageMapperProfile(),
+            new OperationMapperProfile(),
             new UserMapperProfile()
         ]));
 
