@@ -114,6 +114,12 @@ internal class SearchOperationService(
             helpRequest.OperationType = updateHelpRequestRequestModel.OperationType;
             helpRequest.UpdatedAt = DateTime.UtcNow;
         }
+        
+        if (helpRequest.OperationStatus != updateHelpRequestRequestModel.OperationStatus)
+        {
+            helpRequest.OperationStatus = updateHelpRequestRequestModel.OperationStatus;
+            helpRequest.UpdatedAt = DateTime.UtcNow;
+        }
 
         if (!helpRequest.Tags?.SequenceEqual(updateHelpRequestRequestModel.Tags) is true)
         {

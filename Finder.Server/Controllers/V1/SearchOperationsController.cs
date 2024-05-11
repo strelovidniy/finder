@@ -154,6 +154,12 @@ public class SearchOperationsController(
         var operationType = Enum.TryParse<SearchOperationType>(operationTypeString, out var parsedOperationType)
             ? parsedOperationType
             : default;
+        
+        
+        var operationStatusString = form["operationStatus"].ToString();
+        var operationStatus = Enum.TryParse<SearchOperationStatus>(operationStatusString, out var parsedStatusType)
+            ? parsedStatusType
+            : default;
 
         return new UpdateSearchOperationRequestModel(
             id,
@@ -161,6 +167,7 @@ public class SearchOperationsController(
             description,
             tags,
             operationType,
+            operationStatus,
             showInfo,
             images,
             imageToDeleteIds
