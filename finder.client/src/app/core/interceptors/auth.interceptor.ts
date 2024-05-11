@@ -49,7 +49,7 @@ export default class AuthInterceptor implements HttpInterceptor {
                 catchError((res: HttpErrorResponse): Observable<HttpEvent<any>> => {
                     if (res.status === 401) {
                         this.auth.logout();
-                        this.router.navigate(['/auth/welcome']);
+                        this.router.navigate(['/auth/login']);
                     }
 
                     this.notifier.error(this.getStatusCodeErrorMessage(res?.error?.statusCode));

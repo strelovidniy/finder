@@ -10,6 +10,7 @@ import AuthenticationService from 'src/app/core/services/authentication.service'
 
 import ForgotPasswordDialogComponent from '../forgot-password-dialog/forgot-password-dialog.component';
 import IUserMe from 'src/app/core/interfaces/auth/user-me.interface';
+import NotifierService from 'src/app/core/services/notifier.service';
 
 
 @Component({
@@ -26,7 +27,8 @@ export default class LoginComponent implements OnInit, OnDestroy {
     constructor(
         private readonly router: Router,
         private readonly authSevice: AuthenticationService,
-        private readonly dialog: MatDialog
+        private readonly dialog: MatDialog,
+        private readonly notifier: NotifierService
     ) { }
 
 
@@ -67,5 +69,9 @@ export default class LoginComponent implements OnInit, OnDestroy {
         this.authSevice.login(data).subscribe((res: IUserMe): void => {
             this.router.navigate(['/search-operations']);
         });
+    }
+
+    public loginWithDiia(): void {
+        this.notifier.error($localize`This feature is not available yet.`);
     }
 }
