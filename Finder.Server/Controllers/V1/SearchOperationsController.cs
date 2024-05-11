@@ -27,7 +27,6 @@ public class SearchOperationsController(
         )
     );
 
-
     [HttpPost("create")]
     public async Task<IActionResult> CreateSearchOperationAsync(
         CancellationToken cancellationToken = default
@@ -44,7 +43,6 @@ public class SearchOperationsController(
         return Ok();
     }
 
-    
     [HttpGet]
     public async Task<IActionResult> GetSearchOperationsAsync(
         [FromQuery] QueryParametersModel queryParametersModel,
@@ -55,8 +53,6 @@ public class SearchOperationsController(
             cancellationToken
         )
     );
-    
-   
 
     [HttpDelete("delete")]
     public async Task<IActionResult> DeleteSearchOperationAsync(
@@ -71,8 +67,6 @@ public class SearchOperationsController(
         return Ok();
     }
 
-    
-    
     [HttpPut("update")]
     public async Task<IActionResult> UpdateSearchOperationAsync(
         CancellationToken cancellationToken = default
@@ -88,8 +82,7 @@ public class SearchOperationsController(
 
         return Ok();
     }
-    
-    
+
     private static CreateSearchOperationRequestModel ParseFormDataToCreateHelpRequestModel(IFormCollection form)
     {
         // Parse basic fields
