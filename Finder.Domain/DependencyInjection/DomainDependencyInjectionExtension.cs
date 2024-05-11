@@ -42,7 +42,8 @@ public static class DomainDependencyInjectionExtension
         .AddScoped<IImageService, ImageService>()
         .AddScoped<INotificationService, NotificationService>()
         .AddScoped<INotificationSettingsService, NotificationSettingsService>()
-        .AddScoped<IPushSubscriptionService, PushSubscriptionService>();
+        .AddScoped<IPushSubscriptionService, PushSubscriptionService>()
+        .AddScoped<IQrGenerationService, QrGenerationService>();
 
     private static IServiceCollection AddValidators(
         this IServiceCollection services

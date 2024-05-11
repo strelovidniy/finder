@@ -1,4 +1,4 @@
-﻿using Finder.Domain.Models.Set;
+using Finder.Domain.Models.Set;
 using Finder.Domain.Models.Update;
 
 namespace Finder.Domain.Services.Abstraction;
