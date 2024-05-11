@@ -23,6 +23,7 @@ internal class SearchOperationService(
     ICurrentUserService currentUserService,
     IStorageService storageService,
     IImageService imageService,
+    ISearchOperationNotificationService searchOperationNotificationService,
     IMapper mapper,
     ILogger<SearchOperationService> logger
 ) : ISearchOperationService
@@ -74,6 +75,8 @@ internal class SearchOperationService(
             addedHelpRequest.Id,
             cancellationToken
         );
+        
+        await searchOperationNotificationService.NotifyAboutCreatingSearchOperationAsync(addedHelpRequest, cancellationToken);
     }
 
     public async Task UpdateSearchOperationAsync(
@@ -162,6 +165,8 @@ internal class SearchOperationService(
                 cancellationToken
             );
         }
+        
+        await searchOperationNotificationService.NotifyAboutUpdatingSearchOperationAsync(helpRequest, cancellationToken);
     }
 
     public async Task<PagedCollectionView<SearchOperationView>> GetSearchOperationsAsync(
