@@ -22,9 +22,6 @@ import { Router } from '@angular/router';
 })
 export default class SideNavWrapperComponent implements OnInit, AfterViewInit, OnDestroy {
 
-    public showAdminMenu: boolean = false;
-    public showWidgetsMenu: boolean = false;
-
     public userName: string | null = null;
     public avatarUrl: string = '';
     public avatarThumbnailUrl: string = '';
@@ -35,8 +32,6 @@ export default class SideNavWrapperComponent implements OnInit, AfterViewInit, O
 
     private refreshUiSubscription?: Subscription;
     private contentTransparencySubscription?: Subscription;
-
-    public showBar: boolean = false;
 
     private touchableOverlay: HTMLElement | null = null;
 
@@ -69,15 +64,7 @@ export default class SideNavWrapperComponent implements OnInit, AfterViewInit, O
             }
         });
 
-        this.showBar = this.sideNavService.isSideNavOpened;
-
         this.authService.getUserInfo();
-
-        this.sideNavService.isAdminMenuExpanded = this.sideNavService.isAdminMenuExpanded || location.href.includes('/admin/');
-        this.sideNavService.isWidgetsMenuExpanded = this.sideNavService.isWidgetsMenuExpanded || location.href.includes('/widgets/');
-
-        this.showAdminMenu = this.sideNavService.isAdminMenuExpanded;
-        this.showWidgetsMenu = this.sideNavService.isWidgetsMenuExpanded;
     }
 
     public ngAfterViewInit(): void {
@@ -88,18 +75,6 @@ export default class SideNavWrapperComponent implements OnInit, AfterViewInit, O
         this.userName = this.authService.currentUser ? `${this.authService.currentUser.firstName} ${this.authService.currentUser.lastName}` : null;
         this.avatarUrl = this.authService.currentUser.details?.imageUrl ? this.authService.currentUser.details?.imageUrl : this.imageService.defaultImageUrl;
         this.avatarThumbnailUrl = this.authService.currentUser.details?.imageThumbnailUrl ? this.authService.currentUser.details?.imageThumbnailUrl : this.imageService.defaultImageUrl;
-    }
-
-    public toggleAdmin(): void {
-        this.showAdminMenu = !this.showAdminMenu;
-
-        this.sideNavService.isAdminMenuExpanded = this.showAdminMenu;
-    }
-
-    public toggleWidgets(): void {
-        this.showWidgetsMenu = !this.showWidgetsMenu;
-
-        this.sideNavService.isWidgetsMenuExpanded = this.showWidgetsMenu;
     }
 
     public logout(event: Event): void {
@@ -120,35 +95,6 @@ export default class SideNavWrapperComponent implements OnInit, AfterViewInit, O
             width: '400px',
             disableClose: true
         });
-    }
-
-    public toggleBar(showBar: boolean = !this.showBar): void {
-        this.showBar = showBar;
-        this.sideNavService.isSideNavOpened = this.showBar;
-
-        if (this.touchableOverlay) {
-            this.touchableOverlay.style.opacity = this.showBar ? '1' : '0';
-        }
-
-        if (this.showBar) {
-            if (this.touchableOverlay) {
-                this.touchableOverlay.style.display = 'flex';
-            }
-        }
-
-        if (!this.showBar) {
-            setTimeout((): void => {
-                if (this.touchableOverlay) {
-                    this.touchableOverlay.style.display = 'none';
-                }
-            }, 225);
-        }
-    }
-
-    public closeBarIfMobile(): void {
-        if (window.innerWidth < 768) {
-            this.toggleBar(false);
-        }
     }
 
     public goBack(): void {
@@ -179,6 +125,14 @@ export default class SideNavWrapperComponent implements OnInit, AfterViewInit, O
 
     public goToHome(): void {
         this.router.navigate(['/search-operations']);
+    }
+
+    public goToUsers(): void {
+        this.router.navigate(['/admin/users']);
+    }
+
+    public goToRoles(): void {
+        this.router.navigate(['/admin/roles']);
     }
 
     public get showRoles(): boolean {

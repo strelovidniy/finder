@@ -1,7 +1,15 @@
-<h1 mat-dialog-title>
+<h1 mat-dialog-title
+	i18n>
 	Edit user
 </h1>
-<div mat-dialog-content>
+<mat-icon class="close-icon"
+	      (click)="discard()"
+		  matTooltip="Close"
+		  i18n-matTooltip>
+	close
+</mat-icon>
+<div mat-dialog-content
+	 class="content">
 	<form [formGroup]="userFormGroup"
 		  class="editor-form">
 		<mat-form-field>
@@ -37,14 +45,7 @@
 		</mat-form-field>
 	</form>
 </div>
-<div mat-dialog-actions
-	 align='center'>
-	<button mat-stroked-button
-			type="button"
-			(click)="discard()"
-			i18n>
-		Cancel
-	</button>
+<div mat-dialog-actions>
 	<button mat-stroked-button
 			color="primary"
 			type="submit"

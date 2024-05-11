@@ -84,7 +84,7 @@
 		height: calc(100vh - 124px);
 		position: absolute;
 		top: 124px;
-		width: 100vw;
+		width: calc(100vw - 64px);
 		left: 0;
 		transition: all 225ms ease-in-out;
 		padding: 32px;

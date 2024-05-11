@@ -31,6 +31,13 @@
                      i18n-alt>
             </div>
             <mat-menu #menu="matMenu">
+                <button mat-menu-item
+                        *ngIf="showUsers || showRoles"
+                        [matMenuTriggerFor]="adminMenu">
+                    <span i18n>
+                        Admin
+                    </span>
+                </button>
                 <button mat-menu-item 
                         (click)="goToProfileDetails()">
                     <span i18n>
@@ -62,6 +69,22 @@
                         Logout
                     </span>
                 </button>
+            </mat-menu>
+            <mat-menu #adminMenu="matMenu">
+                <button mat-menu-item
+                        *ngIf="showUsers"
+                        (click)="goToUsers()">
+                    <span i18n>
+                        Users
+                    </span>
+                </button>
+                <!-- <button mat-menu-item
+                        *ngIf="showRoles"
+                        (click)="goToRoles()">
+                    <span i18n>
+                        Roles
+                    </span>
+                </button> -->
             </mat-menu>
             <mat-menu #languageMenu="matMenu">
                 <button mat-menu-item

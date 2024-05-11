@@ -67,10 +67,6 @@ export default class AuthenticationService {
         return this.currentUserSubject?.value?.access?.type === RoleType.admin;
     }
 
-    public get isHelper(): boolean {
-        return this.currentUserSubject?.value?.access?.type === RoleType.helper;
-    }
-
     public get isRegularUser(): boolean {
         return this.currentUserSubject?.value?.access?.type === RoleType.user;
     }
