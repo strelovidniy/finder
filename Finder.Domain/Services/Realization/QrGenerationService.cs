@@ -5,13 +5,13 @@ namespace Finder.Domain.Services.Realization;
 
 internal class QrGenerationService : IQrGenerationService
 {
-    public byte[] GenerateQrAsync(
-        string findEventUrl,
+    public byte[] GenerateQr(
+        string searchOperationUrl,
         CancellationToken cancellationToken = default
     )
     {
         QRCodeGenerator qrGenerator = new QRCodeGenerator();
-        QRCodeData qrCodeData = qrGenerator.CreateQrCode(findEventUrl, QRCodeGenerator.ECCLevel.Q);
+        QRCodeData qrCodeData = qrGenerator.CreateQrCode(searchOperationUrl, QRCodeGenerator.ECCLevel.Q);
         PngByteQRCode qrCode = new PngByteQRCode(qrCodeData);
         byte[] qrCodeImage = qrCode.GetGraphic(20);
 

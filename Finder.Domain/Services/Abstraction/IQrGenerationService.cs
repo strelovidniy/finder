@@ -1,9 +1,9 @@
 namespace Finder.Domain.Services.Abstraction
 {
-    internal interface IQrGenerationService
+    public interface IQrGenerationService
     {
-        public byte[] GenerateQrAsync(
-            string findEventUrl,
+        public byte[] GenerateQr(
+            string searchOperationUrl,
             CancellationToken cancellationToken = default
         );
     }
