@@ -379,3 +379,13 @@ mat-table {
 .ng-lazyloading {
 	filter: blur(2px);
 }
+
+.mat-mdc-menu-content {
+	padding: 24px !important;
+	width: 275px;
+	span {
+		font-size: 20px;
+		font-weight: 500;
+		font-family: Fixel Text;
+	}
+}
