@@ -13,4 +13,6 @@ internal interface ISearchOperationNotificationService
         SearchOperation helpRequest,
         CancellationToken cancellationToken = default
     );
+
+    Task NotifyAboutApplicationReceivedAsync(SearchOperation operation, User currentUser, CancellationToken cancellationToken);
 }

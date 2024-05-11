@@ -36,6 +36,6 @@ public class User : EntityBase, IEntity
     public IEnumerable<PushSubscription>? PushSubscriptions { get; set; }
     
     public IEnumerable<SearchOperation>? SearchOperations { get; set; }
-
+    public IEnumerable<UserSearchOperation>? UserSearchOperations { get; set; }
     public NotificationSettings? NotificationSettings { get; set; }
 }

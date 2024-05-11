@@ -6,20 +6,21 @@ namespace Finder.Domain.Mapper.Converters.SearchOperation;
 internal class SearchOperationToSearchOperationViewConverter : ITypeConverter<Data.Entities.SearchOperation, SearchOperationView>
 {
     public SearchOperationView Convert(
-        Data.Entities.SearchOperation helpRequest,
-        SearchOperationView helpRequestView,
+        Data.Entities.SearchOperation searchOperation,
+        SearchOperationView searchOperationView,
         ResolutionContext context
     ) => new(
-        helpRequest.Id,
-        helpRequest.Title,
-        helpRequest.Description,
-        helpRequest.Tags ?? [],
-        helpRequest.ShowContactInfo
-            ? context.Mapper.Map<ContactInfoView>(helpRequest.User?.Details?.ContactInfo)
+        searchOperation.Id,
+        searchOperation.Title,
+        searchOperation.Description,
+        searchOperation.Tags ?? [],
+        searchOperation.ShowContactInfo
+            ? context.Mapper.Map<ContactInfoView>(searchOperation.Creator?.Details?.ContactInfo)
             : null,
-        helpRequest.User?.FullName,
-        helpRequest.User?.Details?.ImageUrl,
-        helpRequest.User?.Details?.ImageThumbnailUrl,
-        context.Mapper.Map<IEnumerable<OperationImageView>>(helpRequest.Images?.OrderBy(image => image.Position))
+        searchOperation.Creator?.FullName,
+        searchOperation.Creator?.Details?.ImageUrl,
+        searchOperation.Creator?.Details?.ImageThumbnailUrl,
+        searchOperation.UserApplications.Count,
+        context.Mapper.Map<IEnumerable<OperationImageView>>(searchOperation.Images?.OrderBy(image => image.Position))
     );
 }

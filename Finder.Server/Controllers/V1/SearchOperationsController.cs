@@ -43,6 +43,16 @@ public class SearchOperationsController(
 
         return Ok();
     }
+    
+    [HttpPost("apply")]
+    public async Task<IActionResult> ApplyForSearchOperationAsync([FromQuery] Guid searchOperationId, CancellationToken cancellationToken = default)
+    {
+        await userAccessService.CheckIfUserCanCreateHelpRequestsAsync(cancellationToken);
+
+        await searchOperationService.ApplyForSearchOperationAsync(searchOperationId, cancellationToken);
+
+        return Ok();
+    }
 
     [HttpGet]
     public async Task<IActionResult> GetSearchOperationsAsync(

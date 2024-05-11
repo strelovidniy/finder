@@ -50,9 +50,9 @@ internal class SearchOperationNotificationService(
 
         await notificationService.SendNotificationAsync(
             pushSubscriptions,
-            NotificationTitle.NewHelpRequest,
-            NotificationContent.NewHelpRequest(helpRequest.Title),
-            $"/#/requests/details?id={helpRequest.Id}",
+            NotificationTitle.SearchOperationRequest,
+            NotificationContent.NewSearchOperation(helpRequest.Title),
+            $"/#/operation-requests/details?id={helpRequest.Id}",
             cancellationToken
         );
     }
@@ -97,13 +97,45 @@ internal class SearchOperationNotificationService(
             return;
         }
 
-
         await notificationService.SendNotificationAsync(
             pushSubscriptions,
-            NotificationTitle.HelpRequestUpdated,
-            NotificationContent.HelpRequestUpdated(helpRequest.Title),
-            $"/#/requests/details?id={helpRequest.Id}",
+            NotificationTitle.SearchOperationUpdated,
+            NotificationContent.SearchOperationUpdated(helpRequest.Title),
+            $"/#/operation-requests/details?id={helpRequest.Id}",
             cancellationToken
         );
+    }
+    
+    public async Task NotifyAboutApplicationReceivedAsync(
+        SearchOperation searchOperation,
+        User applicant,
+        CancellationToken cancellationToken = default
+    )
+    {
+        // Retrieve the notification settings for the creator of the search operation
+        var creatorNotificationSettings = await notificationSettingsRepository
+            .NoTrackingQuery()
+            .Include(settings => settings.User)
+            .ThenInclude(user => user.PushSubscriptions)
+            .FirstOrDefaultAsync(settings => settings.UserId == searchOperation.CreatorUserId && settings.User.PushSubscriptions.Any(), cancellationToken);
+
+        if (creatorNotificationSettings == null || !creatorNotificationSettings.EnableNotifications)
+        {
+            return;
+        }
+
+        // Get the creator's push subscriptions
+        var pushSubscriptions = creatorNotificationSettings.User.PushSubscriptions;
+
+        if (pushSubscriptions.Any())
+        {
+            await notificationService.SendNotificationAsync(
+                pushSubscriptions,
+                NotificationTitle.ApplicationReceived,
+                NotificationContent.ApplicationReceived(searchOperation.Title),
+                $"/#/operation-requests/details?id={searchOperation.Id}",
+                cancellationToken
+            );
+        }
     }
 }

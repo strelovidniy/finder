@@ -16,9 +16,9 @@ internal class UpdateSearchOperationModelValidator : AbstractValidator<UpdateSea
         RuleFor(updateHelpRequestModel => updateHelpRequestModel.Id)
             .Cascade(CascadeMode.Stop)
             .NotEmpty()
-            .WithStatusCode(StatusCode.HelpRequestNotFound)
+            .WithStatusCode(StatusCode.SearchOperationNotFound)
             .MustAsync(validationService.IsExistAsync<SearchOperation>)
-            .WithStatusCode(StatusCode.HelpRequestNotFound);
+            .WithStatusCode(StatusCode.SearchOperationNotFound);
 
         RuleFor(updateHelpRequestModel => updateHelpRequestModel.Title)
             .Cascade(CascadeMode.Stop)
