@@ -40,7 +40,7 @@ internal class SearchOperationService(
         var helpRequest = await searchOperationRepository
             .Query()
             .Include(request => request.Images)
-            .Include(request => request.User!.Details!.ContactInfo)
+            .Include(request => request.Creator!.Details!.ContactInfo)
             .FirstOrDefaultAsync(
                 request => request.Id == id,
                 cancellationToken
@@ -63,7 +63,7 @@ internal class SearchOperationService(
             new SearchOperation()
             {
                 Description = createHelpRequestModel.Description,
-                UserId = currentUser.Id,
+                CreatorUserId = currentUser.Id,
                 ShowContactInfo = createHelpRequestModel.ShowContactInfo,
                 Tags = createHelpRequestModel.Tags,
                 OperationType = createHelpRequestModel.OperationType,
@@ -99,7 +99,7 @@ internal class SearchOperationService(
             );
 
         RuntimeValidator.Assert(helpRequest is not null, StatusCode.HelpRequestNotFound);
-        RuntimeValidator.Assert(helpRequest!.UserId == currentUser.Id, StatusCode.Forbidden);
+        RuntimeValidator.Assert(helpRequest!.CreatorUserId == currentUser.Id, StatusCode.Forbidden);
 
         if (helpRequest.ShowContactInfo != updateHelpRequestRequestModel.ShowContactInfo)
         {
@@ -194,7 +194,7 @@ internal class SearchOperationService(
 
         if (currentUser.Role?.CanSeeHelpRequests is not true)
         {
-            helpRequests = helpRequests.Where(helpRequest => helpRequest.UserId == currentUser.Id);
+            helpRequests = helpRequests.Where(helpRequest => helpRequest.CreatorUserId == currentUser.Id);
         }
 
         if (!string.IsNullOrWhiteSpace(queryParametersModel.SearchQuery))
@@ -206,8 +206,8 @@ internal class SearchOperationService(
                 || helpRequest.Title.Contains(queryParametersModel.SearchQuery)
                 || helpRequest.Description.Contains(queryParametersModel.SearchQuery)
                 || (names.Length == 2
-                    && helpRequest.User!.FirstName == names[0]
-                    && helpRequest.User.LastName == names[1])
+                    && helpRequest.Creator!.FirstName == names[0]
+                    && helpRequest.Creator.LastName == names[1])
             );
         }
 
@@ -262,7 +262,43 @@ internal class SearchOperationService(
         return qrGenerationService.GenerateQr(url);
     }
 
+    public async Task ApplyForSearchOperationAsync(Guid operationId, CancellationToken cancellationToken = default)
+    {
+        var currentUser = await currentUserService.GetCurrentUserAsync(cancellationToken);
 
+        RuntimeValidator.Assert(currentUser != null, StatusCode.Unauthorized);
+
+        var operation = await searchOperationRepository
+            .Query()
+            .Include(op => op.UserApplications)
+            .FirstOrDefaultAsync(op => op.Id == operationId, cancellationToken);
+
+        RuntimeValidator.Assert(operation != null, StatusCode.OperationNotFound);
+
+        var alreadyApplied = operation.UserApplications.Any(a => a.UserId == currentUser.Id);
+        RuntimeValidator.Assert(!alreadyApplied, StatusCode.AlreadyApplied);
+
+        var application = new UserSearchOperation
+        {
+            UserId = currentUser.Id,
+            SearchOperationId = operationId
+        };
+
+        operation.UserApplications.Add(application);
+    
+        await searchOperationRepository.SaveChangesAsync(cancellationToken);
+
+        // UNTESTED!!!!!!!!!!!!!!!!!!!!!!!!
+        try
+        {
+            await searchOperationNotificationService.NotifyAboutApplicationReceivedAsync(operation, currentUser, cancellationToken);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
+    }
+    
     private async Task AddHelpRequestImagesAsync(
         IEnumerable<IFormFile> images,
         Guid helpRequestId,

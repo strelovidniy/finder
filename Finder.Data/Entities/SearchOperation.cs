@@ -5,9 +5,9 @@ namespace Finder.Data.Entities;
 
 public class SearchOperation : EntityBase, IEntity
 {
-    public Guid UserId { get; set; }
+    public Guid CreatorUserId { get; set; }
 
-    public User? User { get; set; }
+    public User? Creator { get; set; }
 
     public string Title { get; set; } = null!;
 
@@ -22,4 +22,6 @@ public class SearchOperation : EntityBase, IEntity
     public SearchOperationStatus OperationStatus { get; set; }
     
     public IEnumerable<OperationImage>? Images { get; set; }
+    
+    public ICollection<UserSearchOperation> UserApplications { get; set; } = new List<UserSearchOperation>();
 }

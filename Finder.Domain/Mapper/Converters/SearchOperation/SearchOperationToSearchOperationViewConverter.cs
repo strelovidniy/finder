@@ -15,11 +15,11 @@ internal class SearchOperationToSearchOperationViewConverter : ITypeConverter<Da
         helpRequest.Description,
         helpRequest.Tags ?? [],
         helpRequest.ShowContactInfo
-            ? context.Mapper.Map<ContactInfoView>(helpRequest.User?.Details?.ContactInfo)
+            ? context.Mapper.Map<ContactInfoView>(helpRequest.Creator?.Details?.ContactInfo)
             : null,
-        helpRequest.User?.FullName,
-        helpRequest.User?.Details?.ImageUrl,
-        helpRequest.User?.Details?.ImageThumbnailUrl,
+        helpRequest.Creator?.FullName,
+        helpRequest.Creator?.Details?.ImageUrl,
+        helpRequest.Creator?.Details?.ImageThumbnailUrl,
         context.Mapper.Map<IEnumerable<OperationImageView>>(helpRequest.Images?.OrderBy(image => image.Position))
     );
 }

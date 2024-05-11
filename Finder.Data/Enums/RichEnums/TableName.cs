@@ -19,6 +19,7 @@ public class TableName(string value) : RichEnum<string>(value)
     public static TableName Users => new("Users");
     
     public static TableName SearchOperation => new("SearchOperation");
+    public static TableName UserSearchOperation => new("UserSearchOperation");
 
     public static TableName OperationImage => new("OperationImage");
 }

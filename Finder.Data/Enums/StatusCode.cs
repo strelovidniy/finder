@@ -107,5 +107,7 @@ public enum StatusCode
     FirstNameShouldNotContainWhiteSpace = 1401,
     LastNameShouldNotContainWhiteSpace = 1402,
 
-    HelpRequestRemoved = 1501
+    HelpRequestRemoved = 1501,
+    OperationNotFound = 1502,
+    AlreadyApplied= 1503,
 }

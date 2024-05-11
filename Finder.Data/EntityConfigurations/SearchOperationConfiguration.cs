@@ -34,7 +34,7 @@ internal class SearchOperationConfiguration : IEntityTypeConfiguration<SearchOpe
             .IsRequired(false);
 
         builder
-            .Property(searchOperation => searchOperation.UserId)
+            .Property(searchOperation => searchOperation.CreatorUserId)
             .IsRequired();
 
         builder
