@@ -39,7 +39,7 @@ internal class NotificationSettingsConfiguration : IEntityTypeConfiguration<Noti
                     ? JsonConvert.SerializeObject(tags)
                     : null,
                 json => json != null
-                    ? JsonConvert.DeserializeObject<IEnumerable<string>>(json)
+                    ? JsonConvert.DeserializeObject<List<string>>(json)
                     : null
             );
 
@@ -50,7 +50,7 @@ internal class NotificationSettingsConfiguration : IEntityTypeConfiguration<Noti
                     ? JsonConvert.SerializeObject(titles)
                     : null,
                 json => json != null
-                    ? JsonConvert.DeserializeObject<IEnumerable<string>>(json)
+                    ? JsonConvert.DeserializeObject<List<string>>(json)
                     : null
             );
     }

@@ -36,7 +36,7 @@ export default class RouteGuard implements CanActivate {
         if (this.auth.isAdmin) {
             this.router.navigate(['/admin/maintenance']);
         } else {
-            this.router.navigate(['/requests']);
+            this.router.navigate(['/search-operations']);
         }
     }
 

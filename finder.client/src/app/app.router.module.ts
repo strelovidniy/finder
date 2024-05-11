@@ -8,6 +8,7 @@ import PagenotfoundComponent from './shared/components/pagenotfound/pagenotfound
 import SideNavWrapperComponent from './shared/components/side-nav-wrapper/side-nav-wrapper.component';
 import AccountPreferencesModule from './account-preferences/account-preferences.module';
 import NotificationsModule from './notifications/notifications.module';
+import SearchOperationsModule from './search-operations/search-operations.module';
 
 
 @NgModule({
@@ -34,6 +35,10 @@ import NotificationsModule from './notifications/notifications.module';
                         {
                             path: 'notifications',
                             loadChildren: (): Promise<any> => import('./notifications/notifications.module').then((notificationsModule): NotificationsModule => notificationsModule.default),
+                        },
+                        {
+                            path: 'search-operations',
+                            loadChildren: (): Promise<any> => import('./search-operations/search-operations.module').then((searchOperationsModule): SearchOperationsModule => searchOperationsModule.default),
                         }
                     ]
                 },

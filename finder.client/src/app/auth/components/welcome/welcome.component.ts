@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import NotifierService from 'src/app/core/services/notifier.service';
 
 
 @Component({
@@ -9,7 +10,8 @@ import { Router } from '@angular/router';
 export default class WelcomeComponent {
 
     constructor(
-        private router: Router,
+        private readonly router: Router,
+        private readonly notifier: NotifierService
     ) { }
 
     public signUp(): void {
@@ -18,5 +20,9 @@ export default class WelcomeComponent {
 
     public login(): void {
         this.router.navigate(['/auth/login']);
+    }
+
+    public loginWithDiia() {
+        this.notifier.error($localize`This feature is not available yet.`)
     }
 }

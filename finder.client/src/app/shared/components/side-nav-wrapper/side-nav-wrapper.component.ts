@@ -172,7 +172,7 @@ export default class SideNavWrapperComponent implements OnInit, AfterViewInit, O
     }
 
     public get showNotifications(): boolean {
-        return this.authService.checkRole(Role.canSeeHelpRequests);
+        return true;
     }
 
     public get showUsers(): boolean {

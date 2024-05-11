@@ -191,6 +191,22 @@
     <div class="nav-bar"
          [class.hidden]="!showBar">
         <mat-nav-list>
+            <mat-list-item matTooltip="Search Operations"
+                           i18n-matTooltip
+                           matTooltipPosition="below"
+                           routerLink="/search-operations"
+                           tabindex="7"
+                           routerLinkActive="active-link"
+                           *ngIf="showNotifications"
+                           (click)="closeBarIfMobile()">
+                <mat-icon mat-list-icon>
+                    search
+                </mat-icon>
+                <span i18n>
+                    Search Operations
+                </span>
+            </mat-list-item>
+            
             <mat-list-item matTooltip="Notifications"
                            i18n-matTooltip
                            matTooltipPosition="below"

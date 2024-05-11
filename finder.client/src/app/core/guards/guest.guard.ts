@@ -20,7 +20,7 @@ export default class GuestGuard implements CanActivate {
         ;
 
         if (this.auth.isAuthenticated()) {
-            this.router.navigate(['/requests']);
+            this.router.navigate(['/search-operations']);
 
 
             return false;

@@ -1,29 +1,4 @@
 <div class="confirm-email-container">
-    @if(!loading) {
-        <div class="buttons">
-            <h1 i18n>
-                Choosse your way
-            </h1>
-            <span i18n>
-                This cannot be changed in future. <br/>
-                Choosse wisely. 
-            </span>
-            <div>
-                <button mat-stroked-button
-                        color="primary"
-                        (click)="confirmEmail(true)"
-                        i18n>
-                    Helper way
-                </button>
-                <button mat-stroked-button
-                        color="primary"
-                        (click)="confirmEmail(false)"
-                        i18n>
-                    Regular way
-                </button>
-            </div>
-        </div>
-    }
     @if (!success && !error && loading) {
         <div class="loading-container">
             <mat-progress-spinner [mode]="'indeterminate'"></mat-progress-spinner>

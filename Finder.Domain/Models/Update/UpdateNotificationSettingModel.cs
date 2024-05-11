@@ -3,8 +3,8 @@
 public record UpdateNotificationSettingModel(
     bool EnableNotifications,
     bool EnableTagFiltration,
-    IEnumerable<string>? FilterTags,
+    List<string>? FilterTags,
     bool EnableTitleFiltration,
-    IEnumerable<string>? FilterTitles,
+    List<string>? FilterTitles,
     bool EnableUpdateNotifications
 ) : IValidatableModel;

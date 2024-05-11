@@ -7,8 +7,6 @@ import { Subscription } from 'rxjs';
 import IAuthRequest from 'src/app/core/interfaces/auth/auth-request.interface';
 
 import AuthenticationService from 'src/app/core/services/authentication.service';
-import LoaderService from 'src/app/core/services/loader.service';
-import NotifierService from 'src/app/core/services/notifier.service';
 
 import ForgotPasswordDialogComponent from '../forgot-password-dialog/forgot-password-dialog.component';
 import IUserMe from 'src/app/core/interfaces/auth/user-me.interface';
@@ -67,7 +65,7 @@ export default class LoginComponent implements OnInit, OnDestroy {
         const data: IAuthRequest = this.form.value as IAuthRequest;
 
         this.authSevice.login(data).subscribe((res: IUserMe): void => {
-            this.router.navigate(['/requests']);
+            this.router.navigate(['/search-operations']);
         });
     }
 }

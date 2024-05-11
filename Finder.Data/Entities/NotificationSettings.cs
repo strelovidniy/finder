@@ -10,11 +10,11 @@ public class NotificationSettings : EntityBase, IEntity
 
     public bool EnableTagFiltration { get; set; }
 
-    public IEnumerable<string>? FilterTags { get; set; }
+    public List<string>? FilterTags { get; set; }
 
     public bool EnableTitleFiltration { get; set; }
 
-    public IEnumerable<string>? FilterTitles { get; set; }
+    public List<string>? FilterTitles { get; set; }
 
     public bool EnableUpdateNotifications { get; set; }
 

@@ -36,6 +36,8 @@ export default class ConfirmEmailComponent implements OnInit, OnDestroy {
             this.location.replaceState('/auth/confirm-email');
             if (!this.verificationCode) {
                 this.router.navigate(['/auth/welcome']);
+            } else {
+                this.confirmEmail();
             }
         });
     }
@@ -44,12 +46,11 @@ export default class ConfirmEmailComponent implements OnInit, OnDestroy {
         this.queryParamsSubscription?.unsubscribe();
     }
 
-    public confirmEmail(isHelper: boolean): void {
+    public confirmEmail(): void {
         this.loading = true;
         this.authenticationService.confirmEmail(
             {
-                registrationToken: this.verificationCode,
-                isHelper: isHelper
+                registrationToken: this.verificationCode
             } as IConfirmEmailRequest,
             (): void => {
                 this.notifier.success($localize`Email confirmed successfully`);

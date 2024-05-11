@@ -18,7 +18,7 @@ export default class PagenotfoundComponent implements OnInit {
 
     public ngOnInit(): void {
         if (this.authenticationService.isAuthenticated()) {
-            this.router.navigate(['/requests']);
+            this.router.navigate(['/search-operations']);
         } else {
             this.router.navigate(['/auth/welcome']);
         }
