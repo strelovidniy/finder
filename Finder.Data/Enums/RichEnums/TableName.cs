@@ -8,10 +8,6 @@ public class TableName(string value) : RichEnum<string>(value)
 
     public static TableName ContactInfos => new("ContactInfos");
 
-    public static TableName HelpRequestImages => new("HelpRequestImages");
-
-    public static TableName HelpRequests => new("HelpRequests");
-
     public static TableName NotificationSettings => new("NotificationSettings");
 
     public static TableName PushSubscriptions => new("PushSubscriptions");
@@ -21,4 +17,8 @@ public class TableName(string value) : RichEnum<string>(value)
     public static TableName UserDetails => new("UserDetails");
 
     public static TableName Users => new("Users");
+    
+    public static TableName SearchOperation => new("SearchOperation");
+
+    public static TableName OperationImage => new("OperationImage");
 }
