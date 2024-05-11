@@ -17,6 +17,8 @@ using Microsoft.Extensions.Logging;
 
 namespace Finder.Domain.Services.Realization;
 
+using Settings.Abstraction;
+
 internal class SearchOperationService(
     IRepository<SearchOperation> searchOperationRepository,
     IRepository<OperationImage> operationImageRepository,
@@ -24,8 +26,10 @@ internal class SearchOperationService(
     IStorageService storageService,
     IImageService imageService,
     ISearchOperationNotificationService searchOperationNotificationService,
+    IQrGenerationService qrGenerationService,
     IMapper mapper,
-    ILogger<SearchOperationService> logger
+    ILogger<SearchOperationService> logger,
+    IUrlSettings urlSettings
 ) : ISearchOperationService
 {
     public async Task<SearchOperationView> GetSearchOperationAsync(
@@ -242,6 +246,17 @@ internal class SearchOperationService(
 
         await searchOperationRepository.SaveChangesAsync(cancellationToken);
     }
+
+    public byte[] GenerateSearchOperationQr(
+        Guid id,
+        CancellationToken cancellationToken = default
+    )
+    {
+        var url = $"{urlSettings.AppUrl.TrimEnd('/')}/search-operations/{id}";
+
+        return qrGenerationService.GenerateQr(url);
+    }
+
 
     private async Task AddHelpRequestImagesAsync(
         IEnumerable<IFormFile> images,

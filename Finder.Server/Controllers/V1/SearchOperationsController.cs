@@ -6,6 +6,7 @@ using Finder.Domain.Models.Update;
 using Finder.Domain.Services.Abstraction;
 using Finder.Server.Controllers.Base;
 using Microsoft.AspNetCore.Mvc;
+using Finder.Data.Enums.RichEnums;
 
 namespace Finder.Server.Controllers.V1;
 
@@ -82,6 +83,17 @@ public class SearchOperationsController(
 
         return Ok();
     }
+
+    [HttpPost("generate-qr")]
+    public IActionResult GenerateQrCode(
+        [FromQuery] Guid id,
+        CancellationToken cancellationToken = default
+    ) => File(
+            searchOperationService.GenerateSearchOperationQr(id, cancellationToken),
+            ContentType.ImagePng,
+            "qr.png"
+    );
+
 
     private static CreateSearchOperationRequestModel ParseFormDataToCreateHelpRequestModel(IFormCollection form)
     {
