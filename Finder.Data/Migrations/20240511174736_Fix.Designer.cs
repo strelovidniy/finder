@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Finder.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Finder.Data.Migrations
 {
     [DbContext(typeof(FinderContext))]
-    partial class FinderContextModelSnapshot : ModelSnapshot
+    [Migration("20240511174736_Fix")]
+    partial class Fix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -164,45 +167,6 @@ namespace Finder.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("NotificationSettings");
-                });
-
-            modelBuilder.Entity("Finder.Data.Entities.OperationImage", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("ImageThumbnailUrl")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("ImageUrl")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("OperationId")
-                        .HasColumnType("uuid");
-
-                    b.Property<int>("Position")
-                        .HasColumnType("integer");
-
-                    b.Property<Guid?>("SearchOperationId")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SearchOperationId");
-
-                    b.ToTable("OperationImage");
                 });
 
             modelBuilder.Entity("Finder.Data.Entities.PushSubscription", b =>
@@ -401,48 +365,6 @@ namespace Finder.Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Finder.Data.Entities.SearchOperation", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<byte>("OperationType")
-                        .HasColumnType("smallint");
-
-                    b.Property<bool>("ShowContactInfo")
-                        .HasColumnType("boolean");
-
-                    b.Property<string[]>("Tags")
-                        .HasColumnType("text[]");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("SearchOperation");
-                });
-
             modelBuilder.Entity("Finder.Data.Entities.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -626,28 +548,10 @@ namespace Finder.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Finder.Data.Entities.OperationImage", b =>
-                {
-                    b.HasOne("Finder.Data.Entities.SearchOperation", null)
-                        .WithMany("Images")
-                        .HasForeignKey("SearchOperationId");
-                });
-
             modelBuilder.Entity("Finder.Data.Entities.PushSubscription", b =>
                 {
                     b.HasOne("Finder.Data.Entities.User", "User")
                         .WithMany("PushSubscriptions")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Finder.Data.Entities.SearchOperation", b =>
-                {
-                    b.HasOne("Finder.Data.Entities.User", "User")
-                        .WithMany("SearchOperations")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -695,11 +599,6 @@ namespace Finder.Data.Migrations
                     b.Navigation("Users");
                 });
 
-            modelBuilder.Entity("Finder.Data.Entities.SearchOperation", b =>
-                {
-                    b.Navigation("Images");
-                });
-
             modelBuilder.Entity("Finder.Data.Entities.User", b =>
                 {
                     b.Navigation("Details");
@@ -707,8 +606,6 @@ namespace Finder.Data.Migrations
                     b.Navigation("NotificationSettings");
 
                     b.Navigation("PushSubscriptions");
-
-                    b.Navigation("SearchOperations");
                 });
 #pragma warning restore 612, 618
         }

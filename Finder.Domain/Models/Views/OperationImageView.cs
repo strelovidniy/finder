@@ -1,6 +1,6 @@
 ﻿namespace Finder.Domain.Models.Views;
 
-public record HelpRequestImageView(
+public record OperationImageView(
     Guid Id,
     string ImageUrl,
     string ImageThumbnailUrl,

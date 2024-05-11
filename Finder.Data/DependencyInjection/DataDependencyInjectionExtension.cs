@@ -43,5 +43,7 @@ public static class DataDependencyInjectionExtension
         .AddRepository<Role>()
         .AddRepository<User>()
         .AddRepository<UserDetails>()
+        .AddRepository<OperationImage>()
+        .AddRepository<SearchOperation>()
         .Build();
 }
