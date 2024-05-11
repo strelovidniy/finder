@@ -39,6 +39,7 @@ public static class DomainDependencyInjectionExtension
         .AddScoped<IUserAccessService, UserAccessService>()
         .AddScoped<IUserDetailsService, UserDetailsService>()
         .AddScoped<IStorageService, StorageService>()
+        .AddScoped<ISearchOperationService, SearchOperationService>()
         .AddScoped<IImageService, ImageService>()
         .AddScoped<INotificationService, NotificationService>()
         .AddScoped<INotificationSettingsService, NotificationSettingsService>()
@@ -64,7 +65,9 @@ public static class DomainDependencyInjectionExtension
         .AddValidator<UpdateContactInfoModel, UpdateContactInfoModelValidator>()
         .AddValidator<CreatePushSubscriptionModel, CreatePushSubscriptionModelValidator>()
         .AddValidator<CreatePushSubscriptionKeysModel, CreatePushSubscriptionKeysModelValidator>()
-        .AddValidator<UpdateNotificationSettingModel, UpdateNotificationSettingModelValidator>();
+        .AddValidator<UpdateNotificationSettingModel, UpdateNotificationSettingModelValidator>()
+        .AddValidator<CreateSearchOperationRequestModel, CreateSearchOperationModelValidator>()
+        .AddValidator<UpdateSearchOperationRequestModel, UpdateSearchOperationModelValidator>();
 
     private static IServiceCollection AddValidator<TModel, TValidator>(
         this IServiceCollection services
