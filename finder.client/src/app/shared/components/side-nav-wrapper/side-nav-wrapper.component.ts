@@ -12,6 +12,7 @@ import EventBusService from 'src/app/core/services/event-bus.service';
 import ChangePasswordDialogComponent from '../dialogs/change-password-dialog/change-password-dialog.component';
 import ProfileDialogComponent from '../dialogs/profile-dialog/profile-dialog.component';
 import RoleType from 'src/app/core/enums/role/role-type.enum';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -44,7 +45,8 @@ export default class SideNavWrapperComponent implements OnInit, AfterViewInit, O
         private readonly dialog: MatDialog,
         private readonly sideNavService: SideNavService,
         private readonly imageService: ImageService,
-        private readonly eventBus: EventBusService
+        private readonly eventBus: EventBusService,
+        private readonly router: Router
     ) { }
 
     public ngOnDestroy(): void {
@@ -165,6 +167,18 @@ export default class SideNavWrapperComponent implements OnInit, AfterViewInit, O
 
             location.href = location.href.replace(existingLocale, locale);
         }
+    }
+
+    public goToProfileDetails(): void {
+        this.router.navigate(['/account-preferences']);
+    }
+
+    public goToNotifications(): void {
+        this.router.navigate(['/notifications']);
+    }
+
+    public goToHome(): void {
+        this.router.navigate(['/search-operations']);
     }
 
     public get showRoles(): boolean {

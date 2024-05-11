@@ -39,6 +39,7 @@
                 </mat-label>
                 <input matInput
                        placeholder="Phone Number"
+                       i18n-placeholder
                        formControlName="phoneNumber">
                 <mat-error *ngIf="addressForm.controls['phoneNumber']?.hasError('maxlength')"
                            i18n>
@@ -55,14 +56,12 @@
                 </mat-label>
                 <input matInput
                        placeholder="Telegram"
+                       i18n-placeholder
                        formControlName="telegram">
                 <mat-error *ngIf="addressForm.controls['telegram']?.hasError('maxlength')"
                            i18n>
                     Telegram cannot be longer than 200 characters
                 </mat-error>
-                <mat-hint i18n>
-                    Username without the '&commat;' or linked phone number
-                </mat-hint>
             </mat-form-field>
             <mat-form-field class="full-width">
                 <mat-label i18n>
@@ -70,14 +69,12 @@
                 </mat-label>
                 <input matInput
                        placeholder="LinkedIn"
+                       i18n-placeholder
                        formControlName="linkedIn">
                 <mat-error *ngIf="addressForm.controls['linkedIn']?.hasError('maxlength')"
                            i18n>
                     LinkedIn cannot be longer than 200 characters
                 </mat-error>
-                <mat-hint i18n>
-                    LinkedIn page url
-                </mat-hint>
             </mat-form-field>
             <mat-form-field class="full-width">
                 <mat-label i18n>
@@ -85,14 +82,12 @@
                 </mat-label>
                 <input matInput
                        placeholder="Instagram"
+                       i18n-placeholder
                        formControlName="instagram">
                 <mat-error *ngIf="addressForm.controls['instagram']?.hasError('maxlength')"
                            i18n>
                     Instagram cannot be longer than 200 characters
                 </mat-error>
-                <mat-hint i18n>
-                    Username without the '&commat;' symbol
-                </mat-hint>
             </mat-form-field>
             <mat-form-field class="full-width">
                 <mat-label i18n>
@@ -100,14 +95,12 @@
                 </mat-label>
                 <input matInput
                        placeholder="Skype"
+                       i18n-placeholder
                        formControlName="skype">
                 <mat-error *ngIf="addressForm.controls['skype']?.hasError('maxlength')"
                            i18n>
                     Skype cannot be longer than 200 characters
                 </mat-error>
-                <mat-hint i18n>
-                    Skype username
-                </mat-hint>
             </mat-form-field>
             <mat-form-field class="full-width">
                 <mat-label i18n>
@@ -115,6 +108,7 @@
                 </mat-label>
                 <textarea matInput
                           placeholder="Other"
+                          i18n-placeholder
                           formControlName="other"
                           rows="10">
                 </textarea>
@@ -138,6 +132,7 @@
                 </mat-label>
                 <input matInput
                        placeholder="Address Line 1"
+                       i18n-placeholder
                        formControlName="addressLine1">
                 <mat-error *ngIf="addressForm.controls['addressLine1']?.hasError('maxlength')"
                            i18n>
@@ -154,6 +149,7 @@
                 </mat-label>
                 <input matInput
                        placeholder="Address Line 2"
+                       i18n-placeholder
                        formControlName="addressLine2">
                 <mat-error *ngIf="addressForm.controls['addressLine2']?.hasError('maxlength')"
                            i18n>
@@ -166,6 +162,7 @@
                 </mat-label>
                 <input matInput
                        placeholder="City / District"
+                       i18n-placeholder
                        formControlName="city">
                 <mat-error *ngIf="addressForm.controls['city']?.hasError('maxlength')"
                            i18n>
@@ -182,6 +179,7 @@
                 </mat-label>
                 <input matInput
                        placeholder="Province / State"
+                       i18n-placeholder
                        formControlName="state">
                 <mat-error *ngIf="addressForm.controls['state']?.hasError('maxlength')"
                            i18n>
@@ -198,6 +196,7 @@
                 </mat-label>
                 <input matInput
                        placeholder="Country"
+                       i18n-placeholder
                        formControlName="country">
                 <mat-error *ngIf="addressForm.controls['country']?.hasError('maxlength')"
                            i18n>
@@ -214,6 +213,7 @@
                 </mat-label>
                 <input matInput
                        placeholder="Postal Code"
+                       i18n-placeholder
                        formControlName="postalCode">
                 <mat-error *ngIf="addressForm.controls['postalCode']?.hasError('maxlength')"
                            i18n>

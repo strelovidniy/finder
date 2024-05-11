@@ -23,6 +23,8 @@
 			display: flex;
 			flex-direction: row;
 			align-items: center;
+			border-radius: 10px;
+			cursor: pointer;
 
 			img {
 				height: 64px;
@@ -134,4 +136,8 @@
 			justify-content: space-between;
 		}
 	}
+}
+
+.logout {
+	color: #E63946;
 }
