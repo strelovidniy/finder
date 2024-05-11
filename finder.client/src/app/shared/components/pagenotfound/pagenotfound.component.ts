@@ -20,7 +20,7 @@ export default class PagenotfoundComponent implements OnInit {
         if (this.authenticationService.isAuthenticated()) {
             this.router.navigate(['/search-operations']);
         } else {
-            this.router.navigate(['/auth/welcome']);
+            this.router.navigate(['/auth/login']);
         }
     }
 

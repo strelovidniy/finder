@@ -3,6 +3,53 @@
 @import 'variables';
 @import 'ngx-toastr/toastr';
 
+@font-face {
+	font-family: 'Fixel Text';
+	src: url('src/assets/fonts/fixel-text/FixelText-Medium.otf') format('truetype');
+	font-weight: 500;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Fixel Text';
+	src: url('src/assets/fonts/fixel-text/FixelText-Regular.otf') format('truetype');
+	font-weight: 400;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Fixel Text';
+	src: url('src/assets/fonts/fixel-text/FixelText-Semibold.otf') format('truetype');
+	font-weight: 600;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Fixel Display';
+	src: url('src/assets/fonts/fixel-display/FixelDisplay-Bold.otf') format('truetype');
+	font-weight: 700;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Fixel Display';
+	src: url('src/assets/fonts/fixel-display/FixelDisplay-Medium.otf') format('truetype');
+	font-weight: 500;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Fixel Display';
+	src: url('src/assets/fonts/fixel-display/FixelDisplay-Regular.otf') format('truetype');
+	font-weight: 400;
+	font-style: normal;
+}
+
+* {
+	font-family: Fixel Text;
+	font-weight: 400;
+}
+
 html,
 body {
 	height: 100vh;
@@ -13,6 +60,7 @@ body {
 body {
 	margin: 0;
 	font-family: $sans-serif-family;
+	background: linear-gradient(180deg, #ffffff 0%, #f5faff 100%);
 }
 ::-webkit-scrollbar {
 	width: 6px;

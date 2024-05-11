@@ -9,7 +9,6 @@ import AuthLayoutComponent from './components/auth-layout/auth-layout.component'
 import LoginComponent from './components/login/login.component';
 import ResetPasswordComponent from './components/reset-password/reset-password.component';
 import SignUpComponent from './components/sign-up/sign-up.component';
-import WelcomeComponent from './components/welcome/welcome.component';
 import ConfirmEmailComponent from './components/confirm-email/confirm-email.component';
 
 
@@ -20,12 +19,11 @@ import ConfirmEmailComponent from './components/confirm-email/confirm-email.comp
             path: '',
             component: AuthLayoutComponent,
             children: [
-                { path: 'welcome', component: WelcomeComponent, canActivate: [GuestGuard] },
                 { path: 'login', component: LoginComponent, canActivate: [GuestGuard] },
                 { path: 'sign-up', component: SignUpComponent, canActivate: [GuestGuard] },
                 { path: 'create-new-password', component: ResetPasswordComponent, canActivate: [GuestGuard] },
                 { path: 'confirm-email', component: ConfirmEmailComponent, canActivate: [GuestGuard] },
-                { path: '', redirectTo: 'welcome', pathMatch: 'full' }
+                { path: '', redirectTo: 'login', pathMatch: 'full' }
             ]
         }])
     ],

@@ -10,15 +10,23 @@
 	width: 50vw;
 	height: 100vh;
 	transition: all 225ms ease-in-out;
-    overflow: auto;
+	overflow: auto;
+
+	span {
+		font-size: 16px;
+		font-weight: 400;
+		line-height: 20px;
+		text-align: center;
+	}
 
 	h1 {
 		margin-top: auto;
-		font-weight: bold;
 		font-size: 50px;
 		line-height: 60px;
 		text-align: center;
 		margin-top: auto;
+		font-family: Fixel Display;
+		font-weight: 700;
 	}
 
 	.editor-form {
@@ -44,7 +52,7 @@
 
 		.forgot-password {
 			cursor: pointer;
-			color: $accent-color;
+			color: #769dc6;
 			text-align: center;
 			font-weight: 600;
 			margin: 0;
@@ -56,7 +64,6 @@
 		margin-left: 10px;
 		display: flex;
 		flex-direction: column;
-
 		color: $primary-color;
 	}
 
@@ -64,29 +71,60 @@
 		padding-top: 16px;
 		margin-right: 10px;
 		cursor: pointer;
-		color: $primary-color !important;
+		color: #769dc6 !important;
 	}
 
 	span {
 		text-align: center;
 		color: gray;
-		margin-bottom: 70px;
+		margin-bottom: 28px;
 	}
 
 	.singup-text {
 		margin-top: 30px;
-		margin-bottom: auto;
+		font-family: Fixel Text;
+		font-weight: 400;
 
 		a {
 			cursor: pointer;
 			text-decoration: none;
-			color: $primary-color;
-			font-weight: 600;
+			color: #769dc6;
+			font-family: Fixel Text;
+			font-weight: 500;
 			transition: all 225ms ease-in-out;
 
 			&:hover {
 				color: $accent-color;
 			}
+		}
+	}
+	.divider {
+		height: 1px;
+		background-color: #e1d3d3;
+		padding: 0 !important;
+		width: 50%;
+	}
+
+	button {
+		width: 100%;
+	}
+
+	.countinue-with-diia {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		margin-top: 20px;
+		margin-bottom: auto;
+
+		span {
+			font-weight: 400;
+			margin-bottom: 15px;
+		}
+
+		img {
+			width: 44px;
+			height: 44px;
 		}
 	}
 }

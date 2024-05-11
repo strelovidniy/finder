@@ -8,7 +8,6 @@ import ForgotPasswordDialogComponent from './components/forgot-password-dialog/f
 import SignUpComponent from './components/sign-up/sign-up.component';
 import AuthLayoutComponent from './components/auth-layout/auth-layout.component';
 import ResetPasswordComponent from './components/reset-password/reset-password.component';
-import WelcomeComponent from './components/welcome/welcome.component';
 import ConfirmEmailComponent from './components/confirm-email/confirm-email.component';
 
 
@@ -18,7 +17,6 @@ import ConfirmEmailComponent from './components/confirm-email/confirm-email.comp
         AuthRouterModule
     ],
     declarations: [
-        WelcomeComponent,
         LoginComponent,
         ForgotPasswordDialogComponent,
         SignUpComponent,

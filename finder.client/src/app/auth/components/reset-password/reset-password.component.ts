@@ -62,7 +62,7 @@ export default class ResetPasswordComponent implements OnInit, OnDestroy {
             this.verificationCode = params.vc || '';
             this.location.replaceState('/auth/create-new-password');
             if (!this.verificationCode) {
-                this.router.navigate(['/auth/welcome']);
+                this.router.navigate(['/auth/login']);
             }
         });
     }

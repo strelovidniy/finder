@@ -4,14 +4,13 @@
 			top: 50%;
 			left: 50%;
 			transform: translate(-50%, -50%);
-			background-color: white;
 			height: min-content;
 			width: unset;
 		}
 
 		.auth-image {
+			display: none;
 			width: 100vw;
-			left: 0;
 		}
 	}
 }
