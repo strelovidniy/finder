@@ -31,4 +31,9 @@ public interface ISearchOperationService
         Guid id,
         CancellationToken cancellationToken = default
     );
+
+    public byte[] GenerateSearchOperationQr(
+        Guid id,
+        CancellationToken cancellationToken = default
+    );
 }

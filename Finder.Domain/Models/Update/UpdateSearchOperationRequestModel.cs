@@ -9,6 +9,7 @@ public record UpdateSearchOperationRequestModel(
     string Description,
     IEnumerable<string> Tags,
     SearchOperationType OperationType,
+    SearchOperationStatus OperationStatus,
     bool ShowContactInfo = false,
     IEnumerable<IFormFile>? Images = null,
     IEnumerable<Guid>? ImagesToDelete = null

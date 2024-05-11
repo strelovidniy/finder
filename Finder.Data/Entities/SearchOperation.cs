@@ -19,5 +19,7 @@ public class SearchOperation : EntityBase, IEntity
     
     public bool ShowContactInfo { get; set; }
     
+    public SearchOperationStatus OperationStatus { get; set; }
+    
     public IEnumerable<OperationImage>? Images { get; set; }
 }

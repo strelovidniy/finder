@@ -1,4 +1,5 @@
 ﻿using Finder.Data.Entities;
+using Finder.Data.Enums;
 using Finder.Data.Enums.RichEnums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -60,6 +61,11 @@ internal class SearchOperationConfiguration : IEntityTypeConfiguration<SearchOpe
         
         builder
             .Property(searchOperation => searchOperation.OperationType)
+            .IsRequired();
+        
+        builder
+            .Property(searchOperation => searchOperation.OperationStatus)
+            .HasDefaultValue(SearchOperationStatus.Pending)
             .IsRequired();
 
         builder
