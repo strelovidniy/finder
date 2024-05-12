@@ -48,7 +48,7 @@ export default class EndpointService {
     public readonly applyToSearchOperation = (id: string): string => `${environment.apiUrl}search-operations/apply?searchOperationId=${id}`;
     public readonly generateQr = (id: string): string => `${environment.apiUrl}search-operations/generate-qr?id=${id}`;
     public readonly generatePdf = (id: string): string => `${environment.apiUrl}search-operations/generate-pdf?id=${id}`;
-    public readonly createChat = (id: string): string => `${environment.apiUrl}search-operations/create-chat?id=${id}`;
+    public readonly createChat = (id: string): string => `${environment.apiUrl}search-operations/create-chat?searchOperationId=${id}`;
 
     // Notifications
     public readonly updateNotificationsConfig = (): string => `${environment.apiUrl}notification-settings/update`;

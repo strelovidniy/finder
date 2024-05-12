@@ -112,7 +112,7 @@ export default class SearchOperationService {
     }
 
     public createChat(id: string, callback?: (chatUrl: string) => void, errorCallback?: () => void): void {
-        this.http.post<string>(this.endpointService.createChat(id), {}).subscribe({
+        this.http.post<string>(this.endpointService.createChat(id), null, { responseType: 'text' as 'json' }).subscribe({
             next: (response: string): void => {
                 if (callback) {
                     callback(response);
