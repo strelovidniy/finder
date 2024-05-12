@@ -40,21 +40,6 @@ export default class RoleDialogComponent implements OnInit {
         {
             name: $localize`User`,
             type: RoleType.user,
-        },
-        {
-            name: $localize`Helper`,
-            type: RoleType.helper,
-        }
-    ];
-
-    public helperPresets = [
-        {
-            name: $localize`Custom`,
-            type: RolePresetType.custom
-        },
-        {
-            name: $localize`Helper`,
-            type: RolePresetType.helper
         }
     ];
 
@@ -132,19 +117,6 @@ export default class RoleDialogComponent implements OnInit {
         }
     ];
 
-    public helperOptions: IRoleOption[] = [
-        {
-            name: $localize`Help Requests`,
-            index: 'help',
-            checked: false,
-            expanded: true,
-            options: [
-                { name: $localize`Create Help Request`, index: UserRole.canCreateHelpRequest, checked: true, value: [Role.canCreateHelpRequest] },
-                { name: $localize`View Help Requests`, index: UserRole.canSeeHelpRequests, checked: false, value: [Role.canSeeHelpRequests] }
-            ]
-        }
-    ];
-
     public userOptions: IRoleOption[] = [
         {
             name: $localize`Help Requests`,
@@ -186,10 +158,6 @@ export default class RoleDialogComponent implements OnInit {
         switch (this.roleType) {
             case RoleType.user:
                 this.rolesOptions = this.userOptions;
-                break;
-
-            case RoleType.helper:
-                this.rolesOptions = this.helperOptions;
                 break;
 
             case RoleType.admin:
@@ -342,9 +310,6 @@ export default class RoleDialogComponent implements OnInit {
 
     public get presets(): { type: string, name: string }[] | undefined {
         switch (this.roleType) {
-            case RoleType.helper:
-                return this.helperPresets;
-
             case RoleType.user:
                 return this.userPresets;
 

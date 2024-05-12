@@ -1,6 +1,10 @@
 <div class="app-container">
     <div class="header">
-        <div class="logo">
+        <div class="logo"
+             matRipple
+             matTooltip="Home"
+             i18n-matTooltip
+             (click)="goToHome()">
             <img src="assets/img/logo.svg"
                  alt="App Logo"
                  i18n-alt>
@@ -27,10 +31,29 @@
                      i18n-alt>
             </div>
             <mat-menu #menu="matMenu">
+                <button mat-menu-item
+                        *ngIf="showUsers || showRoles"
+                        [matMenuTriggerFor]="adminMenu">
+                    <span i18n>
+                        Admin
+                    </span>
+                </button>
+                <button mat-menu-item 
+                        (click)="goToProfileDetails()">
+                    <span i18n>
+                        Profile Details
+                    </span>
+                </button>
                 <button mat-menu-item 
                         (click)="profileDialog()">
                     <span i18n>
-                        Profile
+                        Settings
+                    </span>
+                </button>
+                <button mat-menu-item 
+                        (click)="goToNotifications()">
+                    <span i18n>
+                        Notifications
                     </span>
                 </button>
                 <button mat-menu-item
@@ -40,11 +63,28 @@
                     </span>
                 </button>
                 <button mat-menu-item
-                        (click)="logout($event)">
+                        (click)="logout($event)"
+                        class="logout">
                     <span i18n>
                         Logout
                     </span>
                 </button>
+            </mat-menu>
+            <mat-menu #adminMenu="matMenu">
+                <button mat-menu-item
+                        *ngIf="showUsers"
+                        (click)="goToUsers()">
+                    <span i18n>
+                        Users
+                    </span>
+                </button>
+                <!-- <button mat-menu-item
+                        *ngIf="showRoles"
+                        (click)="goToRoles()">
+                    <span i18n>
+                        Roles
+                    </span>
+                </button> -->
             </mat-menu>
             <mat-menu #languageMenu="matMenu">
                 <button mat-menu-item

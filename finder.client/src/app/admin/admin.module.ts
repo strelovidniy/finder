@@ -9,6 +9,7 @@ import RolesTableComponent from './components/roles/roles-table/roles-table.comp
 import RoleDialogComponent from './components/roles/role-dialog/role-dialog.component';
 import UsersTableComponent from './components/users/users-table/users-table.component';
 import SetRoleDialogComponent from './components/users/set-role-dialog/set-role-dialog.component';
+import InviteUserDialogComponent from './components/users/invite-user-dialog/invite-user-dialog.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import SetRoleDialogComponent from './components/users/set-role-dialog/set-role-
         RolesTableComponent,
         RoleDialogComponent,
         UsersTableComponent,
-        SetRoleDialogComponent
+        SetRoleDialogComponent,
+        InviteUserDialogComponent
     ],
 })
 export default class AdminModule { }

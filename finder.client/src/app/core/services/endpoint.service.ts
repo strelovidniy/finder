@@ -21,6 +21,7 @@ export default class EndpointService {
     public readonly userUpdate = (): string => `${environment.apiUrl}users/update`;
     public readonly userInfo = (): string => `${environment.apiUrl}users/me`;
     public readonly addUserPushSubscription = (): string => `${environment.apiUrl}users/add-push-subscription`;
+    public readonly userInvite = (): string => `${environment.apiUrl}invite`;
 
     // User Details
     public readonly uploadUserAvatar = (): string => `${environment.apiUrl}user-details/upload-avatar`;

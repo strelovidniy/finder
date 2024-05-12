@@ -12,6 +12,7 @@ import EventBusService from 'src/app/core/services/event-bus.service';
 import ChangePasswordDialogComponent from '../dialogs/change-password-dialog/change-password-dialog.component';
 import ProfileDialogComponent from '../dialogs/profile-dialog/profile-dialog.component';
 import RoleType from 'src/app/core/enums/role/role-type.enum';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -20,9 +21,6 @@ import RoleType from 'src/app/core/enums/role/role-type.enum';
     styleUrls: ['./side-nav-wrapper.component.scss', './side-nav-wrapper-responsive.component.scss']
 })
 export default class SideNavWrapperComponent implements OnInit, AfterViewInit, OnDestroy {
-
-    public showAdminMenu: boolean = false;
-    public showWidgetsMenu: boolean = false;
 
     public userName: string | null = null;
     public avatarUrl: string = '';
@@ -35,8 +33,6 @@ export default class SideNavWrapperComponent implements OnInit, AfterViewInit, O
     private refreshUiSubscription?: Subscription;
     private contentTransparencySubscription?: Subscription;
 
-    public showBar: boolean = false;
-
     private touchableOverlay: HTMLElement | null = null;
 
     constructor(
@@ -44,7 +40,8 @@ export default class SideNavWrapperComponent implements OnInit, AfterViewInit, O
         private readonly dialog: MatDialog,
         private readonly sideNavService: SideNavService,
         private readonly imageService: ImageService,
-        private readonly eventBus: EventBusService
+        private readonly eventBus: EventBusService,
+        private readonly router: Router
     ) { }
 
     public ngOnDestroy(): void {
@@ -67,15 +64,7 @@ export default class SideNavWrapperComponent implements OnInit, AfterViewInit, O
             }
         });
 
-        this.showBar = this.sideNavService.isSideNavOpened;
-
         this.authService.getUserInfo();
-
-        this.sideNavService.isAdminMenuExpanded = this.sideNavService.isAdminMenuExpanded || location.href.includes('/admin/');
-        this.sideNavService.isWidgetsMenuExpanded = this.sideNavService.isWidgetsMenuExpanded || location.href.includes('/widgets/');
-
-        this.showAdminMenu = this.sideNavService.isAdminMenuExpanded;
-        this.showWidgetsMenu = this.sideNavService.isWidgetsMenuExpanded;
     }
 
     public ngAfterViewInit(): void {
@@ -86,18 +75,6 @@ export default class SideNavWrapperComponent implements OnInit, AfterViewInit, O
         this.userName = this.authService.currentUser ? `${this.authService.currentUser.firstName} ${this.authService.currentUser.lastName}` : null;
         this.avatarUrl = this.authService.currentUser.details?.imageUrl ? this.authService.currentUser.details?.imageUrl : this.imageService.defaultImageUrl;
         this.avatarThumbnailUrl = this.authService.currentUser.details?.imageThumbnailUrl ? this.authService.currentUser.details?.imageThumbnailUrl : this.imageService.defaultImageUrl;
-    }
-
-    public toggleAdmin(): void {
-        this.showAdminMenu = !this.showAdminMenu;
-
-        this.sideNavService.isAdminMenuExpanded = this.showAdminMenu;
-    }
-
-    public toggleWidgets(): void {
-        this.showWidgetsMenu = !this.showWidgetsMenu;
-
-        this.sideNavService.isWidgetsMenuExpanded = this.showWidgetsMenu;
     }
 
     public logout(event: Event): void {
@@ -120,35 +97,6 @@ export default class SideNavWrapperComponent implements OnInit, AfterViewInit, O
         });
     }
 
-    public toggleBar(showBar: boolean = !this.showBar): void {
-        this.showBar = showBar;
-        this.sideNavService.isSideNavOpened = this.showBar;
-
-        if (this.touchableOverlay) {
-            this.touchableOverlay.style.opacity = this.showBar ? '1' : '0';
-        }
-
-        if (this.showBar) {
-            if (this.touchableOverlay) {
-                this.touchableOverlay.style.display = 'flex';
-            }
-        }
-
-        if (!this.showBar) {
-            setTimeout((): void => {
-                if (this.touchableOverlay) {
-                    this.touchableOverlay.style.display = 'none';
-                }
-            }, 225);
-        }
-    }
-
-    public closeBarIfMobile(): void {
-        if (window.innerWidth < 768) {
-            this.toggleBar(false);
-        }
-    }
-
     public goBack(): void {
         window.history.back();
     }
@@ -165,6 +113,26 @@ export default class SideNavWrapperComponent implements OnInit, AfterViewInit, O
 
             location.href = location.href.replace(existingLocale, locale);
         }
+    }
+
+    public goToProfileDetails(): void {
+        this.router.navigate(['/account-preferences']);
+    }
+
+    public goToNotifications(): void {
+        this.router.navigate(['/notifications']);
+    }
+
+    public goToHome(): void {
+        this.router.navigate(['/search-operations']);
+    }
+
+    public goToUsers(): void {
+        this.router.navigate(['/admin/users']);
+    }
+
+    public goToRoles(): void {
+        this.router.navigate(['/admin/roles']);
     }
 
     public get showRoles(): boolean {

@@ -18,6 +18,7 @@ import UserService from 'src/app/core/services/users.service';
 import ConfirmDialogComponent from 'src/app/shared/components/dialogs/confirm-dialog/confirm-dialog.component';
 import SetRoleDialogComponent from '../set-role-dialog/set-role-dialog.component';
 import UserEditorComponent from '../user-editor/user-editor.component';
+import InviteUserDialogComponent from '../invite-user-dialog/invite-user-dialog.component';
 
 
 @Component({
@@ -82,6 +83,17 @@ export default class UsersTableComponent implements OnInit, OnDestroy {
         this.usersSubscription?.unsubscribe();
         this.totalCountSubscription?.unsubscribe();
         this.searchSubscription?.unsubscribe();
+    }
+
+    public addUser(): void {
+        this.dialog.open(InviteUserDialogComponent, {
+            width: '500px',
+            disableClose: true
+        }).beforeClosed().subscribe({
+            next: (isRefresh): void => {
+                isRefresh && this.getData();
+            }
+        });
     }
 
     public editUser(user: IUser): void {

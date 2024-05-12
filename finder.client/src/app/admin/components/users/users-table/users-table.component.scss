@@ -11,13 +11,18 @@
         align-items: center;
 
         .add-user-button {
-            width: 150px !important;
+            width: 150px;
             margin-bottom: 10px;
+        }
+
+        .search {
+            margin-right: auto;
+            margin-bottom: auto;
         }
     }
 
     .table {
-        height: calc(100vh - 288px);
+        width: 100%;
         scrollbar-gutter: stable;
         overflow-y: auto;
     }

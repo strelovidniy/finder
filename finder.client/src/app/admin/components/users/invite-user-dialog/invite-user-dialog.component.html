@@ -1,0 +1,40 @@
+<h1 mat-dialog-title
+	i18n>
+	Invite User
+</h1>
+<mat-icon class="close-icon"
+	      (click)="discard()"
+		  matTooltip="Close"
+		  i18n-matTooltip>
+	close
+</mat-icon>
+<div mat-dialog-content
+	 class="content">
+	<form class="editor-form">
+		<mat-form-field class="form-field">
+			<mat-label i18n>
+				Email
+			</mat-label>
+			<input matInput
+				   [formControl]="userEmailFormControl">
+			<mat-error *ngIf="userEmailFormControl.errors?.['required']"
+					   i18n>
+				Email is required
+			</mat-error>
+			<mat-error *ngIf="userEmailFormControl.errors?.['email']"
+					   i18n>
+				Invalid email
+			</mat-error>
+		</mat-form-field>
+	</form>
+</div>
+<div mat-dialog-actions>
+	<button class="invite-btn"
+			mat-stroked-button
+			type="submit"
+			(click)="inviteNewUser()"
+			color="primary">
+		Invite
+	</button>
+</div>
+<finder-loader type="dialog"></finder-loader>

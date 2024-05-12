@@ -10,6 +10,7 @@ import EndpointService from './endpoint.service';
 import LoaderService from './loader.service';
 import NotifierService from './notifier.service';
 import IPagedCollectionView from '../interfaces/system/paged-collection-view.interface';
+import IInviteUserRequest from '../interfaces/user/invite-user-request.interface';
 
 
 @Injectable({
@@ -62,13 +63,28 @@ export default class UserService {
                 }
 
                 this.loader.hideDialogLoading();
-                this.notifier.success('Сhanges applied');
+                this.notifier.success($localize`Сhanges applied`);
             },
             error: (): void => {
                 if (errorCallback) {
                     errorCallback();
                 }
 
+                this.loader.hideDialogLoading();
+            }
+        });
+    }
+
+
+    public userInvite(data: IInviteUserRequest, callback: () => void): void {
+        this.loader.showDialogLoading();
+        this.http.post(`${this.endpointService.userInvite()}`, data).subscribe({
+            next: (): void => {
+                this.notifier.success($localize`Invitation was sent`);
+                callback();
+                this.loader.hideDialogLoading();
+            },
+            error: (error): void => {
                 this.loader.hideDialogLoading();
             }
         });
@@ -84,7 +100,7 @@ export default class UserService {
                 }
 
                 this.loader.hide();
-                this.notifier.success('User has ben deleted');
+                this.notifier.success($localize`User has ben deleted`);
             },
             error: (): void => {
                 if (errorCallback) {
@@ -104,7 +120,7 @@ export default class UserService {
                     callback();
                 }
 
-                this.notifier.success('Сhanges applied');
+                this.notifier.success($localize`Сhanges applied`);
                 this.loader.hideDialogLoading();
             },
             error: (): void => {
