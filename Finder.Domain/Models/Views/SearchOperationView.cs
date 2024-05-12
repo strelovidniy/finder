@@ -1,3 +1,5 @@
+using Finder.Data.Enums;
+
 namespace Finder.Domain.Models.Views;
 
 public record SearchOperationView(
@@ -15,6 +17,8 @@ public record SearchOperationView(
     DateTime CreatedAt,
     DateTime? UpdatedAt,
     string? ChatUrl,
+    SearchOperationType SearchOperationType,
+    SearchOperationStatus SearchOperationStatus,
     IEnumerable<OperationImageView> Images,
     IEnumerable<OperationLocationView> Locations
 );
