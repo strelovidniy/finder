@@ -65,6 +65,12 @@ internal class SearchOperationService(
     )
     {
         var currentUser = await currentUserService.GetCurrentUserAsync(cancellationToken);
+
+        var searchOperationStatus = SearchOperationStatus.Pending;
+        if (currentUser.Role!.Type == RoleType.Admin)
+        {
+            searchOperationStatus = SearchOperationStatus.Active;
+        }
         
         var addedSearchOperation = await searchOperationRepository.AddAsync(
             new SearchOperation
@@ -74,7 +80,8 @@ internal class SearchOperationService(
                 ShowContactInfo = createSearchOperationModel.ShowContactInfo,
                 Tags = createSearchOperationModel.Tags,
                 OperationType = createSearchOperationModel.OperationType,
-                Title = createSearchOperationModel.Title
+                Title = createSearchOperationModel.Title,
+                OperationStatus = searchOperationStatus
             },
             cancellationToken
         );
@@ -202,6 +209,11 @@ internal class SearchOperationService(
         var currentUser = await currentUserService.GetCurrentUserAsync(cancellationToken);
 
         searchOperations = searchOperations.Where(searchOperation => searchOperation.DeletedAt == null);
+
+        if (currentUser.Role!.Type == RoleType.User)
+        {
+            searchOperations = searchOperations.Where(x => x.OperationStatus != SearchOperationStatus.Pending);
+        }
 
         if (currentUser.Role?.CanCreateHelpRequest is not true)
         {
