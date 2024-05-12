@@ -12,6 +12,8 @@ public class SearchOperation : EntityBase, IEntity
     public string Title { get; set; } = null!;
 
     public string Description { get; set; } = null!;
+    
+    public string ChatLink { get; set; } = null!;
 
     public SearchOperationType OperationType { get; set; }
 

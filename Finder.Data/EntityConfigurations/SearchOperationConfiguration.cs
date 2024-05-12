@@ -54,6 +54,11 @@ internal class SearchOperationConfiguration : IEntityTypeConfiguration<SearchOpe
             .Property(searchOperation => searchOperation.Description)
             .HasMaxLength(2000)
             .IsRequired();
+        
+        builder
+            .Property(searchOperation => searchOperation.ChatLink)
+            .HasMaxLength(2000)
+            .IsRequired(false);
 
         builder
             .Property(searchOperation => searchOperation.ShowContactInfo)
