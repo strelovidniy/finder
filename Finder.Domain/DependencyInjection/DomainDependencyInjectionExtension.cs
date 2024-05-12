@@ -90,6 +90,7 @@ public static class DomainDependencyInjectionExtension
             new RoleMapperProfile(),
             new UserDetailsMapperProfile(),
             new OperationImageMapperProfile(),
+            new OperationLocationMapperProfile(),
             new OperationMapperProfile(),
             new UserMapperProfile()
         ]));

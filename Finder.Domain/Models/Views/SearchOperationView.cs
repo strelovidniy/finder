@@ -10,5 +10,6 @@ public record SearchOperationView(
     string? IssuerImage,
     string? IssuerImageThumbnail,
     int ApplicantsCount,
-    IEnumerable<OperationImageView> Images
+    IEnumerable<OperationImageView> Images,
+    IEnumerable<OperationLocationView> Locations
 );

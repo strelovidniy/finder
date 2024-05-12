@@ -12,8 +12,12 @@ using Finder.Domain.Models.Views;
 using Finder.Domain.Services.Abstraction;
 using Finder.Domain.Validators.Runtime;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using QuestPDF.Fluent;
+using QuestPDF.Helpers;
+using QuestPDF.Infrastructure;
 
 namespace Finder.Domain.Services.Realization;
 
@@ -41,7 +45,8 @@ internal class SearchOperationService(
             .Query()
             .Include(request => request.Images)
             .Include(request => request.Creator!.Details!.ContactInfo)
-            .Include(op => op.UserApplications) 
+            .Include(op => op.UserApplications)
+            .Include(op => op.OperationLocations)
             .FirstOrDefaultAsync(
                 request => request.Id == id,
                 cancellationToken
@@ -54,7 +59,7 @@ internal class SearchOperationService(
     }
 
     public async Task CreateSearchOperationAsync(
-        CreateSearchOperationRequestModel createsearchOperationModel,
+        CreateSearchOperationRequestModel createSearchOperationModel,
         CancellationToken cancellationToken = default
     )
     {
@@ -63,12 +68,12 @@ internal class SearchOperationService(
         var addedSearchOperation = await searchOperationRepository.AddAsync(
             new SearchOperation()
             {
-                Description = createsearchOperationModel.Description,
+                Description = createSearchOperationModel.Description,
                 CreatorUserId = currentUser.Id,
-                ShowContactInfo = createsearchOperationModel.ShowContactInfo,
-                Tags = createsearchOperationModel.Tags,
-                OperationType = createsearchOperationModel.OperationType,
-                Title = createsearchOperationModel.Title
+                ShowContactInfo = createSearchOperationModel.ShowContactInfo,
+                Tags = createSearchOperationModel.Tags,
+                OperationType = createSearchOperationModel.OperationType,
+                Title = createSearchOperationModel.Title
             },
             cancellationToken
         );
@@ -76,12 +81,13 @@ internal class SearchOperationService(
         await searchOperationRepository.SaveChangesAsync(cancellationToken);
 
         await AddsearchOperationImagesAsync(
-            createsearchOperationModel.Images,
+            createSearchOperationModel.Images,
             addedSearchOperation.Id,
             cancellationToken
         );
-        
-        await searchOperationNotificationService.NotifyAboutCreatingSearchOperationAsync(addedSearchOperation, cancellationToken);
+
+        await searchOperationNotificationService.NotifyAboutCreatingSearchOperationAsync(addedSearchOperation,
+            cancellationToken);
     }
 
     public async Task UpdateSearchOperationAsync(
@@ -119,7 +125,7 @@ internal class SearchOperationService(
             searchOperation.OperationType = updatesearchOperationRequestModel.OperationType;
             searchOperation.UpdatedAt = DateTime.UtcNow;
         }
-        
+
         if (searchOperation.OperationStatus != updatesearchOperationRequestModel.OperationStatus)
         {
             searchOperation.OperationStatus = updatesearchOperationRequestModel.OperationStatus;
@@ -140,7 +146,8 @@ internal class SearchOperationService(
                 .Query()
                 .Where(
                     searchOperationImage => searchOperationImage.OperationId == searchOperation.Id
-                        && updatesearchOperationRequestModel.ImagesToDelete.Contains(searchOperationImage.Id)
+                                            && updatesearchOperationRequestModel.ImagesToDelete.Contains(
+                                                searchOperationImage.Id)
                 )
                 .ToListAsync(cancellationToken);
 
@@ -176,8 +183,9 @@ internal class SearchOperationService(
                 cancellationToken
             );
         }
-        
-        await searchOperationNotificationService.NotifyAboutUpdatingSearchOperationAsync(searchOperation, cancellationToken);
+
+        await searchOperationNotificationService.NotifyAboutUpdatingSearchOperationAsync(searchOperation,
+            cancellationToken);
     }
 
     public async Task<PagedCollectionView<SearchOperationView>> GetSearchOperationsAsync(
@@ -187,7 +195,7 @@ internal class SearchOperationService(
     {
         var searchOperations = searchOperationRepository
             .Query()
-            .Include(op => op.UserApplications) 
+            .Include(op => op.UserApplications)
             .AsNoTracking();
 
         var currentUser = await currentUserService.GetCurrentUserAsync(cancellationToken);
@@ -196,7 +204,8 @@ internal class SearchOperationService(
 
         if (currentUser.Role?.CanCreateHelpRequest is not true)
         {
-            searchOperations = searchOperations.Where(searchOperation => searchOperation.CreatorUserId == currentUser.Id);
+            searchOperations =
+                searchOperations.Where(searchOperation => searchOperation.CreatorUserId == currentUser.Id);
         }
 
         if (!string.IsNullOrWhiteSpace(queryParametersModel.SearchQuery))
@@ -287,20 +296,50 @@ internal class SearchOperationService(
         };
 
         operation.UserApplications.Add(application);
-    
+
         await searchOperationRepository.SaveChangesAsync(cancellationToken);
 
         // UNTESTED!!!!!!!!!!!!!!!!!!!!!!!!
         try
         {
-            await searchOperationNotificationService.NotifyAboutApplicationReceivedAsync(operation, currentUser, cancellationToken);
+            await searchOperationNotificationService.NotifyAboutApplicationReceivedAsync(operation, currentUser,
+                cancellationToken);
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
         }
     }
-    
+
+    public async Task AddLocationsToSearchOperationAsync(Guid searchOperationId,
+        IEnumerable<CreateSearchLocationRequestModel> locationRequests, CancellationToken cancellationToken = default)
+    {
+        var searchOperation = await searchOperationRepository.Query()
+            .Include(op => op.OperationLocations)
+            .FirstOrDefaultAsync(op => op.Id == searchOperationId, cancellationToken);
+
+        if (searchOperation == null)
+        {
+            throw new KeyNotFoundException("Search operation not found.");
+        }
+
+        foreach (var locationRequest in locationRequests)
+        {
+            var location = new OperationLocation
+            {
+                SearchOperationId = searchOperationId,
+                Latitude = locationRequest.Latitude,
+                Longitude = locationRequest.Longitude,
+                Title = locationRequest.Title,
+                Description = locationRequest.Description
+            };
+
+            searchOperation.OperationLocations.Add(location);
+        }
+
+        await searchOperationRepository.SaveChangesAsync(cancellationToken);
+    }
+
     private async Task AddsearchOperationImagesAsync(
         IEnumerable<IFormFile> images,
         Guid searchOperationId,
@@ -358,5 +397,79 @@ internal class SearchOperationService(
         }
 
         await operationImageRepository.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task<FileStreamResult> GetSearchOperationPdfAsync(
+        Guid id,
+        CancellationToken cancellationToken = default
+    )
+    {
+        var searchOperation = await searchOperationRepository
+            .Query()
+            .Include(request => request.Images)
+            .FirstOrDefaultAsync(
+                request => request.Id == id,
+                cancellationToken
+            );
+
+        RuntimeValidator.Assert(searchOperation is not null, StatusCode.SearchOperationNotFound);
+        RuntimeValidator.Assert(searchOperation!.DeletedAt is null, StatusCode.SearchOperationRemoved);
+
+        byte[]? file = null;
+
+        if (searchOperation.Images?.FirstOrDefault() != null)
+        {
+            file = File.ReadAllBytes(searchOperation.Images.FirstOrDefault()!.ImageUrl);
+        }
+
+        QuestPDF.Settings.License = LicenseType.Community;
+
+        string title = "Увага! Пошукова операція";
+        string documentTitle = searchOperation.Title;
+        string description = searchOperation.Description;
+        string footer = "Не будьте байдужими!";
+
+
+        var pdfBytes = Document.Create(container =>
+        {
+            container.Page(page =>
+            {
+                page.Size(PageSizes.A4);
+                page.Margin(2, Unit.Centimetre);
+                page.PageColor(Colors.Red.Darken4);
+                page.DefaultTextStyle(x => x.FontSize(20));
+                page.DefaultTextStyle(x => x.FontColor(Colors.White));
+
+                page.Header()
+                    .Text(title)
+                    .SemiBold().FontSize(36);
+
+                page.Content()
+                    .PaddingVertical(1, Unit.Centimetre)
+                    .Column(x =>
+                    {
+                        x.Spacing(20);
+
+                        if (file is not null)
+                        {
+                            x.Item().Image(file);
+                        }   
+                        x.Item().Text(documentTitle);
+                        x.Item().Text(description);
+                    });
+
+                page.Footer()
+                    .AlignCenter()
+                    .Text(x =>
+                    {
+                        x.Span(footer);
+                    });
+            });
+        })
+        .GeneratePdf();
+
+
+        MemoryStream ms = new MemoryStream(pdfBytes);
+        return new FileStreamResult(ms, "application/pdf");
     }
 }

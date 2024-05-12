@@ -24,4 +24,6 @@ public class SearchOperation : EntityBase, IEntity
     public IEnumerable<OperationImage>? Images { get; set; }
     
     public ICollection<UserSearchOperation> UserApplications { get; set; } = new List<UserSearchOperation>();
+    
+    public ICollection<OperationLocation> OperationLocations { get; set; } = new List<OperationLocation>();
 }

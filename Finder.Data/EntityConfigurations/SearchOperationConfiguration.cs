@@ -74,5 +74,10 @@ internal class SearchOperationConfiguration : IEntityTypeConfiguration<SearchOpe
             .HasForeignKey(image => image.OperationId)
             .HasPrincipalKey(searchOperation => searchOperation.Id)
             .OnDelete(DeleteBehavior.Cascade);
+       
+        builder
+            .HasMany(s => s.OperationLocations)
+            .WithOne(l => l.SearchOperation)
+            .HasForeignKey(l => l.SearchOperationId);
     }
 }
