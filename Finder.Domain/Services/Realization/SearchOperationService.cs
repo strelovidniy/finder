@@ -353,6 +353,27 @@ internal class SearchOperationService(
 
         await searchOperationRepository.SaveChangesAsync(cancellationToken);
     }
+    
+    public async Task CreateChatBySearchOperationAsync(Guid searchOperationId, CancellationToken cancellationToken = default)
+    {
+        var searchOperation = await searchOperationRepository.Query()
+            .Include(op => op.OperationLocations)
+            .FirstOrDefaultAsync(op => op.Id == searchOperationId, cancellationToken);
+
+        if (searchOperation == null)
+        {
+            throw new KeyNotFoundException("Search operation not found.");
+        }
+
+        var result = await chatService.CreateChannelAsync(searchOperation.Title);
+
+        if (!string.IsNullOrEmpty(result.InviteLink))
+        {
+            searchOperation.ChatLink = result.InviteLink;
+            await searchOperationRepository.SaveChangesAsync(cancellationToken);
+        }
+    }
+
 
     public async Task<byte[]> GetSearchOperationPdfAsync(
         Guid id,
