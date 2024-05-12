@@ -14,6 +14,7 @@ public record SearchOperationView(
     bool IsAlreadyApplied,
     DateTime CreatedAt,
     DateTime? UpdatedAt,
+    string? ChatUrl,
     IEnumerable<OperationImageView> Images,
     IEnumerable<OperationLocationView> Locations
 );

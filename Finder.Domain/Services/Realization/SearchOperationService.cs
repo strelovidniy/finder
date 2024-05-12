@@ -359,10 +359,7 @@ internal class SearchOperationService(
             .Include(op => op.OperationLocations)
             .FirstOrDefaultAsync(op => op.Id == searchOperationId, cancellationToken);
 
-        if (searchOperation == null)
-        {
-            throw new KeyNotFoundException("Search operation not found.");
-        }
+        RuntimeValidator.Assert(searchOperation != null, StatusCode.OperationNotFound);
 
         foreach (var locationRequest in locationRequests)
         {
@@ -375,33 +372,30 @@ internal class SearchOperationService(
                 Description = locationRequest.Description
             };
 
-            searchOperation.OperationLocations.Add(location);
+            searchOperation!.OperationLocations.Add(location);
         }
 
         await searchOperationRepository.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task CreateChatBySearchOperationAsync(
-        Guid searchOperationId,
-        CancellationToken cancellationToken = default
-    )
+    public async Task<string> CreateChatBySearchOperationAsync(Guid searchOperationId,
+        CancellationToken cancellationToken = default)
     {
         var searchOperation = await searchOperationRepository.Query()
             .Include(op => op.OperationLocations)
             .FirstOrDefaultAsync(op => op.Id == searchOperationId, cancellationToken);
 
-        if (searchOperation == null)
-        {
-            throw new KeyNotFoundException("Search operation not found.");
-        }
+        RuntimeValidator.Assert(searchOperation != null, StatusCode.OperationNotFound);
 
-        var result = await chatService.CreateChannelAsync(searchOperation.Title);
+        var result = await chatService.CreateChannelAsync(searchOperation!.Title);
 
         if (!string.IsNullOrEmpty(result.InviteLink))
         {
             searchOperation.ChatLink = result.InviteLink;
             await searchOperationRepository.SaveChangesAsync(cancellationToken);
         }
+        
+        return result.InviteLink;
     }
 
     public async Task<byte[]> GetSearchOperationPdfAsync(

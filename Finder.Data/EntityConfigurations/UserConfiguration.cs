@@ -98,8 +98,8 @@ internal class UserConfiguration : IEntityTypeConfiguration<User>
         
         builder
             .HasMany(user => user.SearchOperations)
-            .WithOne(helpRequest => helpRequest.Creator)
-            .HasForeignKey(helpRequest => helpRequest.CreatorUserId)
+            .WithOne(searchOperation => searchOperation.Creator)
+            .HasForeignKey(searchOperation => searchOperation.CreatorUserId)
             .HasPrincipalKey(user => user.Id)
             .OnDelete(DeleteBehavior.Cascade);
 
