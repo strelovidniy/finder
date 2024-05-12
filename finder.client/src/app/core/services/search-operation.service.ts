@@ -81,6 +81,51 @@ export default class SearchOperationService {
         });
     }
 
+    public generateQr(id: string, callback?: (file: Blob) => void, errorCallback?: () => void): void {
+        this.http.get<Blob>(this.endpointService.generateQr(id), { responseType: 'arraybuffer' as 'json' }).subscribe({
+            next: (response: Blob): void => {
+                if (callback) {
+                    callback(response);
+                }
+            },
+            error: (): void => {
+                if (errorCallback) {
+                    errorCallback();
+                }
+            }
+        });
+    }
+
+    public downloadPdf(id: string, callback?: (file: Blob) => void, errorCallback?: () => void): void {
+        this.http.get<Blob>(this.endpointService.generatePdf(id), { responseType: 'arraybuffer' as 'json' }).subscribe({
+            next: (response: Blob): void => {
+                if (callback) {
+                    callback(response);
+                }
+            },
+            error: (): void => {
+                if (errorCallback) {
+                    errorCallback();
+                }
+            }
+        });
+    }
+
+    public createChat(id: string, callback?: (chatUrl: string) => void, errorCallback?: () => void): void {
+        this.http.post<string>(this.endpointService.createChat(id), null, { responseType: 'text' as 'json' }).subscribe({
+            next: (response: string): void => {
+                if (callback) {
+                    callback(response);
+                }
+            },
+            error: (): void => {
+                if (errorCallback) {
+                    errorCallback();
+                }
+            }
+        });
+    }
+
     public updateSearchOperation(request: IUpdateSearchOperationRequest, callback?: () => void, errorCallback?: () => void): void {
         const formData = new FormData();
 

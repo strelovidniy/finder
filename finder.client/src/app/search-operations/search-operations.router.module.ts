@@ -38,7 +38,7 @@ import SearchOperationDetailsComponent from './search-operation-details/search-o
                     }
                 },
                 {
-                    path: 'edit/:id',
+                    path: 'edit',
                     component: SearchOperationComponent,
                     canActivate: [RouteGuard],
                     data: {

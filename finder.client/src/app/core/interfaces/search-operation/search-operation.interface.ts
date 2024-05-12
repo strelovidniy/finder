@@ -16,6 +16,9 @@ interface ISearchOperation {
     images: ISearchOperationImage[];
     contactInfo: ISearchOperationContactInfo;
     createdAt: Date;
+    isAlreadyApplied: boolean;
+    creatorId: string;
+    chatUrl?: string;
 }
 
 export default ISearchOperation;
