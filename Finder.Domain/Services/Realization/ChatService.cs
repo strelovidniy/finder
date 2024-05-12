@@ -11,7 +11,7 @@ public class ChatService(IDiscordClientService discordClientService, IChatSettin
         {
             var guild = client.GetGuild(chatSettings.ServerGuildId);
 
-            if (guild != null)
+            if (guild == null)
             {
                 return (0, null)!;
             }
