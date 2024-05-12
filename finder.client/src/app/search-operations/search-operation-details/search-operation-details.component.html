@@ -41,9 +41,38 @@
                 </span>
             </button>
             <button mat-menu-item
-                    (click)="share()">
+                    [matMenuTriggerFor]="shareMenu">
                 <span i18n>
                     Share
+                </span>
+            </button>
+        </mat-menu>
+        <mat-menu #shareMenu="matMenu">
+            <button mat-menu-item
+                    (click)="facebookShare()">
+                <mat-icon>
+                    <img src="assets/img/facebook.svg">
+                </mat-icon>
+                <span i18n>
+                    Facebook
+                </span>
+            </button>
+            <button mat-menu-item
+                    (click)="twitterShare()">
+                <mat-icon>
+                    <img src="assets/img/twitter.svg">
+                </mat-icon>
+                <span i18n>
+                    Twitter
+                </span>
+            </button>
+            <button mat-menu-item
+                    (click)="linkedinShare()">
+                <mat-icon>
+                    <img src="assets/img/linkedin.svg">
+                </mat-icon>
+                <span i18n>
+                    LinkedIn
                 </span>
             </button>
         </mat-menu>

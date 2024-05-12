@@ -3,13 +3,16 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { Location } from '@angular/common';
 
+import { MatDialog } from '@angular/material/dialog';
+
 import LoaderService from 'src/app/core/services/loader.service';
 import ImageService from 'src/app/core/services/placeholder.service';
 import SearchOperationService from 'src/app/core/services/search-operation.service';
-import ISearchOperation from 'src/app/core/interfaces/search-operation/search-operation.interface';
-import ISearchOperationImage from 'src/app/core/interfaces/search-operation/search-operation-image.interface';
 import NotifierService from 'src/app/core/services/notifier.service';
 import AuthenticationService from 'src/app/core/services/authentication.service';
+
+import ISearchOperation from 'src/app/core/interfaces/search-operation/search-operation.interface';
+import ISearchOperationImage from 'src/app/core/interfaces/search-operation/search-operation-image.interface';
 
 
 @Component({
@@ -33,7 +36,8 @@ export default class SearchOperationDetailsComponent implements OnInit, OnDestro
         private readonly loader: LoaderService,
         private readonly location: Location,
         private readonly notifier: NotifierService,
-        private readonly authService: AuthenticationService
+        private readonly authService: AuthenticationService,
+        private readonly dialog: MatDialog
     ) {
         this.defaultImageUrl = this.imageService.defaultImageUrl;
     }
@@ -185,8 +189,16 @@ export default class SearchOperationDetailsComponent implements OnInit, OnDestro
 
     }
 
-    public share(): void {
+    public facebookShare(): void {
+        window.open(`https://www.facebook.com/sharer/sharer.php?u=${window.location.href}`);
+    }
 
+    public twitterShare(): void {
+        window.open(`https://twitter.com/intent/tweet?source=tweetbutton&text=${this.searchOperation.title}&url=${window.location.href}`);
+    }
+
+    public linkedinShare(): void {
+        window.open(`http://www.linkedin.com/shareArticle?mini=true&url=${window.location.href}&title=${this.searchOperation.title}&source=${window.location.origin}`);
     }
 
     public edit(): void {
