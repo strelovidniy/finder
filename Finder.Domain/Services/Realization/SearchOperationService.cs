@@ -65,11 +65,12 @@ internal class SearchOperationService(
         var currentUser = await currentUserService.GetCurrentUserAsync(cancellationToken);
 
         var searchOperationStatus = SearchOperationStatus.Pending;
+
         if (currentUser.Role!.Type == RoleType.Admin)
         {
             searchOperationStatus = SearchOperationStatus.Active;
         }
-        
+
         var addedSearchOperation = await searchOperationRepository.AddAsync(
             new SearchOperation
             {
@@ -353,8 +354,11 @@ internal class SearchOperationService(
 
         await searchOperationRepository.SaveChangesAsync(cancellationToken);
     }
-    
-    public async Task CreateChatBySearchOperationAsync(Guid searchOperationId, CancellationToken cancellationToken = default)
+
+    public async Task CreateChatBySearchOperationAsync(
+        Guid searchOperationId,
+        CancellationToken cancellationToken = default
+    )
     {
         var searchOperation = await searchOperationRepository.Query()
             .Include(op => op.OperationLocations)
