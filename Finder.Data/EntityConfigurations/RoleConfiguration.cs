@@ -92,7 +92,7 @@ internal class RoleConfiguration : IEntityTypeConfiguration<Role>
             .HasDefaultValue(false);
 
         builder
-            .Property(role => role.CanCreateHelpRequest)
+            .Property(role => role.CanCreateSearchOperation)
             .IsRequired()
             .HasDefaultValue(false);
 

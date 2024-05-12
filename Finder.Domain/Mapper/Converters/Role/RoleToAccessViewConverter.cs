@@ -23,7 +23,7 @@ internal class RoleToAccessViewConverter : ITypeConverter<Data.Entities.Role, Ac
         role.CanSeeAllRoles,
         role.CanSeeRoles,
         role.CanMaintainSystem,
-        role.CanCreateHelpRequest,
+        role.CanCreateSearchOperation,
         role.CanSeeHelpRequests
     );
 }

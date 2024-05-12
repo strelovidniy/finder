@@ -27,7 +27,7 @@ internal static class Roles
                 CanSeeRoles = true,
                 CanSeeUsers = true,
                 CanMaintainSystem = true,
-                CanCreateHelpRequest = true,
+                CanCreateSearchOperation = true,
                 CanSeeHelpRequests = true
             },
             new Role
@@ -37,7 +37,7 @@ internal static class Roles
                 CreatedAt = new DateTime(2022, 11, 11, 1, 6, 0, DateTimeKind.Utc),
                 Type = RoleType.User,
                 IsHidden = true,
-                CanCreateHelpRequest = true
+                CanCreateSearchOperation = true
             }
         );
     }

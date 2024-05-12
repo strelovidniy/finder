@@ -51,4 +51,6 @@ public interface ISearchOperationService
     );
 
     Task CreateChatBySearchOperationAsync(Guid searchOperationId, CancellationToken cancellationToken = default);
+
+    Task ConfirmSearchOperationAsync(Guid searchOperationId, CancellationToken cancellationToken = default);
 }

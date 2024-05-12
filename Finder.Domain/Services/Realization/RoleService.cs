@@ -141,9 +141,9 @@ internal class RoleService(
             role.UpdatedAt = DateTime.UtcNow;
         }
 
-        if (role.CanCreateHelpRequest != updateRoleModel.CanCreateHelpRequest)
+        if (role.CanCreateSearchOperation != updateRoleModel.CanCreateHelpRequest)
         {
-            role.CanCreateHelpRequest = updateRoleModel.CanCreateHelpRequest;
+            role.CanCreateSearchOperation = updateRoleModel.CanCreateHelpRequest;
             role.UpdatedAt = DateTime.UtcNow;
         }
 
@@ -179,7 +179,7 @@ internal class RoleService(
                 CanSeeAllRoles = createRoleModel.CanSeeAllRoles,
                 CanSeeRoles = createRoleModel.CanSeeRoles,
                 CanMaintainSystem = createRoleModel.CanMaintainSystem,
-                CanCreateHelpRequest = createRoleModel.CanCreateHelpRequest,
+                CanCreateSearchOperation = createRoleModel.CanCreateHelpRequest,
                 CanSeeHelpRequests = createRoleModel.CanSeeHelpRequests
             },
             cancellationToken

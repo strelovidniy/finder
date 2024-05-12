@@ -33,7 +33,7 @@ public class Role : EntityBase, IEntity
 
     public bool CanMaintainSystem { get; set; }
 
-    public bool CanCreateHelpRequest { get; set; }
+    public bool CanCreateSearchOperation { get; set; }
 
     public bool CanSeeHelpRequests { get; set; }
 
