@@ -360,10 +360,7 @@ internal class SearchOperationService(
             .Include(op => op.OperationLocations)
             .FirstOrDefaultAsync(op => op.Id == searchOperationId, cancellationToken);
 
-        if (searchOperation == null)
-        {
-            throw new KeyNotFoundException("Search operation not found.");
-        }
+        RuntimeValidator.Assert(searchOperation != null, StatusCode.OperationNotFound);
 
         foreach (var locationRequest in locationRequests)
         {
@@ -376,7 +373,7 @@ internal class SearchOperationService(
                 Description = locationRequest.Description
             };
 
-            searchOperation.OperationLocations.Add(location);
+            searchOperation!.OperationLocations.Add(location);
         }
 
         await searchOperationRepository.SaveChangesAsync(cancellationToken);
@@ -389,12 +386,9 @@ internal class SearchOperationService(
             .Include(op => op.OperationLocations)
             .FirstOrDefaultAsync(op => op.Id == searchOperationId, cancellationToken);
 
-        if (searchOperation == null)
-        {
-            throw new KeyNotFoundException("Search operation not found.");
-        }
+        RuntimeValidator.Assert(searchOperation != null, StatusCode.OperationNotFound);
 
-        var result = await chatService.CreateChannelAsync(searchOperation.Title);
+        var result = await chatService.CreateChannelAsync(searchOperation!.Title);
 
         if (!string.IsNullOrEmpty(result.InviteLink))
         {
