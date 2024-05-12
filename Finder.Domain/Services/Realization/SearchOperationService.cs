@@ -41,7 +41,8 @@ internal class SearchOperationService(
             .Query()
             .Include(request => request.Images)
             .Include(request => request.Creator!.Details!.ContactInfo)
-            .Include(op => op.UserApplications) 
+            .Include(op => op.UserApplications)
+            .Include(op => op.OperationLocations)
             .FirstOrDefaultAsync(
                 request => request.Id == id,
                 cancellationToken
@@ -54,7 +55,7 @@ internal class SearchOperationService(
     }
 
     public async Task CreateSearchOperationAsync(
-        CreateSearchOperationRequestModel createsearchOperationModel,
+        CreateSearchOperationRequestModel createSearchOperationModel,
         CancellationToken cancellationToken = default
     )
     {
@@ -63,12 +64,12 @@ internal class SearchOperationService(
         var addedSearchOperation = await searchOperationRepository.AddAsync(
             new SearchOperation()
             {
-                Description = createsearchOperationModel.Description,
+                Description = createSearchOperationModel.Description,
                 CreatorUserId = currentUser.Id,
-                ShowContactInfo = createsearchOperationModel.ShowContactInfo,
-                Tags = createsearchOperationModel.Tags,
-                OperationType = createsearchOperationModel.OperationType,
-                Title = createsearchOperationModel.Title
+                ShowContactInfo = createSearchOperationModel.ShowContactInfo,
+                Tags = createSearchOperationModel.Tags,
+                OperationType = createSearchOperationModel.OperationType,
+                Title = createSearchOperationModel.Title
             },
             cancellationToken
         );
@@ -76,12 +77,13 @@ internal class SearchOperationService(
         await searchOperationRepository.SaveChangesAsync(cancellationToken);
 
         await AddsearchOperationImagesAsync(
-            createsearchOperationModel.Images,
+            createSearchOperationModel.Images,
             addedSearchOperation.Id,
             cancellationToken
         );
-        
-        await searchOperationNotificationService.NotifyAboutCreatingSearchOperationAsync(addedSearchOperation, cancellationToken);
+
+        await searchOperationNotificationService.NotifyAboutCreatingSearchOperationAsync(addedSearchOperation,
+            cancellationToken);
     }
 
     public async Task UpdateSearchOperationAsync(
@@ -119,7 +121,7 @@ internal class SearchOperationService(
             searchOperation.OperationType = updatesearchOperationRequestModel.OperationType;
             searchOperation.UpdatedAt = DateTime.UtcNow;
         }
-        
+
         if (searchOperation.OperationStatus != updatesearchOperationRequestModel.OperationStatus)
         {
             searchOperation.OperationStatus = updatesearchOperationRequestModel.OperationStatus;
@@ -140,7 +142,8 @@ internal class SearchOperationService(
                 .Query()
                 .Where(
                     searchOperationImage => searchOperationImage.OperationId == searchOperation.Id
-                        && updatesearchOperationRequestModel.ImagesToDelete.Contains(searchOperationImage.Id)
+                                            && updatesearchOperationRequestModel.ImagesToDelete.Contains(
+                                                searchOperationImage.Id)
                 )
                 .ToListAsync(cancellationToken);
 
@@ -176,8 +179,9 @@ internal class SearchOperationService(
                 cancellationToken
             );
         }
-        
-        await searchOperationNotificationService.NotifyAboutUpdatingSearchOperationAsync(searchOperation, cancellationToken);
+
+        await searchOperationNotificationService.NotifyAboutUpdatingSearchOperationAsync(searchOperation,
+            cancellationToken);
     }
 
     public async Task<PagedCollectionView<SearchOperationView>> GetSearchOperationsAsync(
@@ -187,7 +191,7 @@ internal class SearchOperationService(
     {
         var searchOperations = searchOperationRepository
             .Query()
-            .Include(op => op.UserApplications) 
+            .Include(op => op.UserApplications)
             .AsNoTracking();
 
         var currentUser = await currentUserService.GetCurrentUserAsync(cancellationToken);
@@ -196,7 +200,8 @@ internal class SearchOperationService(
 
         if (currentUser.Role?.CanCreateHelpRequest is not true)
         {
-            searchOperations = searchOperations.Where(searchOperation => searchOperation.CreatorUserId == currentUser.Id);
+            searchOperations =
+                searchOperations.Where(searchOperation => searchOperation.CreatorUserId == currentUser.Id);
         }
 
         if (!string.IsNullOrWhiteSpace(queryParametersModel.SearchQuery))
@@ -287,20 +292,50 @@ internal class SearchOperationService(
         };
 
         operation.UserApplications.Add(application);
-    
+
         await searchOperationRepository.SaveChangesAsync(cancellationToken);
 
         // UNTESTED!!!!!!!!!!!!!!!!!!!!!!!!
         try
         {
-            await searchOperationNotificationService.NotifyAboutApplicationReceivedAsync(operation, currentUser, cancellationToken);
+            await searchOperationNotificationService.NotifyAboutApplicationReceivedAsync(operation, currentUser,
+                cancellationToken);
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
         }
     }
-    
+
+    public async Task AddLocationsToSearchOperationAsync(Guid searchOperationId,
+        IEnumerable<CreateSearchLocationRequestModel> locationRequests, CancellationToken cancellationToken = default)
+    {
+        var searchOperation = await searchOperationRepository.Query()
+            .Include(op => op.OperationLocations)
+            .FirstOrDefaultAsync(op => op.Id == searchOperationId, cancellationToken);
+
+        if (searchOperation == null)
+        {
+            throw new KeyNotFoundException("Search operation not found.");
+        }
+
+        foreach (var locationRequest in locationRequests)
+        {
+            var location = new OperationLocation
+            {
+                SearchOperationId = searchOperationId,
+                Latitude = locationRequest.Latitude,
+                Longitude = locationRequest.Longitude,
+                Title = locationRequest.Title,
+                Description = locationRequest.Description
+            };
+
+            searchOperation.OperationLocations.Add(location);
+        }
+
+        await searchOperationRepository.SaveChangesAsync(cancellationToken);
+    }
+
     private async Task AddsearchOperationImagesAsync(
         IEnumerable<IFormFile> images,
         Guid searchOperationId,

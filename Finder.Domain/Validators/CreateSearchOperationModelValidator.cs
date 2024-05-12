@@ -1,6 +1,4 @@
 ﻿using Finder.Data.Enums;
-using Finder.Data.Enums.RichEnums;
-using Finder.Domain.Models;
 using Finder.Domain.Models.Create;
 using Finder.Domain.Validators.Extensions;
 using FluentValidation;

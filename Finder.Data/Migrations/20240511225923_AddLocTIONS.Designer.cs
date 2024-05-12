@@ -3,6 +3,7 @@ using System;
 using Finder.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Finder.Data.Migrations
 {
     [DbContext(typeof(FinderContext))]
-    partial class FinderContextModelSnapshot : ModelSnapshot
+    [Migration("20240511225923_AddLocTIONS")]
+    partial class AddLocTIONS
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -228,10 +231,10 @@ namespace Finder.Data.Migrations
                         .HasMaxLength(2000)
                         .HasColumnType("character varying(2000)");
 
-                    b.Property<double>("Latitude")
+                    b.Property<double?>("Latitude")
                         .HasColumnType("double precision");
 
-                    b.Property<double>("Longitude")
+                    b.Property<double?>("Longitude")
                         .HasColumnType("double precision");
 
                     b.Property<Guid>("SearchOperationId")

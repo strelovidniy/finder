@@ -53,6 +53,16 @@ public class SearchOperationsController(
 
         return Ok();
     }
+    
+    [HttpPost("operations-locations")]
+    public async Task<IActionResult> AddSearchLocation([FromBody] AddLocationsRequest model, CancellationToken cancellationToken = default)
+    {
+        await userAccessService.CheckIfUserCanCreateHelpRequestsAsync(cancellationToken);
+
+        await searchOperationService.AddLocationsToSearchOperationAsync(model.SearchOperationId, model.LocationRequests, cancellationToken);
+
+        return Ok();
+    }
 
     [HttpGet]
     public async Task<IActionResult> GetSearchOperationsAsync(

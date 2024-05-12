@@ -13,7 +13,7 @@ public interface ISearchOperationService
     );
 
     public Task CreateSearchOperationAsync(
-        CreateSearchOperationRequestModel createHelpRequestModel,
+        CreateSearchOperationRequestModel createSearchOperationModel,
         CancellationToken cancellationToken = default
     );
 
@@ -36,6 +36,9 @@ public interface ISearchOperationService
         Guid id,
         CancellationToken cancellationToken = default
     );
+
+    Task AddLocationsToSearchOperationAsync(Guid searchOperationId,
+        IEnumerable<CreateSearchLocationRequestModel> locationRequests, CancellationToken cancellationToken = default);
 
     Task ApplyForSearchOperationAsync(Guid operationId, CancellationToken cancellationToken = default);
 }
