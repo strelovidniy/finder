@@ -81,6 +81,7 @@ public class SearchOperationController(
     )
     {
         await userAccessService.CheckIfUserCanCreateSearchOperationsAsync(cancellationToken);
+
         return Ok(await searchOperationService.CreateChatBySearchOperationAsync(searchOperationId, cancellationToken));
     }
 
