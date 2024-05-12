@@ -12,6 +12,13 @@
                     FindGuard
                  </h1>
         </div>
+        <mat-form-field class="search-field top-bar-search"
+                        *ngIf="showSearchField">
+            <input matInput
+                   placeholder="Search"
+                   i18n-placeholder
+                   [formControl]="searchFormControl">
+        </mat-form-field>
         <div class="toolbar-right-side">
             <mat-icon [matMenuTriggerFor]="languageMenu" 
                       matTooltip="Language"

@@ -2,25 +2,6 @@
 	@media (max-width: 768px) {
 		position: relative;
 
-		.nav-bar {
-			position: absolute;
-			z-index: 1000;
-
-			h1 {
-				margin-top: 20px;
-			}
-		}
-
-		.overlay {
-			display: unset;
-			
-			#navBarTouchableOpacityOverlay {
-				&.visible {
-					display: flex;
-				}
-			}
-		}
-
 		.app-content-wrapper {
 			padding: 0;
 			width: 100vw;
@@ -40,19 +21,24 @@
 			}
 		}
 
+		.header {
+			.logo {
+				display: none;
+			}
+
+			.user-info {
+				mat-icon {
+					margin: 0;
+				}
+				
+				img {
+					display: none;
+				}
+			}
+		}
+
 		.installed-app-buttons-container {
 			bottom: 0;
-		}
-	}
-
-	@media (max-width: 615px) {
-		.toolbar-right-side {
-			transform: translateY(-100%);
-			opacity: 0;
-		}
-
-		.mobile-right-menu {
-			transform: translateX(0) !important;
 		}
 	}
 }

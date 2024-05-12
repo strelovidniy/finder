@@ -1,0 +1,86 @@
+.operations-container {
+    h1 {
+        font-family: Fixel Display;
+        font-size: 32px;
+        font-weight: 700;
+        line-height: 44.16px;
+    }
+
+    .items {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+
+        .item {
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            border-radius: 32px;
+            cursor: pointer;
+
+            .image {
+                img {
+                    width: 450px;
+                    height: 250px;
+                    border-radius: 32px;
+                    object-fit: cover;
+                    box-shadow: 0px 2px 8px 0px #00000026;
+                }
+            }
+
+            h1 {
+                font-family: Fixel Display;
+                font-size: 24px;
+                font-weight: 700;
+                line-height: 33.12px;
+            }
+
+            span {
+                font-family: Fixel Display;
+                font-size: 14px;
+                font-weight: 400;
+                line-height: 19.32px;
+                color: #918888;
+            }
+
+            .applicants {
+                color: black;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                margin-top: 10px;
+
+                span {
+                    color: black;
+                    font-family: Fixel Display;
+                    font-size: 16px;
+                    font-weight: 500;
+                    line-height: 22.08px;
+                }
+            }
+        }
+    }
+
+    .add-button {
+        position: absolute;
+        bottom: 105px;
+        right: 50px;
+        width: 64px;
+        height: 64px;
+        background-color: #a9d3ff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 100%;
+        cursor: pointer;
+
+        mat-icon {
+            font-size: 35px;
+            line-height: 35px;
+            height: 35px;
+            width: 35px;
+            color: #ffffff;
+            font-weight: 900;
+        }
+    }
+}
