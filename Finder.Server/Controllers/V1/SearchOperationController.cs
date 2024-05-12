@@ -86,7 +86,7 @@ public class SearchOperationController(
 
         return Ok();
     }
-    
+
     [HttpPost("confirm-operation")]
     public async Task<IActionResult> ConfirmOperation(
         [FromQuery] Guid searchOperationId,
@@ -139,7 +139,7 @@ public class SearchOperationController(
         return Ok();
     }
 
-    [HttpPost("generate-qr")]
+    [HttpGet("generate-qr")]
     public IActionResult GenerateQrCode(
         [FromQuery] Guid id,
         CancellationToken cancellationToken = default
@@ -149,7 +149,7 @@ public class SearchOperationController(
         "qr.png"
     );
 
-    [HttpPost("generate-pdf")]
+    [HttpGet("generate-pdf")]
     public async Task<IActionResult> GeneratePdf(
         [FromQuery] Guid id,
         CancellationToken cancellationToken = default

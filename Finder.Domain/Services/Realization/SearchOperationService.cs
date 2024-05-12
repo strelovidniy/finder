@@ -153,8 +153,8 @@ internal class SearchOperationService(
                 .Query()
                 .Where(
                     searchOperationImage => searchOperationImage.OperationId == searchOperation.Id
-                                            && updateSearchOperationRequestModel.ImagesToDelete.Contains(
-                                                searchOperationImage.Id)
+                        && updateSearchOperationRequestModel.ImagesToDelete.Contains(
+                            searchOperationImage.Id)
                 )
                 .ToListAsync(cancellationToken);
 
@@ -194,7 +194,7 @@ internal class SearchOperationService(
         await searchOperationNotificationService.NotifyAboutUpdatingSearchOperationAsync(searchOperation,
             cancellationToken);
     }
-    
+
     public async Task ConfirmSearchOperationAsync(Guid searchOperationId, CancellationToken cancellationToken = default)
     {
         var currentUser = await currentUserService.GetCurrentUserAsync(cancellationToken);
@@ -307,7 +307,7 @@ internal class SearchOperationService(
         CancellationToken cancellationToken = default
     )
     {
-        var url = $"{urlSettings.AppUrl.TrimEnd('/')}/search-operations/{id}";
+        var url = $"{urlSettings.AppUrl.TrimEnd('/')}/search-operations/details?id={id}";
 
         return qrGenerationService.GenerateQr(url);
     }
@@ -338,7 +338,6 @@ internal class SearchOperationService(
 
         await searchOperationRepository.SaveChangesAsync(cancellationToken);
 
-        // UNTESTED!!!!!!!!!!!!!!!!!!!!!!!!
         try
         {
             await searchOperationNotificationService.NotifyAboutApplicationReceivedAsync(operation, currentUser,
@@ -423,9 +422,11 @@ internal class SearchOperationService(
 
         byte[]? file = null;
 
-        if (searchOperation.Images?.FirstOrDefault() != null)
+        if (searchOperation.Images?.FirstOrDefault()?.ImageUrl is { } imageUrl)
         {
-            file = await File.ReadAllBytesAsync(searchOperation.Images.FirstOrDefault()!.ImageUrl, cancellationToken);
+            var res = await new HttpClient().GetAsync(imageUrl, cancellationToken);
+
+            file = await res.Content.ReadAsByteArrayAsync(cancellationToken);
         }
 
         QuestPDF.Settings.License = LicenseType.Community;

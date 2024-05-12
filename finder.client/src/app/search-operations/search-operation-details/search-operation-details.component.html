@@ -3,14 +3,55 @@
         <h1>
             {{searchOperation.title}}
         </h1>
-        <mat-icon matRipple>
+        <mat-icon matRipple
+                  [matMenuTriggerFor]="menu">
             more_horiz
         </mat-icon>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item
+                    (click)="edit()"
+                    *ngIf="showEditButton">
+                <span i18n>
+                    Edit
+                </span>
+            </button>
+            <button mat-menu-item
+                    (click)="!!searchOperation.chatUrl ? openChat() : createChat()"
+                    *ngIf="!!searchOperation.chatUrl || showEditButton">
+                @if (!!searchOperation.chatUrl) {
+                    <span i18n>
+                        Open chat
+                    </span>
+                } @else {
+                    <span i18n>
+                        Create chat
+                    </span>
+                }
+            </button>
+            <button mat-menu-item
+                    (click)="downloadPdf()">
+                <span i18n>
+                    Download PDF
+                </span>
+            </button>
+            <button mat-menu-item
+                    (click)="downloadQr()">
+                <span i18n>
+                    Download QR Code
+                </span>
+            </button>
+            <button mat-menu-item
+                    (click)="share()">
+                <span i18n>
+                    Share
+                </span>
+            </button>
+        </mat-menu>
     </div>
     <div class="images">
         <div class="main-image">
-            <img [defaultImage]="getMainImage().imageThumbnailUrl"
-                 [lazyLoad]="getMainImage().imageUrl">
+            <img [defaultImage]="getMainImage()?.imageThumbnailUrl || ''"
+                 [lazyLoad]="getMainImage()?.imageUrl || ''">
         </div>
         <div class="additional-images">
             <div class="image"
@@ -54,13 +95,23 @@
             </div>
             <div class="divider"></div>
             <div class="applicate">
-                <button mat-stroked-button
-                        matRipple
-                        (click)="apply()">
-                    <span i18n>
-                        Apply
-                    </span>
-                </button>
+                @if (!searchOperation.isAlreadyApplied) {
+                    <button mat-stroked-button
+                            matRipple
+                            (click)="apply()">
+                        <span i18n>
+                            Apply
+                        </span>
+                    </button>
+                } @else {
+                    <button mat-stroked-button
+                            matRipple
+                            [disabled]="true">
+                        <span i18n>
+                            You have already applied
+                        </span>
+                    </button>
+                }
                 <button mat-stroked-button
                         matRipple
                         (click)="contactOrganizer()">
