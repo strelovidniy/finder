@@ -54,7 +54,7 @@ internal class SearchOperationConfiguration : IEntityTypeConfiguration<SearchOpe
             .Property(searchOperation => searchOperation.Description)
             .HasMaxLength(2000)
             .IsRequired();
-        
+
         builder
             .Property(searchOperation => searchOperation.ChatLink)
             .HasMaxLength(2000)
@@ -63,11 +63,11 @@ internal class SearchOperationConfiguration : IEntityTypeConfiguration<SearchOpe
         builder
             .Property(searchOperation => searchOperation.ShowContactInfo)
             .IsRequired();
-        
+
         builder
             .Property(searchOperation => searchOperation.OperationType)
             .IsRequired();
-        
+
         builder
             .Property(searchOperation => searchOperation.OperationStatus)
             .HasDefaultValue(SearchOperationStatus.Pending)
@@ -79,7 +79,7 @@ internal class SearchOperationConfiguration : IEntityTypeConfiguration<SearchOpe
             .HasForeignKey(image => image.OperationId)
             .HasPrincipalKey(searchOperation => searchOperation.Id)
             .OnDelete(DeleteBehavior.Cascade);
-       
+
         builder
             .HasMany(s => s.OperationLocations)
             .WithOne(l => l.SearchOperation)

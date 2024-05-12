@@ -13,35 +13,39 @@ internal class UserSearchOperationConfiguration : IEntityTypeConfiguration<UserS
             .ToTable(TableName.UserSearchOperation, TableSchema.Dbo);
 
         builder
-            .HasKey(searchOperation => searchOperation.Id);
+            .HasKey(userSearchOperation => userSearchOperation.Id);
 
         builder
-            .Property(searchOperation => searchOperation.Id)
+            .Property(userSearchOperation => userSearchOperation.Id)
             .HasDefaultValueSql(DefaultSqlValue.NewGuid);
 
         builder
-            .Property(searchOperation => searchOperation.CreatedAt)
+            .Property(userSearchOperation => userSearchOperation.CreatedAt)
             .HasDefaultValueSql(DefaultSqlValue.NowUtc);
 
         builder
-            .Property(searchOperation => searchOperation.UpdatedAt)
+            .Property(userSearchOperation => userSearchOperation.UpdatedAt)
             .IsRequired(false);
 
         builder
-            .Property(searchOperation => searchOperation.DeletedAt)
+            .Property(userSearchOperation => userSearchOperation.DeletedAt)
             .IsRequired(false);
-        
-        builder
-            .HasKey(us => new { us.UserId, us.SearchOperationId });
 
         builder
-            .HasOne(us => us.User)
-            .WithMany(u => u.UserSearchOperations)
-            .HasForeignKey(us => us.UserId);
+            .HasKey(userSearchOperation => new
+            {
+                userSearchOperation.UserId,
+                userSearchOperation.SearchOperationId
+            });
 
         builder
-            .HasOne(us => us.SearchOperation)
-            .WithMany(s => s.UserApplications)
-            .HasForeignKey(us => us.SearchOperationId);
+            .HasOne(userSearchOperation => userSearchOperation.User)
+            .WithMany(user => user.UserSearchOperations)
+            .HasForeignKey(userSearchOperation => userSearchOperation.UserId);
+
+        builder
+            .HasOne(userSearchOperation => userSearchOperation.SearchOperation)
+            .WithMany(searchOperation => searchOperation.UserApplications)
+            .HasForeignKey(userSearchOperation => userSearchOperation.SearchOperationId);
     }
 }

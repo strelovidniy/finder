@@ -5,7 +5,4 @@ namespace Finder.Domain.Validators;
 
 internal class CreateSearchLocationModelValidator : AbstractValidator<CreateSearchLocationRequestModel>
 {
-    public CreateSearchLocationModelValidator()
-    {
-    }
 }

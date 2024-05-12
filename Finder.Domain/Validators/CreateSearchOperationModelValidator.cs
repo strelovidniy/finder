@@ -29,7 +29,5 @@ internal class CreateSearchOperationModelValidator : AbstractValidator<CreateSea
             .WithStatusCode(StatusCode.TagCannotBeEmpty)
             .MaximumLength(50)
             .WithStatusCode(StatusCode.TagTooLong);
-
-
     }
 }

@@ -3,7 +3,8 @@ using Finder.Domain.Models.Views;
 
 namespace Finder.Domain.Mapper.Converters.SearchOperation;
 
-internal class SearchOperationToSearchOperationViewConverter : ITypeConverter<Data.Entities.SearchOperation, SearchOperationView>
+internal class SearchOperationToSearchOperationViewConverter
+    : ITypeConverter<Data.Entities.SearchOperation, SearchOperationView>
 {
     public SearchOperationView Convert(
         Data.Entities.SearchOperation searchOperation,
@@ -22,7 +23,7 @@ internal class SearchOperationToSearchOperationViewConverter : ITypeConverter<Da
         searchOperation.Creator?.Details?.ImageThumbnailUrl,
         searchOperation.UserApplications.Count,
         searchOperation.CreatorUserId,
-        searchOperation.UserApplications.Select(x=>x.UserId).Any(x=>x == searchOperation.CreatorUserId),
+        searchOperation.UserApplications.Select(x => x.UserId).Any(x => x == searchOperation.CreatorUserId),
         searchOperation.CreatedAt,
         searchOperation.UpdatedAt,
         searchOperation.ChatLink,

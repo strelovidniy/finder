@@ -127,7 +127,7 @@ public static class DomainDependencyInjectionExtension
         configuration
             .GetSection(nameof(WebPushSettings))
             .Bind(webPushSettings);
-        
+
         configuration
             .GetSection(nameof(ChatSettings))
             .Bind(chatSettings);

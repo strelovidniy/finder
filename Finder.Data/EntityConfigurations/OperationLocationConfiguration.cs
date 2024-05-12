@@ -13,39 +13,39 @@ internal class OperationLocationConfiguration : IEntityTypeConfiguration<Operati
             .ToTable(TableName.OperationLocation, TableSchema.Dbo);
 
         builder
-            .HasKey(userDetails => userDetails.Id);
+            .HasKey(operationLocation => operationLocation.Id);
 
         builder
-            .Property(userDetails => userDetails.Id)
+            .Property(operationLocation => operationLocation.Id)
             .HasDefaultValueSql(DefaultSqlValue.NewGuid);
 
         builder
-            .Property(userDetails => userDetails.CreatedAt)
+            .Property(operationLocation => operationLocation.CreatedAt)
             .HasDefaultValueSql(DefaultSqlValue.NowUtc);
 
         builder
-            .Property(userDetails => userDetails.UpdatedAt)
+            .Property(operationLocation => operationLocation.UpdatedAt)
             .IsRequired(false);
 
         builder
-            .Property(userDetails => userDetails.DeletedAt)
+            .Property(operationLocation => operationLocation.DeletedAt)
             .IsRequired(false);
-        
-        builder
-            .Property(helpRequest => helpRequest.Latitude)
-            .IsRequired(true);
 
         builder
-            .Property(helpRequest => helpRequest.Longitude)
-            .IsRequired(true);
-        
+            .Property(operationLocation => operationLocation.Latitude)
+            .IsRequired();
+
         builder
-            .Property(searchOperation => searchOperation.Title)
+            .Property(operationLocation => operationLocation.Longitude)
+            .IsRequired();
+
+        builder
+            .Property(operationLocation => operationLocation.Title)
             .HasMaxLength(200)
             .IsRequired(false);
 
         builder
-            .Property(searchOperation => searchOperation.Description)
+            .Property(operationLocation => operationLocation.Description)
             .HasMaxLength(2000)
             .IsRequired(false);
     }

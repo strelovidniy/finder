@@ -14,5 +14,9 @@ internal interface ISearchOperationNotificationService
         CancellationToken cancellationToken = default
     );
 
-    Task NotifyAboutApplicationReceivedAsync(SearchOperation operation, User currentUser, CancellationToken cancellationToken);
+    Task NotifyAboutApplicationReceivedAsync(
+        SearchOperation operation,
+        User currentUser,
+        CancellationToken cancellationToken
+    );
 }

@@ -11,7 +11,7 @@ public class NotificationContent(string value) : RichEnum<string>(value)
     public static NotificationContent SearchOperationUpdated(
         string title
     ) => new($"\"{title}\" was updated by Issuer. Check it again!");
-    
+
     public static NotificationContent ApplicationReceived(
         string title
     ) => new($"\"{title}\" application received! Check it!");

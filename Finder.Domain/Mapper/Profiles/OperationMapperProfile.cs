@@ -9,6 +9,7 @@ internal class OperationMapperProfile : Profile
 {
     public OperationMapperProfile()
     {
-        CreateMap<SearchOperation, SearchOperationView>().ConvertUsing(new SearchOperationToSearchOperationViewConverter());
+        CreateMap<SearchOperation, SearchOperationView>()
+            .ConvertUsing(new SearchOperationToSearchOperationViewConverter());
     }
 }

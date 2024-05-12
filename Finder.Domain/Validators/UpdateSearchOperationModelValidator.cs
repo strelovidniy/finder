@@ -40,7 +40,7 @@ internal class UpdateSearchOperationModelValidator : AbstractValidator<UpdateSea
             .WithStatusCode(StatusCode.TagCannotBeEmpty)
             .MaximumLength(50)
             .WithStatusCode(StatusCode.TagTooLong);
-        
+
         RuleForEach(updateHelpRequestModel => updateHelpRequestModel.Images)
             .Cascade(CascadeMode.Stop)
             .SetValidator(

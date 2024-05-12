@@ -93,8 +93,10 @@ internal class SearchOperationService(
             cancellationToken
         );
 
-        await searchOperationNotificationService.NotifyAboutCreatingSearchOperationAsync(addedSearchOperation,
-            cancellationToken);
+        await searchOperationNotificationService.NotifyAboutCreatingSearchOperationAsync(
+            addedSearchOperation,
+            cancellationToken
+        );
     }
 
     public async Task UpdateSearchOperationAsync(
@@ -191,8 +193,10 @@ internal class SearchOperationService(
             );
         }
 
-        await searchOperationNotificationService.NotifyAboutUpdatingSearchOperationAsync(searchOperation,
-            cancellationToken);
+        await searchOperationNotificationService.NotifyAboutUpdatingSearchOperationAsync(
+            searchOperation,
+            cancellationToken
+        );
     }
 
     public async Task ConfirmSearchOperationAsync(Guid searchOperationId, CancellationToken cancellationToken = default)
@@ -316,8 +320,6 @@ internal class SearchOperationService(
     {
         var currentUser = await currentUserService.GetCurrentUserAsync(cancellationToken);
 
-        RuntimeValidator.Assert(currentUser != null, StatusCode.Unauthorized);
-
         var operation = await searchOperationRepository
             .Query()
             .Include(op => op.UserApplications)
@@ -326,6 +328,7 @@ internal class SearchOperationService(
         RuntimeValidator.Assert(operation != null, StatusCode.OperationNotFound);
 
         var alreadyApplied = operation!.UserApplications.Any(a => a.UserId == currentUser!.Id);
+
         RuntimeValidator.Assert(!alreadyApplied, StatusCode.AlreadyApplied);
 
         var application = new UserSearchOperation
@@ -340,8 +343,11 @@ internal class SearchOperationService(
 
         try
         {
-            await searchOperationNotificationService.NotifyAboutApplicationReceivedAsync(operation, currentUser,
-                cancellationToken);
+            await searchOperationNotificationService.NotifyAboutApplicationReceivedAsync(
+                operation,
+                currentUser,
+                cancellationToken
+            );
         }
         catch (Exception e)
         {
@@ -356,8 +362,11 @@ internal class SearchOperationService(
     )
     {
         var searchOperation = await searchOperationRepository.Query()
-            .Include(op => op.OperationLocations)
-            .FirstOrDefaultAsync(op => op.Id == searchOperationId, cancellationToken);
+            .Include(operation => operation.OperationLocations)
+            .FirstOrDefaultAsync(
+                operation => operation.Id == searchOperationId,
+                cancellationToken
+            );
 
         RuntimeValidator.Assert(searchOperation != null, StatusCode.OperationNotFound);
 
@@ -378,8 +387,10 @@ internal class SearchOperationService(
         await searchOperationRepository.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<string> CreateChatBySearchOperationAsync(Guid searchOperationId,
-        CancellationToken cancellationToken = default)
+    public async Task<string> CreateChatBySearchOperationAsync(
+        Guid searchOperationId,
+        CancellationToken cancellationToken = default
+    )
     {
         var searchOperation = await searchOperationRepository.Query()
             .Include(op => op.OperationLocations)
@@ -394,7 +405,7 @@ internal class SearchOperationService(
             searchOperation.ChatLink = result.InviteLink;
             await searchOperationRepository.SaveChangesAsync(cancellationToken);
         }
-        
+
         return result.InviteLink;
     }
 
@@ -437,8 +448,8 @@ internal class SearchOperationService(
                     page.Size(PageSizes.A4);
                     page.Margin(2, Unit.Centimetre);
                     page.PageColor(Colors.White);
-                    page.DefaultTextStyle(x => x.FontSize(20));
-                    page.DefaultTextStyle(x => x.FontColor(Colors.Red.Darken4));
+                    page.DefaultTextStyle(textStyle => textStyle.FontSize(20));
+                    page.DefaultTextStyle(textStyle => textStyle.FontColor(Colors.Red.Darken4));
 
                     page.Header()
                         .Text(title)
@@ -446,22 +457,22 @@ internal class SearchOperationService(
 
                     page.Content()
                         .PaddingVertical(1, Unit.Centimetre)
-                        .Column(x =>
+                        .Column(columnDescriptor =>
                         {
-                            x.Spacing(20);
+                            columnDescriptor.Spacing(20);
 
                             if (file is not null)
                             {
-                                x.Item().Image(file);
+                                columnDescriptor.Item().Image(file);
                             }
 
-                            x.Item().Text(documentTitle).FontSize(24).FontColor(Colors.Black);
-                            x.Item().Text(description).FontColor(Colors.Black);
+                            columnDescriptor.Item().Text(documentTitle).FontSize(24).FontColor(Colors.Black);
+                            columnDescriptor.Item().Text(description).FontColor(Colors.Black);
                         });
 
                     page.Footer()
                         .AlignCenter()
-                        .Text(x => { x.Span(footer); });
+                        .Text(textDescriptor => { textDescriptor.Span(footer); });
                 });
             })
             .GeneratePdf();

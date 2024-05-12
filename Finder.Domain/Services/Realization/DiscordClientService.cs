@@ -7,29 +7,29 @@ namespace Finder.Domain.Services.Realization;
 
 public class DiscordClientService : IDiscordClientService
 {
-    private readonly DiscordSocketClient _client;
-    private TaskCompletionSource<bool> _readyCompletionSource = new TaskCompletionSource<bool>();
+    private readonly TaskCompletionSource<bool> _readyCompletionSource = new();
+
+    public DiscordSocketClient Client { get; }
 
     public DiscordClientService(IChatSettings chatSettings)
     {
-        _client = new DiscordSocketClient();
-        _client.Ready += OnReady;
-        _client.LoginAsync(TokenType.Bot, chatSettings.DiscordBotToken).Wait();
-        _client.StartAsync().Wait();
-    }
-
-    private Task OnReady()
-    {
-        _readyCompletionSource.SetResult(true);
-        return Task.CompletedTask;
+        Client = new DiscordSocketClient();
+        Client.Ready += OnReady;
+        Client.LoginAsync(TokenType.Bot, chatSettings.DiscordBotToken).Wait();
+        Client.StartAsync().Wait();
     }
 
     public async Task<T> PerformActionWhenReady<T>(Func<DiscordSocketClient, Task<T>> action)
     {
         await _readyCompletionSource.Task; // Wait until the client is ready
-        return await action(_client);
+
+        return await action(Client);
     }
 
-    public DiscordSocketClient Client => _client;
-}
+    private Task OnReady()
+    {
+        _readyCompletionSource.SetResult(true);
 
+        return Task.CompletedTask;
+    }
+}

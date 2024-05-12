@@ -7,20 +7,21 @@ public class ChatService(IDiscordClientService discordClientService, IChatSettin
 {
     public async Task<(ulong ChannelId, string InviteLink)> CreateChannelAsync(string channelTitle)
     {
-        var guildDetails = await discordClientService.PerformActionWhenReady<(ulong ChannelId, string InviteLink)>(async client => 
-        {
-            var guild = client.GetGuild(chatSettings.ServerGuildId);
-
-            if (guild == null)
+        var guildDetails = await discordClientService.PerformActionWhenReady<(ulong ChannelId, string InviteLink)>(
+            async client =>
             {
-                return (0, null)!;
-            }
-            
-            var channel = await guild.CreateTextChannelAsync(channelTitle);
-            var inviteLink = await channel.CreateInviteAsync(maxAge: 86400, maxUses: 10);
-            
-            return (ChannelId: channel.Id, InviteLink: inviteLink.Url);
-        });
+                var guild = client.GetGuild(chatSettings.ServerGuildId);
+
+                if (guild == null)
+                {
+                    return (0, null)!;
+                }
+
+                var channel = await guild.CreateTextChannelAsync(channelTitle);
+                var inviteLink = await channel.CreateInviteAsync(86400, 10);
+
+                return (ChannelId: channel.Id, InviteLink: inviteLink.Url);
+            });
 
         return guildDetails;
     }

@@ -3,6 +3,6 @@
 public record CreateSearchLocationRequestModel(
     string Title,
     string Description,
-    double Latitude ,
+    double Latitude,
     double Longitude
 ) : IValidatableModel;

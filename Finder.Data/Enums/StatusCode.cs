@@ -14,6 +14,7 @@ public enum StatusCode
     FileNotFound = 106,
     SearchOperationNotFound = 107,
     ImageNotFound = 108,
+    OperationNotFound = 109,
 
     QueryResultError = 201,
 
@@ -108,6 +109,6 @@ public enum StatusCode
     LastNameShouldNotContainWhiteSpace = 1402,
 
     SearchOperationRemoved = 1501,
-    OperationNotFound = 1502,
-    AlreadyApplied= 1503,
+
+    AlreadyApplied = 1601
 }

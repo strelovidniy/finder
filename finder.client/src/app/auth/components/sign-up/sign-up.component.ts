@@ -21,8 +21,7 @@ export default class SignUpComponent {
 
     public termsAndConditions: boolean = false;
 
-
-    constructor(
+    public constructor(
         private readonly router: Router,
         private readonly authService: AuthenticationService,
         private readonly loader: LoaderService,

@@ -24,19 +24,19 @@ internal class SearchOperationNotificationService(
             .Include(notificationSettings => notificationSettings.User)
             .ThenInclude(user => user!.PushSubscriptions)
             .Where(notificationSettings => notificationSettings.User != null
-                                           && notificationSettings.User.PushSubscriptions != null
-                                           && notificationSettings.User.PushSubscriptions.Any())
+                && notificationSettings.User.PushSubscriptions != null
+                && notificationSettings.User.PushSubscriptions.Any())
             .Where(notificationSettings => notificationSettings.EnableNotifications)
             .Where(notificationSettings => notificationSettings.FilterTitles == null
-                                           || (notificationSettings.FilterTitles as object as string)!.Contains(
-                                               helpRequestTitle));
+                || (notificationSettings.FilterTitles as object as string)!.Contains(
+                    helpRequestTitle));
 
         if (tags is not null && tags.Any())
         {
             query = query.Where(notificationSettings => notificationSettings.FilterTags == null
-                                                        || tags.Any(tag =>
-                                                            (notificationSettings.FilterTags as object as string)!
-                                                            .Contains(tag)));
+                || tags.Any(tag =>
+                    (notificationSettings.FilterTags as object as string)!
+                    .Contains(tag)));
         }
 
         var pushSubscriptions = await query
@@ -57,7 +57,8 @@ internal class SearchOperationNotificationService(
         );
     }
 
-    public async Task NotifyAboutUpdatingSearchOperationAsync(SearchOperation helpRequest,
+    public async Task NotifyAboutUpdatingSearchOperationAsync(
+        SearchOperation helpRequest,
         CancellationToken cancellationToken = default
     )
     {
@@ -69,13 +70,13 @@ internal class SearchOperationNotificationService(
             .Include(notificationSettings => notificationSettings.User)
             .ThenInclude(user => user!.PushSubscriptions)
             .Where(notificationSettings => notificationSettings.User != null
-                                           && notificationSettings.User.PushSubscriptions != null
-                                           && notificationSettings.User.PushSubscriptions.Any())
+                && notificationSettings.User.PushSubscriptions != null
+                && notificationSettings.User.PushSubscriptions.Any())
             .Where(notificationSettings => notificationSettings.EnableUpdateNotifications
-                                           && notificationSettings.EnableNotifications)
+                && notificationSettings.EnableNotifications)
             .Where(notificationSettings => notificationSettings.FilterTitles == null
-                                           || (notificationSettings.FilterTitles as object as string)!.Contains(
-                                               helpRequestTitle));
+                || (notificationSettings.FilterTitles as object as string)!.Contains(
+                    helpRequestTitle));
 
         var isNotified = false;
         ///
@@ -83,9 +84,9 @@ internal class SearchOperationNotificationService(
         if (helpRequestTags is not null && helpRequestTags.Any())
         {
             query = query.Where(notificationSettings => notificationSettings.FilterTags == null
-                                                        || helpRequestTags.Any(tag =>
-                                                            (notificationSettings.FilterTags as object as string)!
-                                                            .Contains(tag)));
+                || helpRequestTags.Any(tag =>
+                    (notificationSettings.FilterTags as object as string)!
+                    .Contains(tag)));
         }
 
         var pushSubscriptions = await query
@@ -105,7 +106,7 @@ internal class SearchOperationNotificationService(
             cancellationToken
         );
     }
-    
+
     public async Task NotifyAboutApplicationReceivedAsync(
         SearchOperation searchOperation,
         User applicant,
@@ -117,7 +118,9 @@ internal class SearchOperationNotificationService(
             .NoTrackingQuery()
             .Include(settings => settings.User)
             .ThenInclude(user => user.PushSubscriptions)
-            .FirstOrDefaultAsync(settings => settings.UserId == searchOperation.CreatorUserId && settings.User.PushSubscriptions.Any(), cancellationToken);
+            .FirstOrDefaultAsync(
+                settings => settings.UserId == searchOperation.CreatorUserId && settings.User.PushSubscriptions.Any(),
+                cancellationToken);
 
         if (creatorNotificationSettings == null || !creatorNotificationSettings.EnableNotifications)
         {

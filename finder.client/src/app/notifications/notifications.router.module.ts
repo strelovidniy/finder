@@ -9,8 +9,6 @@ import AccountPreferencesComponent from './notifications.component';
 
 import RouteGuard from '../core/guards/route.guard';
 
-import RoleType from '../core/enums/role/role-type.enum';
-
 
 @NgModule({
     imports: [
@@ -23,9 +21,6 @@ import RoleType from '../core/enums/role/role-type.enum';
                     path: '',
                     component: AccountPreferencesComponent,
                     canActivate: [RouteGuard],
-                    data: {
-                        type: [RoleType.admin]
-                    }
                 },
             ]
         }])

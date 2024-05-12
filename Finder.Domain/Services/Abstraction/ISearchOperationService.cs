@@ -37,20 +37,29 @@ public interface ISearchOperationService
         CancellationToken cancellationToken = default
     );
 
-    Task AddLocationsToSearchOperationAsync(
+    public Task AddLocationsToSearchOperationAsync(
         Guid searchOperationId,
         IEnumerable<CreateSearchLocationRequestModel> locationRequests,
         CancellationToken cancellationToken = default
     );
 
-    Task ApplyForSearchOperationAsync(Guid operationId, CancellationToken cancellationToken = default);
+    public Task ApplyForSearchOperationAsync(
+        Guid operationId,
+        CancellationToken cancellationToken = default
+    );
 
     public Task<byte[]> GetSearchOperationPdfAsync(
         Guid id,
         CancellationToken cancellationToken = default
     );
 
-    Task<string> CreateChatBySearchOperationAsync(Guid searchOperationId, CancellationToken cancellationToken = default);
+    public Task<string> CreateChatBySearchOperationAsync(
+        Guid searchOperationId,
+        CancellationToken cancellationToken = default
+    );
 
-    Task ConfirmSearchOperationAsync(Guid searchOperationId, CancellationToken cancellationToken = default);
+    public Task ConfirmSearchOperationAsync(
+        Guid searchOperationId,
+        CancellationToken cancellationToken = default
+    );
 }
