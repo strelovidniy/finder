@@ -9,7 +9,6 @@ namespace Finder.Server.Controllers.V1;
 [RouteV1("notification-settings")]
 public class NotificationSettingsController(
     IServiceProvider services,
-    IUserAccessService userAccessService,
     INotificationSettingsService notificationSettingsService
 ) : BaseController(services)
 {
@@ -19,8 +18,6 @@ public class NotificationSettingsController(
         CancellationToken cancellationToken = default
     )
     {
-        await userAccessService.CheckIfUserCanSeeHelpRequests(cancellationToken);
-
         await ValidateAsync(model, cancellationToken);
 
         await notificationSettingsService.UpdateNotificationSettingAsync(model, cancellationToken);
