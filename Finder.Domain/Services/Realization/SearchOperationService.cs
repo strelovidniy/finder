@@ -18,6 +18,7 @@ using Microsoft.Extensions.Logging;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
+using static QRCoder.PayloadGenerator;
 
 namespace Finder.Domain.Services.Realization;
 
@@ -433,6 +434,9 @@ internal class SearchOperationService(
 
             file = await res.Content.ReadAsByteArrayAsync(cancellationToken);
         }
+        
+        var qrUrl = $"{urlSettings.AppUrl.TrimEnd('/')}/search-operations/details?id={id}";
+        var bytesQR = qrGenerationService.GenerateQr(qrUrl);
 
         QuestPDF.Settings.License = LicenseType.Community;
 
@@ -468,6 +472,7 @@ internal class SearchOperationService(
 
                             columnDescriptor.Item().Text(documentTitle).FontSize(24).FontColor(Colors.Black);
                             columnDescriptor.Item().Text(description).FontColor(Colors.Black);
+                            columnDescriptor.Item().Image(bytesQR);
                         });
 
                     page.Footer()
