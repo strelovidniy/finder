@@ -1,11 +1,28 @@
 .app-container {
+	@media (max-width: 1360px) {
+		.header {
+			.logo {
+				display: none;
+			}
+
+			.user-info {
+				mat-icon {
+					margin: 0;
+				}
+
+				img {
+					display: none;
+				}
+			}
+		}
+	}
 	@media (max-width: 768px) {
 		position: relative;
 
 		.app-content-wrapper {
 			padding: 0;
 			width: 100vw;
-			height: calc(100vh - 104px);
+			height: calc(100vh - 194px);
 			left: 0;
 			overflow: hidden;
 
@@ -30,7 +47,7 @@
 				mat-icon {
 					margin: 0;
 				}
-				
+
 				img {
 					display: none;
 				}

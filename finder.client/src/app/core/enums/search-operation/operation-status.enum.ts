@@ -1,7 +1,8 @@
-enum OperationType {
+enum OperationStatus {
     pending = 'pending',
     active = 'active',
-    completed = 'completed'
+    completed = 'completed',
+    rejected = 'rejected'
 }
 
-export default OperationType;
+export default OperationStatus;

@@ -147,7 +147,7 @@
                         class="language-button"
                         [disabled]="selectedLocale === 'uk-UA'">
                     <span i18n>
-                        Urkainian
+                        Ukrainian
                     </span>
                 </button>
             </mat-menu>
@@ -167,23 +167,27 @@
                     matTooltip="Go Back"
                     i18n-matTooltip
                     (click)="goBack()">
-                <mat-icon>
-                    arrow_back
-                </mat-icon>
-                <span i18n>
-                    Back
-                </span>
+                <div class="flex-center">
+                    <mat-icon>
+                        arrow_back
+                    </mat-icon>
+                    <span i18n>
+                        Back
+                    </span>
+                </div>
             </button>
             <button mat-stroked-button
                     matTooltip="Go Forward"
                     i18n-matTooltip
                     (click)="goForward()">
-                <span i18n>
-                    Forward
-                </span>
-                <mat-icon>
-                    arrow_forward
-                </mat-icon>
+                <div class="flex-center">
+                    <span i18n>
+                        Forward
+                    </span>
+                    <mat-icon>
+                        arrow_forward
+                    </mat-icon>
+                </div>
             </button>
         </div>
     </div>

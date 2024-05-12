@@ -13,6 +13,8 @@ import AuthenticationService from 'src/app/core/services/authentication.service'
 
 import ISearchOperation from 'src/app/core/interfaces/search-operation/search-operation.interface';
 import ISearchOperationImage from 'src/app/core/interfaces/search-operation/search-operation-image.interface';
+import RoleType from 'src/app/core/enums/role/role-type.enum';
+import OperationStatus from 'src/app/core/enums/search-operation/operation-status.enum';
 
 
 @Component({
@@ -94,6 +96,35 @@ export default class SearchOperationDetailsComponent implements OnInit, OnDestro
 
     public selectTag(tag: string): void {
         this.router.navigate(['/search-operations'], { queryParams: { tag } });
+    }
+
+    public approve(): void {
+        if (this.id) {
+            this.searchOperationService.approveSearchOperation(
+                this.id,
+                (): void => {
+                    this.notifier.success($localize`You have successfully approved this operation`);
+                },
+                (): void => {
+                    this.notifier.error($localize`An error occurred while approving this operation`);
+                }
+            );
+        }
+    }
+
+    public reject(): void {
+        if (this.id) {
+            this.searchOperationService.rejectSearchOperation(
+                this.id,
+                (): void => {
+                    this.notifier.success($localize`You have successfully rejected this operation`);
+                    this.location.back();
+                },
+                (): void => {
+                    this.notifier.error($localize`An error occurred while rejecting this operation`);
+                }
+            );
+        }
     }
 
     public apply(): void {
@@ -207,5 +238,9 @@ export default class SearchOperationDetailsComponent implements OnInit, OnDestro
 
     public get showEditButton(): boolean {
         return this.searchOperation.creatorId === this.authService.currentUser?.id;
+    }
+
+    public get showStatusButton(): boolean {
+        return this.authService.currentUser?.access?.type === RoleType.admin && this.searchOperation.searchOperationStatus === OperationStatus.pending;
     }
 }

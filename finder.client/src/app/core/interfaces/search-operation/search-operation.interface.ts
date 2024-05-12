@@ -1,3 +1,4 @@
+import OperationStatus from '../../enums/search-operation/operation-status.enum';
 import OperationType from '../../enums/search-operation/operation-type.enum';
 import ISearchOperationContactInfo from './search-operation-contact-info.interface';
 import ISearchOperationImage from './search-operation-image.interface';
@@ -10,7 +11,8 @@ interface ISearchOperation {
     tags: string[];
     issuerName: string;
     issuerImage: string;
-    operationType: OperationType;
+    searchOperationType: OperationType;
+    searchOperationStatus: OperationStatus;
     issuerImageThumbnail: string;
     applicantsCount: number;
     images: ISearchOperationImage[];

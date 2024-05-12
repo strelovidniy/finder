@@ -9,6 +9,13 @@
         </mat-icon>
         <mat-menu #menu="matMenu">
             <button mat-menu-item
+                    [matMenuTriggerFor]="statusMenu"
+                    *ngIf="showStatusButton">
+                <span i18n>
+                    Pending Status
+                </span>
+            </button>
+            <button mat-menu-item
                     (click)="edit()"
                     *ngIf="showEditButton">
                 <span i18n>
@@ -73,6 +80,20 @@
                 </mat-icon>
                 <span i18n>
                     LinkedIn
+                </span>
+            </button>
+        </mat-menu>
+        <mat-menu #statusMenu="matMenu">
+            <button mat-menu-item
+                    (click)="reject()">
+                <span i18n>
+                    Decline
+                </span>
+            </button>
+            <button mat-menu-item
+                    (click)="approve()">
+                <span i18n>
+                    Approve
                 </span>
             </button>
         </mat-menu>

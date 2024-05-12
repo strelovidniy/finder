@@ -18,7 +18,6 @@ using Microsoft.Extensions.Logging;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
-using static QRCoder.PayloadGenerator;
 
 namespace Finder.Domain.Services.Realization;
 
@@ -200,7 +199,10 @@ internal class SearchOperationService(
         );
     }
 
-    public async Task ConfirmSearchOperationAsync(Guid searchOperationId, CancellationToken cancellationToken = default)
+    public async Task ConfirmSearchOperationAsync(
+        Guid searchOperationId,
+        CancellationToken cancellationToken = default
+    )
     {
         var currentUser = await currentUserService.GetCurrentUserAsync(cancellationToken);
         RuntimeValidator.Assert(currentUser.Role!.Type == RoleType.Admin, StatusCode.Forbidden);
@@ -219,6 +221,38 @@ internal class SearchOperationService(
         {
             searchOperation.OperationStatus = SearchOperationStatus.Active;
             searchOperation.UpdatedAt = DateTime.UtcNow;
+        }
+
+        await searchOperationRepository.SaveChangesAsync(cancellationToken);
+
+        await searchOperationNotificationService.NotifyAboutUpdatingSearchOperationAsync(searchOperation,
+            cancellationToken);
+    }
+
+    public async Task DeclineSearchOperationAsync(
+        Guid searchOperationId,
+        CancellationToken cancellationToken = default
+    )
+    {
+        var currentUser = await currentUserService.GetCurrentUserAsync(cancellationToken);
+
+        RuntimeValidator.Assert(currentUser.Role!.Type == RoleType.Admin, StatusCode.Forbidden);
+
+        var searchOperation = await searchOperationRepository
+            .Query()
+            .Include(searchOperation => searchOperation.Images)
+            .FirstOrDefaultAsync(
+                searchOperation => searchOperation.Id == searchOperationId,
+                cancellationToken
+            );
+
+        RuntimeValidator.Assert(searchOperation is not null, StatusCode.SearchOperationNotFound);
+
+        if (searchOperation!.OperationStatus == SearchOperationStatus.Pending)
+        {
+            searchOperation.OperationStatus = SearchOperationStatus.Rejected;
+            searchOperation.UpdatedAt = DateTime.UtcNow;
+            searchOperation.DeletedAt = DateTime.UtcNow;
         }
 
         await searchOperationRepository.SaveChangesAsync(cancellationToken);
@@ -434,7 +468,7 @@ internal class SearchOperationService(
 
             file = await res.Content.ReadAsByteArrayAsync(cancellationToken);
         }
-        
+
         var qrUrl = $"{urlSettings.AppUrl.TrimEnd('/')}/search-operations/details?id={id}";
         var bytesQR = qrGenerationService.GenerateQr(qrUrl);
 

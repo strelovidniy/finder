@@ -327,6 +327,7 @@ mat-form-field {
 		&.top-bar-search {
 			width: 100% !important;
 			max-width: 800px !important;
+			min-width: 200px !important;
 			margin-left: auto !important;
 			margin-right: 0;
 			margin-top: auto;

@@ -7,9 +7,15 @@
             <div class="item"
                  matRipple
                  (click)="openDetails(item.id)">
-                <div class="image">
+                <div class="image"
+                     [class.on-review]="item.searchOperationStatus === status.pending">
                     <img [defaultImage]="getMainImage(item).imageThumbnailUrl"
                          [lazyLoad]="getMainImage(item).imageUrl">
+                    <div class="on-review-overlay">
+                        <span i18n>
+                            On review
+                        </span>
+                    </div>
                 </div>
                 <h1 i18n>
                     {{ item.title }}

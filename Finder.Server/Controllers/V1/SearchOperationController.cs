@@ -86,7 +86,7 @@ public class SearchOperationController(
     }
 
     [HttpPost("confirm-operation")]
-    public async Task<IActionResult> ConfirmOperation(
+    public async Task<IActionResult> ConfirmOperationAsync(
         [FromQuery] Guid searchOperationId,
         CancellationToken cancellationToken = default
     )
@@ -94,6 +94,19 @@ public class SearchOperationController(
         await userAccessService.CheckIfUserCanCreateSearchOperationsAsync(cancellationToken);
 
         await searchOperationService.ConfirmSearchOperationAsync(searchOperationId, cancellationToken);
+
+        return Ok();
+    }
+
+    [HttpPost("decline-operation")]
+    public async Task<IActionResult> DeclineOperationAsync(
+        [FromQuery] Guid searchOperationId,
+        CancellationToken cancellationToken = default
+    )
+    {
+        await userAccessService.CheckIfUserCanCreateSearchOperationsAsync(cancellationToken);
+
+        await searchOperationService.DeclineSearchOperationAsync(searchOperationId, cancellationToken);
 
         return Ok();
     }

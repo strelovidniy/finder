@@ -22,6 +22,8 @@ import ViewService from '../core/services/view.service';
 
 import ConfirmDialogComponent from '../shared/components/dialogs/confirm-dialog/confirm-dialog.component';
 
+import OperationStatus from '../core/enums/search-operation/operation-status.enum';
+
 
 @Component({
     templateUrl: './search-operations.component.html',
@@ -44,6 +46,8 @@ export default class SearchOperationsComponent implements OnInit, OnDestroy {
     public searchNameControl = new FormControl('', []);
 
     public defaultImageUrl: string;
+
+    public status = OperationStatus;
 
     public tableView: boolean = true;
 

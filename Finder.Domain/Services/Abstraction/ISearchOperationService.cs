@@ -62,4 +62,9 @@ public interface ISearchOperationService
         Guid searchOperationId,
         CancellationToken cancellationToken = default
     );
+
+    public Task DeclineSearchOperationAsync(
+        Guid searchOperationId,
+        CancellationToken cancellationToken = default
+    );
 }

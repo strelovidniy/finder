@@ -194,4 +194,34 @@ export default class SearchOperationService {
             }
         });
     }
+
+    public rejectSearchOperation(id: string, callback?: () => void, errorCallback?: () => void): void {
+        this.http.post(this.endpointService.rejectSearchOperation(id), {}).subscribe({
+            next: (): void => {
+                if (callback) {
+                    callback();
+                }
+            },
+            error: (): void => {
+                if (errorCallback) {
+                    errorCallback();
+                }
+            }
+        });
+    }
+
+    public approveSearchOperation(id: string, callback?: () => void, errorCallback?: () => void): void {
+        this.http.post(this.endpointService.approveSearchOperation(id), {}).subscribe({
+            next: (): void => {
+                if (callback) {
+                    callback();
+                }
+            },
+            error: (): void => {
+                if (errorCallback) {
+                    errorCallback();
+                }
+            }
+        });
+    }
 }

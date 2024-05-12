@@ -25,6 +25,7 @@
 			align-items: center;
 			border-radius: 10px;
 			cursor: pointer;
+			width: 231px;
 
 			img {
 				height: 64px;
@@ -117,7 +118,7 @@
 		width: 100vw;
 		height: 64px;
 		bottom: -64px;
-		background-color: $first-additional-color;
+		background-color: white;
 		align-items: center;
 		transition: all 225ms ease-in-out;
 
@@ -131,14 +132,25 @@
 			padding-left: 20px;
 			border-top-right-radius: 10px;
 			border-top-left-radius: 10px;
-			background-color: $third-additional-color;
+			background-color: white;
 			display: flex;
 			flex-direction: row;
 			justify-content: space-between;
+
+			.flex-center {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				justify-content: center;
+
+				span {
+					margin-top: 4px;
+				}
+			}
 		}
 	}
 }
 
 .logout {
-	color: #E63946;
+	color: #e63946;
 }

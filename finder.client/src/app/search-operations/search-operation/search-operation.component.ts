@@ -137,7 +137,7 @@ export default class SearchOperationComponent implements OnInit, OnDestroy {
             description: this.descriptionFormControl.value,
             tags: this.tagsFormControl.value ? this.tagsFormControl.value.split(',').map((tag: string): string => tag.trim()) : [],
             showContactInfo: this.showContactInfo,
-            operationType: this.searchOperation.operationType,
+            operationType: (this.searchOperation as ISearchOperation).searchOperationType,
             images: this.imagesToAdd,
             imagesToDelete: this.imageIdsToRemove
         } as IUpdateSearchOperationRequest;
