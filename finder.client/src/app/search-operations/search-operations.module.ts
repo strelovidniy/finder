@@ -4,6 +4,7 @@ import SharedModule from '../shared/shared.module';
 import SearchOperationsRouterModule from './search-operations.router.module';
 
 import SearchOperationsComponent from './search-operations.component';
+import SearchOperationComponent from './search-operation/search-operation.component';
 
 
 @NgModule({
@@ -12,7 +13,8 @@ import SearchOperationsComponent from './search-operations.component';
         SearchOperationsRouterModule
     ],
     declarations: [
-        SearchOperationsComponent
+        SearchOperationsComponent,
+        SearchOperationComponent
     ]
 })
 export default class SearchOperationsModule {}

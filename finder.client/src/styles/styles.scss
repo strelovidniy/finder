@@ -26,6 +26,13 @@
 
 @font-face {
 	font-family: 'Fixel Display';
+	src: url('src/assets/fonts/fixel-display/FixelDisplay-ExtraBold.otf') format('truetype');
+	font-weight: 800;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Fixel Display';
 	src: url('src/assets/fonts/fixel-display/FixelDisplay-Bold.otf') format('truetype');
 	font-weight: 700;
 	font-style: normal;

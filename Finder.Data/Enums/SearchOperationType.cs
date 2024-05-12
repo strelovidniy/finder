@@ -1,9 +1,9 @@
 namespace Finder.Data.Enums;
 
-public enum SearchOperationType : byte
+public enum SearchOperationType
 {
     Unknown = 0,
     BuildingCollapse = 1,
     Evacuation = 2,
-    Missing = 3,
+    Missing = 3
 }

@@ -11,6 +11,8 @@ export default class SideNavService {
     public isSideNavOpened: boolean = false;
 
     public contentTransparencySubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    public searchFieldSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    public searchFieldChangeSubject: BehaviorSubject<string> = new BehaviorSubject<string>('');
 
     public constructor() {
         this.isSideNavOpened = window.innerWidth > 768;
@@ -18,5 +20,13 @@ export default class SideNavService {
 
     public setContentTransparency(isTransparent: boolean): void {
         this.contentTransparencySubject.next(isTransparent);
+    }
+
+    public enableSearchField(): void {
+        this.searchFieldSubject.next(true);
+    }
+
+    public disableSearchField(): void {
+        this.searchFieldSubject.next(false);
     }
 }

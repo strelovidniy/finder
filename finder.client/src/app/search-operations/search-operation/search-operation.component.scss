@@ -1,0 +1,148 @@
+@import 'src/styles/variables.scss';
+
+.search-request-page {
+    display: flex;
+    flex-direction: row;
+    overflow-y: auto;
+    height: calc(100vh - 156px);
+    position: relative;
+
+    .close-button {
+        position: absolute;
+        top: 0px;
+        right: 0;
+        transition: all 225ms ease-in-out;
+        cursor: pointer;
+
+        &:hover {
+            color: $third-company-color;
+        }
+    }
+
+    .search-request-container {
+        margin-left: 10px;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        margin-right: 10px;
+
+        .column-name {
+            font-family: Fixel Display;
+            font-size: 32px;
+            font-weight: 800;
+            line-height: 44.16px;
+        }
+
+        .block {
+            padding: 32px;
+            border-radius: 28px;
+            display: flex;
+            flex-direction: column;
+            background-color: #f8f8f8;
+            margin-bottom: 24px;
+            box-shadow: 0px 4px 12px 0px #00000014;
+
+            h2 {
+                font-family: Fixel Text;
+                font-size: 20px;
+                font-weight: 700;
+                line-height: 18px;
+            }
+
+            span {
+                font-family: Fixel Text;
+                font-size: 14px;
+                font-weight: 400;
+                line-height: 18px;
+                margin-bottom: 10px;
+            }
+
+            finder-toggle {
+                width: fit-content;
+            }
+
+            .images {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                margin-top: 10px;
+
+                .image {
+                    width: 172.5px;
+                    height: 100px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    position: relative;
+                    margin-right: 12px;
+
+                    &.add-image {
+                        background-color: #8badcf;
+                        cursor: pointer;
+
+                        span {
+                            font-family: Fixel Text;
+                            font-size: 14px;
+                            font-weight: 600;
+                            line-height: 18px;
+                            text-align: center;
+                            color: white;
+                            margin: 0;
+                        }
+                    }
+
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                    }
+
+                    .remove-image {
+                        position: absolute;
+                        top: 0;
+                        right: 0;
+                        background-color: $third-company-color;
+                        color: white;
+                        border-radius: 50%;
+                        width: 20px;
+                        height: 20px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        cursor: pointer;
+                        font-size: 14px;
+                        transition: all 225ms ease-in-out;
+                        opacity: 0;
+                    }
+
+                    &:hover .remove-image {
+                        opacity: 1;
+                    }
+                }
+            }
+
+            mat-form-field {
+                &.no-padding {
+                    padding: 0;
+                    margin: 0;
+                }
+
+                &.mw-350 {
+                    max-width: 350px;
+                }
+
+                &.mw-700 {
+                    max-width: 700px;
+                }
+
+                textarea {
+                    resize: none;
+                }
+            }
+        }
+
+        .h-15 {
+            height: 15px;
+        }
+    }
+}

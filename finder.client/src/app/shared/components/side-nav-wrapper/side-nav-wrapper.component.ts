@@ -1,8 +1,9 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs/internal/Subscription';
-
-import Role from 'src/app/core/enums/role/role.enum';
+import { Router } from '@angular/router';
+import { FormControl } from '@angular/forms';
+import { debounceTime } from 'rxjs';
 
 import AuthenticationService from 'src/app/core/services/authentication.service';
 import SideNavService from 'src/app/core/services/sidenaw.service';
@@ -11,8 +12,9 @@ import EventBusService from 'src/app/core/services/event-bus.service';
 
 import ChangePasswordDialogComponent from '../dialogs/change-password-dialog/change-password-dialog.component';
 import ProfileDialogComponent from '../dialogs/profile-dialog/profile-dialog.component';
+
 import RoleType from 'src/app/core/enums/role/role-type.enum';
-import { Router } from '@angular/router';
+import Role from 'src/app/core/enums/role/role.enum';
 
 
 @Component({
@@ -20,7 +22,7 @@ import { Router } from '@angular/router';
     templateUrl: './side-nav-wrapper.component.html',
     styleUrls: ['./side-nav-wrapper.component.scss', './side-nav-wrapper-responsive.component.scss']
 })
-export default class SideNavWrapperComponent implements OnInit, AfterViewInit, OnDestroy {
+export default class SideNavWrapperComponent implements OnInit, OnDestroy {
 
     public userName: string | null = null;
     public avatarUrl: string = '';
@@ -28,12 +30,16 @@ export default class SideNavWrapperComponent implements OnInit, AfterViewInit, O
 
     public isContentTransparent: boolean = false;
 
+    public showSearchField: boolean = false;
+
     public selectedLocale?: string | null;
+
+    public searchFormControl = new FormControl('');
 
     private refreshUiSubscription?: Subscription;
     private contentTransparencySubscription?: Subscription;
-
-    private touchableOverlay: HTMLElement | null = null;
+    private searchFieldSubscription?: Subscription;
+    private searchValueSubscription?: Subscription;
 
     constructor(
         private readonly authService: AuthenticationService,
@@ -47,9 +53,17 @@ export default class SideNavWrapperComponent implements OnInit, AfterViewInit, O
     public ngOnDestroy(): void {
         this.refreshUiSubscription?.unsubscribe();
         this.contentTransparencySubscription?.unsubscribe();
+        this.searchFieldSubscription?.unsubscribe();
+        this.searchValueSubscription?.unsubscribe();
     }
 
     public ngOnInit(): void {
+        this.searchFieldSubscription = this.sideNavService.searchFieldSubject.subscribe({
+            next: (showSearchField: boolean): void => {
+                this.showSearchField = showSearchField;
+            }
+        });
+
         this.selectedLocale = location.href.replace(location.origin, '').split('/')[1];
 
         localStorage.setItem('locale', this.selectedLocale);
@@ -65,10 +79,12 @@ export default class SideNavWrapperComponent implements OnInit, AfterViewInit, O
         });
 
         this.authService.getUserInfo();
-    }
 
-    public ngAfterViewInit(): void {
-        this.touchableOverlay = document.getElementById('navBarTouchableOpacityOverlay');
+        this.searchValueSubscription = this.searchFormControl.valueChanges.pipe(debounceTime(500)).subscribe({
+            next: (value: string | null): void => {
+                this.sideNavService.searchFieldChangeSubject.next(value || '');
+            }
+        });
     }
 
     private initInfo(): void {

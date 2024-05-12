@@ -1,0 +1,126 @@
+<div class="search-request-page">
+    <mat-icon (click)="goBack()"
+              class="close-button">
+        close
+    </mat-icon>
+    <div class="search-request-container">
+        <h1 class="column-name"
+            i18n>
+            {{getTitle()}}
+        </h1>
+        <div class="block">
+            <h2 i18n>
+                Main information
+            </h2>
+            <span i18n>
+                Enter a short but informative title
+            </span>
+            <mat-form-field class="no-padding mw-700">
+                <input matInput
+                       [formControl]="titleFormControl"
+                       placeholder="Title (max 200 characters)"
+                       i18n-placeholder>
+                <mat-error *ngIf="titleFormControl.errors?.['required']"
+                           i18n>
+                    Title is required
+                </mat-error>
+                <mat-error *ngIf="titleFormControl.errors?.['maxlength']"
+                           i18n>
+                    Title cannot be longer than 200 characters
+                </mat-error> 
+            </mat-form-field>
+            <span i18n>
+                Choose category
+            </span>
+            <mat-form-field class="no-padding mw-350">
+                <mat-select [formControl]="categoryFormControl"
+                            placeholder="Category"
+                            i18n-placeholder>
+                    <mat-option *ngFor="let category of categories"
+                                [value]="category.value">
+                        {{category.name}}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="categoryFormControl.errors?.['required']"
+                           i18n>
+                    Category is required
+                </mat-error>
+            </mat-form-field>
+            <span i18n>
+                Set additional tags for faster distribution
+            </span>
+            <mat-form-field class="no-padding mw-350">
+                <input matInput
+                       [formControl]="tagsFormControl"
+                       placeholder="List the tags separated by commas"
+                       i18n-placeholder>
+            </mat-form-field>
+            <finder-toggle i18n
+                           [(enabled)]="showContactInfo"
+                           label="Show my contact information"
+                           i18n-label>
+            </finder-toggle>
+        </div>
+        <div class="block">
+            <h2 i18n>
+                Photo
+            </h2>
+            <span i18n>
+                Add some photos
+            </span>
+            <div class="images">                
+                <div class="image add-image"
+                     matRipple
+                     (click)="addImages()">
+                    <span i18n>
+                        Add image
+                    </span>
+                </div>
+                @for(image of images; track image) {
+                    <div class="image">
+                        <img [defaultImage]="image.imageThumbnailUrl"
+                             [lazyLoad]="image.imageUrl">
+                        <mat-icon (click)="removeImage(image)"
+                                  class="remove-image">
+                            delete
+                        </mat-icon>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="block">
+            <h2 i18n>
+                Description
+            </h2>
+            <span i18n>
+                Provide all necessary information
+            </span>
+            <mat-form-field class="no-padding">
+                <textarea matInput
+                          [formControl]="descriptionFormControl"
+                          rows="10"
+                          placeholder="Description (max 2000 characters)"
+                          i18n-placeholder>
+                </textarea>
+                <mat-error *ngIf="descriptionFormControl.errors?.['required']"
+                        i18n>
+                    Description is required
+                </mat-error>
+                <mat-error *ngIf="descriptionFormControl.errors?.['maxlength']"
+                        i18n>
+                    Description cannot be longer than 2000 characters
+                </mat-error> 
+            </mat-form-field>
+        </div>
+        <button mat-stroked-button
+                class="save-button"
+                (click)="save()">
+            <span i18n>
+                Save
+            </span>
+        </button>
+        <div class="h-15">
+            &nbsp;
+        </div>
+    </div>
+</div>
