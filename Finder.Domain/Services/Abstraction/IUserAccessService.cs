@@ -34,7 +34,7 @@ public interface IUserAccessService
         CancellationToken cancellationToken = default
     );
 
-    public Task CheckIfUserCanCreateHelpRequestsAsync(
+    public Task CheckIfUserCanCreateSearchOperationsAsync(
         CancellationToken cancellationToken = default
     );
 

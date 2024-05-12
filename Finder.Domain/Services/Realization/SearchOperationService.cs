@@ -69,7 +69,7 @@ internal class SearchOperationService(
         {
             searchOperationStatus = SearchOperationStatus.Active;
         }
-        
+
         var addedSearchOperation = await searchOperationRepository.AddAsync(
             new SearchOperation
             {
@@ -152,8 +152,8 @@ internal class SearchOperationService(
                 .Query()
                 .Where(
                     searchOperationImage => searchOperationImage.OperationId == searchOperation.Id
-                        && updateSearchOperationRequestModel.ImagesToDelete.Contains(
-                            searchOperationImage.Id)
+                                            && updateSearchOperationRequestModel.ImagesToDelete.Contains(
+                                                searchOperationImage.Id)
                 )
                 .ToListAsync(cancellationToken);
 
@@ -193,6 +193,33 @@ internal class SearchOperationService(
         await searchOperationNotificationService.NotifyAboutUpdatingSearchOperationAsync(searchOperation,
             cancellationToken);
     }
+    
+    public async Task ConfirmSearchOperationAsync(Guid searchOperationId, CancellationToken cancellationToken = default)
+    {
+        var currentUser = await currentUserService.GetCurrentUserAsync(cancellationToken);
+        RuntimeValidator.Assert(currentUser.Role!.Type == RoleType.Admin, StatusCode.Forbidden);
+
+        var searchOperation = await searchOperationRepository
+            .Query()
+            .Include(searchOperation => searchOperation.Images)
+            .FirstOrDefaultAsync(
+                searchOperation => searchOperation.Id == searchOperationId,
+                cancellationToken
+            );
+
+        RuntimeValidator.Assert(searchOperation is not null, StatusCode.SearchOperationNotFound);
+
+        if (searchOperation!.OperationStatus == SearchOperationStatus.Pending)
+        {
+            searchOperation.OperationStatus = SearchOperationStatus.Active;
+            searchOperation.UpdatedAt = DateTime.UtcNow;
+        }
+
+        await searchOperationRepository.SaveChangesAsync(cancellationToken);
+
+        await searchOperationNotificationService.NotifyAboutUpdatingSearchOperationAsync(searchOperation,
+            cancellationToken);
+    }
 
     public async Task<PagedCollectionView<SearchOperationView>> GetSearchOperationsAsync(
         QueryParametersModel queryParametersModel,
@@ -213,7 +240,7 @@ internal class SearchOperationService(
             searchOperations = searchOperations.Where(x => x.OperationStatus != SearchOperationStatus.Pending);
         }
 
-        if (currentUser.Role?.CanCreateHelpRequest is not true)
+        if (currentUser.Role?.CanCreateSearchOperation is not true)
         {
             searchOperations =
                 searchOperations.Where(searchOperation => searchOperation.CreatorUserId == currentUser.Id);
@@ -353,8 +380,9 @@ internal class SearchOperationService(
 
         await searchOperationRepository.SaveChangesAsync(cancellationToken);
     }
-    
-    public async Task CreateChatBySearchOperationAsync(Guid searchOperationId, CancellationToken cancellationToken = default)
+
+    public async Task CreateChatBySearchOperationAsync(Guid searchOperationId,
+        CancellationToken cancellationToken = default)
     {
         var searchOperation = await searchOperationRepository.Query()
             .Include(op => op.OperationLocations)
@@ -373,7 +401,6 @@ internal class SearchOperationService(
             await searchOperationRepository.SaveChangesAsync(cancellationToken);
         }
     }
-
 
     public async Task<byte[]> GetSearchOperationPdfAsync(
         Guid id,

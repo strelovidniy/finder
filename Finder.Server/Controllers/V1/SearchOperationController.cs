@@ -80,9 +80,22 @@ public class SearchOperationController(
         CancellationToken cancellationToken = default
     )
     {
-        await userAccessService.CheckIfUserCanCreateHelpRequestsAsync(cancellationToken);
+        await userAccessService.CheckIfUserCanCreateSearchOperationsAsync(cancellationToken);
 
         await searchOperationService.CreateChatBySearchOperationAsync(searchOperationId, cancellationToken);
+
+        return Ok();
+    }
+    
+    [HttpPost("confirm-operation")]
+    public async Task<IActionResult> ConfirmOperation(
+        [FromQuery] Guid searchOperationId,
+        CancellationToken cancellationToken = default
+    )
+    {
+        await userAccessService.CheckIfUserCanCreateSearchOperationsAsync(cancellationToken);
+
+        await searchOperationService.ConfirmSearchOperationAsync(searchOperationId, cancellationToken);
 
         return Ok();
     }

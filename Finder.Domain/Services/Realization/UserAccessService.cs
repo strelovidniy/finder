@@ -84,14 +84,14 @@ internal class UserAccessService(
         );
     }
 
-    public async Task CheckIfUserCanCreateHelpRequestsAsync(
+    public async Task CheckIfUserCanCreateSearchOperationsAsync(
         CancellationToken cancellationToken = default
     )
     {
         var user = await GetCurrentUserAsync(cancellationToken);
 
         RuntimeValidator.Assert(
-            user.Role!.CanCreateHelpRequest,
+            user.Role!.CanCreateSearchOperation,
             StatusCode.Forbidden
         );
     }
