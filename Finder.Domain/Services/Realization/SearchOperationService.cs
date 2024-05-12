@@ -275,9 +275,10 @@ internal class SearchOperationService(
 
         searchOperations = searchOperations.Where(searchOperation => searchOperation.DeletedAt == null);
 
-        if (currentUser.Role!.Type == RoleType.User)
+        if (currentUser.Role?.Type is not RoleType.Admin)
         {
-            searchOperations = searchOperations.Where(x => x.OperationStatus != SearchOperationStatus.Pending);
+            searchOperations = searchOperations.Where(searchOperation =>
+                searchOperation.OperationStatus == SearchOperationStatus.Active);
         }
 
         if (currentUser.Role?.CanCreateSearchOperation is not true)

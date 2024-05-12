@@ -6,7 +6,7 @@ public class NotificationContent(string value) : RichEnum<string>(value)
 {
     public static NotificationContent NewSearchOperation(
         string title
-    ) => new($"New request \"{title}\" is waiting for your help!");
+    ) => new($"New search operation \"{title}\" is waiting for your help!");
 
     public static NotificationContent SearchOperationUpdated(
         string title
