@@ -41,4 +41,6 @@ public interface ISearchOperationService
         IEnumerable<CreateSearchLocationRequestModel> locationRequests, CancellationToken cancellationToken = default);
 
     Task ApplyForSearchOperationAsync(Guid operationId, CancellationToken cancellationToken = default);
+
+    Task CreateChatBySearchOperationAsync(Guid searchOperationId, CancellationToken cancellationToken = default);
 }

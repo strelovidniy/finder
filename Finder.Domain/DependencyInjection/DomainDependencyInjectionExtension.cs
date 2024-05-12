@@ -43,8 +43,9 @@ public static class DomainDependencyInjectionExtension
         .AddScoped<IImageService, ImageService>()
         .AddScoped<INotificationService, NotificationService>()
         .AddScoped<INotificationSettingsService, NotificationSettingsService>()
-        .AddScoped<ISearchOperationService, SearchOperationService>()
         .AddScoped<IPushSubscriptionService, PushSubscriptionService>()
+        .AddScoped<IDiscordClientService, DiscordClientService>()
+        .AddScoped<IChatService, ChatService>()
         .AddScoped<ISearchOperationNotificationService, SearchOperationNotificationService>()
         .AddScoped<IQrGenerationService, QrGenerationService>();
 
@@ -105,6 +106,7 @@ public static class DomainDependencyInjectionExtension
         var jwtSettings = new JwtSettings();
         var imageSettings = new ImageSettings();
         var webPushSettings = new WebPushSettings();
+        var chatSettings = new ChatSettings();
 
         configuration
             .GetSection(nameof(EmailSettings))
@@ -125,13 +127,18 @@ public static class DomainDependencyInjectionExtension
         configuration
             .GetSection(nameof(WebPushSettings))
             .Bind(webPushSettings);
+        
+        configuration
+            .GetSection(nameof(ChatSettings))
+            .Bind(chatSettings);
 
         services
             .AddSingleton<IEmailSettings, EmailSettings>(_ => emailSettings)
             .AddSingleton<IUrlSettings, UrlSettings>(_ => urlSettings)
             .AddSingleton<IJwtSettings, JwtSettings>(_ => jwtSettings)
             .AddSingleton<IImageSettings, ImageSettings>(_ => imageSettings)
-            .AddSingleton<IWebPushSettings, WebPushSettings>(_ => webPushSettings);
+            .AddSingleton<IWebPushSettings, WebPushSettings>(_ => webPushSettings)
+            .AddSingleton<IChatSettings, ChatSettings>(_ => chatSettings);
 
         return services;
     }

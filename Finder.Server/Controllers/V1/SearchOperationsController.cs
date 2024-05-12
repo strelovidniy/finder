@@ -63,6 +63,15 @@ public class SearchOperationsController(
 
         return Ok();
     }
+    
+    [HttpPost("create-chat")]
+    public async Task<IActionResult> CreateChat([FromQuery] Guid searchOperationId, CancellationToken cancellationToken = default)
+    {
+        await userAccessService.CheckIfUserCanCreateHelpRequestsAsync(cancellationToken);
+
+        await searchOperationService.CreateChatBySearchOperationAsync(searchOperationId, cancellationToken);
+        return Ok();
+    }
 
     [HttpGet]
     public async Task<IActionResult> GetSearchOperationsAsync(
