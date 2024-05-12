@@ -84,6 +84,7 @@ export default class SearchOperationsComponent implements OnInit, OnDestroy {
         this.queryParamsSubscription = this.activatedRoute.queryParams.subscribe({
             next: (params: { tag?: string }): void => {
                 this.searchNameControl.setValue(params.tag || '');
+                this.sideNavService.setSearchValue(params.tag || '');
                 this.location.replaceState('/search-operations');
             }
         });
@@ -117,7 +118,7 @@ export default class SearchOperationsComponent implements OnInit, OnDestroy {
     }
 
     public getDescription(item: ISearchOperation): string {
-        return item.description.replace(/<[^>]*>?/gm, '').substring(0, 100);
+        return item.description.length > 100 ? `${item.description.replace(/<[^>]*>?/gm, '').substring(0, 100)}...` : item.description.replace(/<[^>]*>?/gm, '');
     }
 
     private getData(): void {

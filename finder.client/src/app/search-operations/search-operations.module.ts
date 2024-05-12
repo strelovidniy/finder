@@ -5,6 +5,7 @@ import SearchOperationsRouterModule from './search-operations.router.module';
 
 import SearchOperationsComponent from './search-operations.component';
 import SearchOperationComponent from './search-operation/search-operation.component';
+import SearchOperationDetailsComponent from './search-operation-details/search-operation-details.component';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import SearchOperationComponent from './search-operation/search-operation.compon
     ],
     declarations: [
         SearchOperationsComponent,
-        SearchOperationComponent
+        SearchOperationComponent,
+        SearchOperationDetailsComponent
     ]
 })
 export default class SearchOperationsModule {}

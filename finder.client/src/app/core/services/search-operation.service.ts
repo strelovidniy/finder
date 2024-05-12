@@ -66,6 +66,21 @@ export default class SearchOperationService {
         });
     }
 
+    public applyToSearchOperation(id: string, callback?: () => void, errorCallback?: () => void): void {
+        this.http.post(this.endpointService.applyToSearchOperation(id), {}).subscribe({
+            next: (): void => {
+                if (callback) {
+                    callback();
+                }
+            },
+            error: (): void => {
+                if (errorCallback) {
+                    errorCallback();
+                }
+            }
+        });
+    }
+
     public updateSearchOperation(request: IUpdateSearchOperationRequest, callback?: () => void, errorCallback?: () => void): void {
         const formData = new FormData();
 

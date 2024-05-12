@@ -40,6 +40,7 @@ export default class SideNavWrapperComponent implements OnInit, OnDestroy {
     private contentTransparencySubscription?: Subscription;
     private searchFieldSubscription?: Subscription;
     private searchValueSubscription?: Subscription;
+    private setSeachValueSubscription?: Subscription;
 
     constructor(
         private readonly authService: AuthenticationService,
@@ -55,12 +56,19 @@ export default class SideNavWrapperComponent implements OnInit, OnDestroy {
         this.contentTransparencySubscription?.unsubscribe();
         this.searchFieldSubscription?.unsubscribe();
         this.searchValueSubscription?.unsubscribe();
+        this.setSeachValueSubscription?.unsubscribe();
     }
 
     public ngOnInit(): void {
         this.searchFieldSubscription = this.sideNavService.searchFieldSubject.subscribe({
             next: (showSearchField: boolean): void => {
                 this.showSearchField = showSearchField;
+            }
+        });
+
+        this.setSeachValueSubscription = this.sideNavService.setSearchValueSubject.subscribe({
+            next: (value: string): void => {
+                this.searchFormControl.setValue(value);
             }
         });
 
