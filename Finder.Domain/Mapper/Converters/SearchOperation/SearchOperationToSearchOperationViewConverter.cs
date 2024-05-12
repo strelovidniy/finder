@@ -21,6 +21,8 @@ internal class SearchOperationToSearchOperationViewConverter : ITypeConverter<Da
         searchOperation.Creator?.Details?.ImageUrl,
         searchOperation.Creator?.Details?.ImageThumbnailUrl,
         searchOperation.UserApplications.Count,
+        searchOperation.CreatorUserId,
+        searchOperation.UserApplications.Select(x=>x.UserId).Any(x=>x == searchOperation.CreatorUserId),
         searchOperation.CreatedAt,
         searchOperation.UpdatedAt,
         context.Mapper.Map<IEnumerable<OperationImageView>>(searchOperation.Images?.OrderBy(image => image.Position)),
