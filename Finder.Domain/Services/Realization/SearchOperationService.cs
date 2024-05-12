@@ -436,9 +436,9 @@ internal class SearchOperationService(
                 {
                     page.Size(PageSizes.A4);
                     page.Margin(2, Unit.Centimetre);
-                    page.PageColor(Colors.Red.Darken4);
+                    page.PageColor(Colors.White);
                     page.DefaultTextStyle(x => x.FontSize(20));
-                    page.DefaultTextStyle(x => x.FontColor(Colors.White));
+                    page.DefaultTextStyle(x => x.FontColor(Colors.Red.Darken4));
 
                     page.Header()
                         .Text(title)
@@ -455,8 +455,8 @@ internal class SearchOperationService(
                                 x.Item().Image(file);
                             }
 
-                            x.Item().Text(documentTitle);
-                            x.Item().Text(description);
+                            x.Item().Text(documentTitle).FontSize(24).FontColor(Colors.Black);
+                            x.Item().Text(description).FontColor(Colors.Black);
                         });
 
                     page.Footer()
