@@ -382,10 +382,8 @@ internal class SearchOperationService(
         await searchOperationRepository.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task CreateChatBySearchOperationAsync(
-        Guid searchOperationId,
-        CancellationToken cancellationToken = default
-    )
+    public async Task<string> CreateChatBySearchOperationAsync(Guid searchOperationId,
+        CancellationToken cancellationToken = default)
     {
         var searchOperation = await searchOperationRepository.Query()
             .Include(op => op.OperationLocations)
@@ -403,6 +401,8 @@ internal class SearchOperationService(
             searchOperation.ChatLink = result.InviteLink;
             await searchOperationRepository.SaveChangesAsync(cancellationToken);
         }
+        
+        return result.InviteLink;
     }
 
     public async Task<byte[]> GetSearchOperationPdfAsync(

@@ -25,6 +25,7 @@ internal class SearchOperationToSearchOperationViewConverter : ITypeConverter<Da
         searchOperation.UserApplications.Select(x=>x.UserId).Any(x=>x == searchOperation.CreatorUserId),
         searchOperation.CreatedAt,
         searchOperation.UpdatedAt,
+        searchOperation.ChatLink,
         context.Mapper.Map<IEnumerable<OperationImageView>>(searchOperation.Images?.OrderBy(image => image.Position)),
         context.Mapper.Map<IEnumerable<OperationLocationView>>(searchOperation.OperationLocations)
     );

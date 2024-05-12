@@ -7,13 +7,13 @@ internal class OperationImageToHelpRequestImageViewConverter
     : ITypeConverter<Data.Entities.OperationImage, OperationImageView>
 {
     public OperationImageView Convert(
-        Data.Entities.OperationImage helpRequestImage,
-        OperationImageView helpRequestImageView,
+        Data.Entities.OperationImage operationImage,
+        OperationImageView operationImageView,
         ResolutionContext context
     ) => new(
-        helpRequestImage.Id,
-        helpRequestImage.ImageUrl,
-        helpRequestImage.ImageThumbnailUrl,
-        helpRequestImage.Position
+        operationImage.Id,
+        operationImage.ImageUrl,
+        operationImage.ImageThumbnailUrl,
+        operationImage.Position
     );
 }

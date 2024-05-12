@@ -81,10 +81,7 @@ public class SearchOperationController(
     )
     {
         await userAccessService.CheckIfUserCanCreateSearchOperationsAsync(cancellationToken);
-
-        await searchOperationService.CreateChatBySearchOperationAsync(searchOperationId, cancellationToken);
-
-        return Ok();
+        return Ok(await searchOperationService.CreateChatBySearchOperationAsync(searchOperationId, cancellationToken));
     }
     
     [HttpPost("confirm-operation")]
