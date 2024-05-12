@@ -15,6 +15,7 @@ interface ISearchOperation {
     applicantsCount: number;
     images: ISearchOperationImage[];
     contactInfo: ISearchOperationContactInfo;
+    createdAt: Date;
 }
 
 export default ISearchOperation;

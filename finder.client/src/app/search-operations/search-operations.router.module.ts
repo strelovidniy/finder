@@ -11,6 +11,7 @@ import RouteGuard from '../core/guards/route.guard';
 
 import RoleType from '../core/enums/role/role-type.enum';
 import SearchOperationComponent from './search-operation/search-operation.component';
+import SearchOperationDetailsComponent from './search-operation-details/search-operation-details.component';
 
 
 @NgModule({
@@ -39,6 +40,14 @@ import SearchOperationComponent from './search-operation/search-operation.compon
                 {
                     path: 'edit/:id',
                     component: SearchOperationComponent,
+                    canActivate: [RouteGuard],
+                    data: {
+                        type: [RoleType.user, RoleType.admin]
+                    }
+                },
+                {
+                    path: 'details',
+                    component: SearchOperationDetailsComponent,
                     canActivate: [RouteGuard],
                     data: {
                         type: [RoleType.user, RoleType.admin]

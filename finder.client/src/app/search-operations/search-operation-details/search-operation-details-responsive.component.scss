@@ -1,0 +1,8 @@
+.details-container {
+    @media (max-width: 1100px) {
+
+        mat-table {
+            width: 800px;
+        }
+    }
+}

@@ -1,4 +1,5 @@
 ﻿using Finder.Data.Enums;
+using Finder.Data.Enums.RichEnums;
 using Finder.Domain.Attributes;
 using Finder.Domain.Models;
 using Finder.Domain.Models.Create;
@@ -6,12 +7,11 @@ using Finder.Domain.Models.Update;
 using Finder.Domain.Services.Abstraction;
 using Finder.Server.Controllers.Base;
 using Microsoft.AspNetCore.Mvc;
-using Finder.Data.Enums.RichEnums;
 
 namespace Finder.Server.Controllers.V1;
 
 [RouteV1("search-operations")]
-public class SearchOperationsController(
+public class SearchOperationController(
     IServiceProvider services,
     IUserAccessService userAccessService,
     ISearchOperationService searchOperationService
@@ -35,31 +35,41 @@ public class SearchOperationsController(
     {
         var model = ParseFormDataToCreateHelpRequestModel(Request.Form);
 
-        await userAccessService.CheckIfUserCanCreateHelpRequestsAsync(cancellationToken);
-
         await ValidateAsync(model, cancellationToken);
 
-        await searchOperationService.CreateSearchOperationAsync(model, cancellationToken);
+        await searchOperationService.CreateSearchOperationAsync(
+            model,
+            cancellationToken
+        );
 
         return Ok();
     }
-    
+
     [HttpPost("apply")]
-    public async Task<IActionResult> ApplyForSearchOperationAsync([FromQuery] Guid searchOperationId, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> ApplyForSearchOperationAsync(
+        [FromQuery] Guid searchOperationId,
+        CancellationToken cancellationToken = default
+    )
     {
-        await userAccessService.CheckIfUserCanCreateHelpRequestsAsync(cancellationToken);
-
-        await searchOperationService.ApplyForSearchOperationAsync(searchOperationId, cancellationToken);
+        await searchOperationService.ApplyForSearchOperationAsync(
+            searchOperationId,
+            cancellationToken
+        );
 
         return Ok();
     }
-    
-    [HttpPost("operations-locations")]
-    public async Task<IActionResult> AddSearchLocation([FromBody] AddLocationsRequest model, CancellationToken cancellationToken = default)
-    {
-        await userAccessService.CheckIfUserCanCreateHelpRequestsAsync(cancellationToken);
 
-        await searchOperationService.AddLocationsToSearchOperationAsync(model.SearchOperationId, model.LocationRequests, cancellationToken);
+    [HttpPost("operations-locations")]
+    public async Task<IActionResult> AddSearchLocation(
+        [FromBody] AddLocationsRequest model,
+        CancellationToken cancellationToken = default
+    )
+    {
+        await searchOperationService.AddLocationsToSearchOperationAsync(
+            model.SearchOperationId,
+            model.LocationRequests,
+            cancellationToken
+        );
 
         return Ok();
     }
@@ -90,9 +100,10 @@ public class SearchOperationsController(
         CancellationToken cancellationToken = default
     )
     {
-        await userAccessService.CheckIfUserCanCreateHelpRequestsAsync(cancellationToken);
-
-        await searchOperationService.DeleteSearchOperationAsync(id, cancellationToken);
+        await searchOperationService.DeleteSearchOperationAsync(
+            id,
+            cancellationToken
+        );
 
         return Ok();
     }
@@ -103,8 +114,6 @@ public class SearchOperationsController(
     )
     {
         var model = ParseFormDataToUpdateHelpRequestModel(Request.Form);
-
-        await userAccessService.CheckIfUserCanCreateHelpRequestsAsync(cancellationToken);
 
         await ValidateAsync(model, cancellationToken);
 
@@ -118,16 +127,19 @@ public class SearchOperationsController(
         [FromQuery] Guid id,
         CancellationToken cancellationToken = default
     ) => File(
-            searchOperationService.GenerateSearchOperationQr(id, cancellationToken),
-            ContentType.ImagePng,
-            "qr.png"
+        searchOperationService.GenerateSearchOperationQr(id, cancellationToken),
+        ContentType.ImagePng,
+        "qr.png"
     );
 
     [HttpPost("generate-pdf")]
     public async Task<IActionResult> GeneratePdf(
         [FromQuery] Guid id,
         CancellationToken cancellationToken = default
-    ) => await searchOperationService.GetSearchOperationPdfAsync(id, cancellationToken);
+    ) => File(
+        await searchOperationService.GetSearchOperationPdfAsync(id, cancellationToken),
+        ContentType.ApplicationPdf
+    );
 
 
     private static CreateSearchOperationRequestModel ParseFormDataToCreateHelpRequestModel(IFormCollection form)
@@ -143,6 +155,7 @@ public class SearchOperationsController(
             .Where(tag => !string.IsNullOrWhiteSpace(tag));
 
         var operationTypeString = form["operationType"].ToString();
+
         var operationType = Enum.TryParse<SearchOperationType>(operationTypeString, out var parsedOperationType)
             ? parsedOperationType
             : default;
@@ -198,12 +211,13 @@ public class SearchOperationsController(
         }
 
         var operationTypeString = form["operationType"].ToString();
+
         var operationType = Enum.TryParse<SearchOperationType>(operationTypeString, out var parsedOperationType)
             ? parsedOperationType
             : default;
-        
-        
+
         var operationStatusString = form["operationStatus"].ToString();
+
         var operationStatus = Enum.TryParse<SearchOperationStatus>(operationStatusString, out var parsedStatusType)
             ? parsedStatusType
             : default;

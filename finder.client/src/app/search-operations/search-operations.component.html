@@ -5,7 +5,8 @@
     <div class="items">
         @for (item of items; track item.id) {
             <div class="item"
-                 matRipple>
+                 matRipple
+                 (click)="openDetails(item.id)">
                 <div class="image">
                     <img [defaultImage]="getMainImage(item).imageThumbnailUrl"
                          [lazyLoad]="getMainImage(item).imageUrl">

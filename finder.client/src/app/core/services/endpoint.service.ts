@@ -45,6 +45,7 @@ export default class EndpointService {
     public readonly createSearchOperation = (): string => `${environment.apiUrl}search-operations/create`;
     public readonly updateSearchOperation = (): string => `${environment.apiUrl}search-operations/update`;
     public readonly deleteSearchOperation = (id: string): string => `${environment.apiUrl}search-operations/delete?id=${id}`;
+    public readonly applyToSearchOperation = (id: string): string => `${environment.apiUrl}search-operations/apply?searchOperationId=${id}`;
 
     // Notifications
     public readonly updateNotificationsConfig = (): string => `${environment.apiUrl}notification-settings/update`;
