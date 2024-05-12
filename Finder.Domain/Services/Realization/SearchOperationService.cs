@@ -12,8 +12,12 @@ using Finder.Domain.Models.Views;
 using Finder.Domain.Services.Abstraction;
 using Finder.Domain.Validators.Runtime;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using QuestPDF.Fluent;
+using QuestPDF.Helpers;
+using QuestPDF.Infrastructure;
 
 namespace Finder.Domain.Services.Realization;
 
@@ -393,5 +397,79 @@ internal class SearchOperationService(
         }
 
         await operationImageRepository.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task<FileStreamResult> GetSearchOperationPdfAsync(
+        Guid id,
+        CancellationToken cancellationToken = default
+    )
+    {
+        var searchOperation = await searchOperationRepository
+            .Query()
+            .Include(request => request.Images)
+            .FirstOrDefaultAsync(
+                request => request.Id == id,
+                cancellationToken
+            );
+
+        RuntimeValidator.Assert(searchOperation is not null, StatusCode.SearchOperationNotFound);
+        RuntimeValidator.Assert(searchOperation!.DeletedAt is null, StatusCode.SearchOperationRemoved);
+
+        byte[]? file = null;
+
+        if (searchOperation.Images?.FirstOrDefault() != null)
+        {
+            file = File.ReadAllBytes(searchOperation.Images.FirstOrDefault()!.ImageUrl);
+        }
+
+        QuestPDF.Settings.License = LicenseType.Community;
+
+        string title = "Увага! Пошукова операція";
+        string documentTitle = searchOperation.Title;
+        string description = searchOperation.Description;
+        string footer = "Не будьте байдужими!";
+
+
+        var pdfBytes = Document.Create(container =>
+        {
+            container.Page(page =>
+            {
+                page.Size(PageSizes.A4);
+                page.Margin(2, Unit.Centimetre);
+                page.PageColor(Colors.Red.Darken4);
+                page.DefaultTextStyle(x => x.FontSize(20));
+                page.DefaultTextStyle(x => x.FontColor(Colors.White));
+
+                page.Header()
+                    .Text(title)
+                    .SemiBold().FontSize(36);
+
+                page.Content()
+                    .PaddingVertical(1, Unit.Centimetre)
+                    .Column(x =>
+                    {
+                        x.Spacing(20);
+
+                        if (file is not null)
+                        {
+                            x.Item().Image(file);
+                        }   
+                        x.Item().Text(documentTitle);
+                        x.Item().Text(description);
+                    });
+
+                page.Footer()
+                    .AlignCenter()
+                    .Text(x =>
+                    {
+                        x.Span(footer);
+                    });
+            });
+        })
+        .GeneratePdf();
+
+
+        MemoryStream ms = new MemoryStream(pdfBytes);
+        return new FileStreamResult(ms, "application/pdf");
     }
 }
