@@ -99,7 +99,7 @@ internal class SearchOperationService(
     }
 
     public async Task UpdateSearchOperationAsync(
-        UpdateSearchOperationRequestModel updatesearchOperationRequestModel,
+        UpdateSearchOperationRequestModel updateSearchOperationRequestModel,
         CancellationToken cancellationToken = default
     )
     {
@@ -109,52 +109,52 @@ internal class SearchOperationService(
             .Query()
             .Include(searchOperation => searchOperation.Images)
             .FirstOrDefaultAsync(
-                searchOperation => searchOperation.Id == updatesearchOperationRequestModel.Id,
+                searchOperation => searchOperation.Id == updateSearchOperationRequestModel.Id,
                 cancellationToken
             );
 
         RuntimeValidator.Assert(searchOperation is not null, StatusCode.SearchOperationNotFound);
         RuntimeValidator.Assert(searchOperation!.CreatorUserId == currentUser.Id, StatusCode.Forbidden);
 
-        if (searchOperation.ShowContactInfo != updatesearchOperationRequestModel.ShowContactInfo)
+        if (searchOperation.ShowContactInfo != updateSearchOperationRequestModel.ShowContactInfo)
         {
-            searchOperation.ShowContactInfo = updatesearchOperationRequestModel.ShowContactInfo;
+            searchOperation.ShowContactInfo = updateSearchOperationRequestModel.ShowContactInfo;
             searchOperation.UpdatedAt = DateTime.UtcNow;
         }
 
-        if (searchOperation.Title != updatesearchOperationRequestModel.Title)
+        if (searchOperation.Title != updateSearchOperationRequestModel.Title)
         {
-            searchOperation.Title = updatesearchOperationRequestModel.Title;
+            searchOperation.Title = updateSearchOperationRequestModel.Title;
             searchOperation.UpdatedAt = DateTime.UtcNow;
         }
 
-        if (searchOperation.OperationType != updatesearchOperationRequestModel.OperationType)
+        if (searchOperation.OperationType != updateSearchOperationRequestModel.OperationType)
         {
-            searchOperation.OperationType = updatesearchOperationRequestModel.OperationType;
+            searchOperation.OperationType = updateSearchOperationRequestModel.OperationType;
             searchOperation.UpdatedAt = DateTime.UtcNow;
         }
 
-        if (searchOperation.OperationStatus != updatesearchOperationRequestModel.OperationStatus)
+        if (searchOperation.OperationStatus != updateSearchOperationRequestModel.OperationStatus)
         {
-            searchOperation.OperationStatus = updatesearchOperationRequestModel.OperationStatus;
+            searchOperation.OperationStatus = updateSearchOperationRequestModel.OperationStatus;
             searchOperation.UpdatedAt = DateTime.UtcNow;
         }
 
-        if (!searchOperation.Tags?.SequenceEqual(updatesearchOperationRequestModel.Tags) is true)
+        if (!searchOperation.Tags?.SequenceEqual(updateSearchOperationRequestModel.Tags) is true)
         {
-            searchOperation.Tags = updatesearchOperationRequestModel.Tags.ToList();
+            searchOperation.Tags = updateSearchOperationRequestModel.Tags.ToList();
             searchOperation.UpdatedAt = DateTime.UtcNow;
         }
 
         await searchOperationRepository.SaveChangesAsync(cancellationToken);
 
-        if (updatesearchOperationRequestModel.ImagesToDelete is not null)
+        if (updateSearchOperationRequestModel.ImagesToDelete is not null)
         {
             var imagesToDelete = await operationImageRepository
                 .Query()
                 .Where(
                     searchOperationImage => searchOperationImage.OperationId == searchOperation.Id
-                                            && updatesearchOperationRequestModel.ImagesToDelete.Contains(
+                                            && updateSearchOperationRequestModel.ImagesToDelete.Contains(
                                                 searchOperationImage.Id)
                 )
                 .ToListAsync(cancellationToken);
@@ -162,12 +162,12 @@ internal class SearchOperationService(
             await operationImageRepository.DeleteRangeAsync(imagesToDelete, cancellationToken);
         }
 
-        if (searchOperation.Images is not null && updatesearchOperationRequestModel.ImagesToDelete is not null)
+        if (searchOperation.Images is not null && updateSearchOperationRequestModel.ImagesToDelete is not null)
         {
             var idsToFixPosition = searchOperation
                 .Images
                 .Select(image => image.Id)
-                .Except(updatesearchOperationRequestModel.ImagesToDelete);
+                .Except(updateSearchOperationRequestModel.ImagesToDelete);
 
             var images = await operationImageRepository
                 .Query()
@@ -183,10 +183,10 @@ internal class SearchOperationService(
 
         await operationImageRepository.SaveChangesAsync(cancellationToken);
 
-        if (updatesearchOperationRequestModel.Images is not null)
+        if (updateSearchOperationRequestModel.Images is not null)
         {
             await AddSearchOperationImagesAsync(
-                updatesearchOperationRequestModel.Images,
+                updateSearchOperationRequestModel.Images,
                 searchOperation.Id,
                 cancellationToken
             );

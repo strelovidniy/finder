@@ -19,7 +19,7 @@ public interface ISearchOperationService
     );
 
     public Task UpdateSearchOperationAsync(
-        UpdateSearchOperationRequestModel updateHelpRequestRequestModel,
+        UpdateSearchOperationRequestModel updateSearchOperationRequestModel,
         CancellationToken cancellationToken = default
     );
 
